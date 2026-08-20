@@ -353,6 +353,16 @@ function onScroll() {
 }
 addEventListener('scroll', onScroll, { passive: true });
 onScroll();
+
+function at(px,py){
+  const s = parseFloat(getComputedStyle(document.getElementById("root")).zoom)||1;
+  const r = document.elementFromPoint(px*s - scrollX, py*s - scrollY);
+  if(!r) return "nothing";
+  const a = r.closest("a");
+  return a ? ("LINK -> "+a.getAttribute("href")) : (r.tagName+"."+(r.className||"-"));
+}
+window.scrollTo(0,400);dispatchEvent(new Event("scroll"));
+document.title = at(170,90);
 </script>
 </body>
 </html>

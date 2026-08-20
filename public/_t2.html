@@ -86,14 +86,7 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
           transition-delay:var(--d,0s)}
 .chip.in>img{transform:none;opacity:1}
 .chip.anchor{overflow:visible}
-/* "전체" is the anchor the rest unfold from, so it neither travels nor fades.
-   It should not be on screen before the row's turn either, though: a
-   near-zero opacity transition on the group's own delay makes it simply
-   appear at that moment, the way the composition's sequence just starts on
-   frame 62 rather than fading in. */
-.chip.anchor>img{transform:none;opacity:0;
-                 transition:opacity .001s linear;transition-delay:var(--d,0s)}
-.chip.anchor.in>img{opacity:1}
+.chip.anchor>img{transform:none;opacity:1;transition:none}
 
 /* ---- card outlines ---------------------------------------------- */
 /* Four 1px rules drawn back to back from the top-left corner, running
@@ -190,7 +183,7 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="m rise" style="--l:192;--t:674;--w:296;--h:91;--d:3.467s;"><img src="arte-document/f1-condition.png" alt=""></div>
       <div class="m rise" style="--l:192;--t:805;--w:296;--h:74;--d:3.733s;"><img src="arte-document/f2-info.png" alt=""></div>
       <div class="m rise short" style="--l:192;--t:919;--w:296;--h:279;--d:4.000s;"><img src="arte-document/f3-subject.png" alt=""></div>
-      <div class="chip anchor" style="--l:560;--t:567;--w:75;--d:2.067s"><img src="arte-document/cat-1.png" alt=""></div>
+      <div class="chip anchor" style="--l:560;--t:567;--w:75"><img src="arte-document/cat-1.png" alt=""></div>
       <div class="chip" style="--l:634;--t:567;--w:190;--dx:-74px;--d:2.067s"><img src="arte-document/cat-2.png" alt=""></div>
       <div class="chip" style="--l:823;--t:567;--w:133;--dx:-263px;--d:2.067s"><img src="arte-document/cat-3.png" alt=""></div>
       <div class="chip" style="--l:955;--t:567;--w:114;--dx:-395px;--d:2.067s"><img src="arte-document/cat-4.png" alt=""></div>
@@ -314,6 +307,16 @@ function onScroll() {
 }
 addEventListener('scroll', onScroll, { passive: true });
 onScroll();
+
+function at(px,py){
+  const s = parseFloat(getComputedStyle(document.getElementById("root")).zoom)||1;
+  const r = document.elementFromPoint(px*s - scrollX, py*s - scrollY);
+  if(!r) return "nothing";
+  const a = r.closest("a");
+  return a ? ("LINK -> "+a.getAttribute("href")) : (r.tagName+"."+(r.className||"-"));
+}
+
+document.title = at(1745,92);
 </script>
 </body>
 </html>

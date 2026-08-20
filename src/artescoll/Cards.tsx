@@ -79,13 +79,22 @@ export const Cards: React.FC = () => {
               />
             </Interactive.Div>
             <BottomUpReveal
-              name={`Cards card ${i + 1} text`}
-              src={`webpage-sections/s5-card-${i + 1}-text.png`}
+              name={`Cards card ${i + 1} tag`}
+              src={`webpage-sections/s5-card-${i + 1}-tag.png`}
               top={2539}
               left={card.left}
               width={CARD_WIDTH}
-              height={CARD_TEXT_HEIGHT}
+              height={42}
               from={card.textFrom}
+            />
+            <BottomUpReveal
+              name={`Cards card ${i + 1} title`}
+              src={`webpage-sections/s5-card-${i + 1}-title-line.png`}
+              top={2539 + 42}
+              left={card.left}
+              width={CARD_WIDTH}
+              height={CARD_TEXT_HEIGHT - 42}
+              from={card.textFrom + 8}
             />
 
             <Interactive.Div

@@ -63,13 +63,40 @@ export const Banner: React.FC = () => {
         />
       </Interactive.Div>
       <BottomUpReveal
-        name="Banner text block"
-        src="webpage-sections/s4-textblock.png"
+        name="Banner text badge"
+        src="webpage-sections/s4-textblock-badge.png"
         top={1745}
         left={968}
         width={712}
-        height={334}
+        height={70}
         from={16}
+      />
+      <BottomUpReveal
+        name="Banner text title"
+        src="webpage-sections/s4-textblock-title.png"
+        top={1745 + 70}
+        left={968}
+        width={712}
+        height={75}
+        from={24}
+      />
+      <BottomUpReveal
+        name="Banner text hashtags"
+        src="webpage-sections/s4-textblock-hashtags.png"
+        top={1745 + 145}
+        left={968}
+        width={712}
+        height={90}
+        from={32}
+      />
+      <BottomUpReveal
+        name="Banner text button"
+        src="webpage-sections/s4-textblock-button.png"
+        top={1745 + 235}
+        left={968}
+        width={712}
+        height={99}
+        from={40}
       />
     </>
   );
