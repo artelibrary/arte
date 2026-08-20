@@ -1,10 +1,20 @@
 import "./index.css";
-import { MyComposition } from "./Composition";
+import { CryingRobotComposition } from "./CryingRobot";
+import { WebsiteScrollComposition } from "./WebsiteScroll";
+import { Scroll2Composition } from "./Scroll2";
+import { ArtescollComposition } from "./Artescoll";
+import { ArteDocumentComposition } from "./ArteDocument";
+import { ArteSearchComposition } from "./ArteSearch";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      <MyComposition />
+      <CryingRobotComposition />
+      <WebsiteScrollComposition />
+      <Scroll2Composition />
+      <ArtescollComposition />
+      <ArteDocumentComposition />
+      <ArteSearchComposition />
     </>
   );
 };
