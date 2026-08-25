@@ -6,6 +6,7 @@ import { ArtescollComposition } from "./Artescoll";
 import { ArteDocumentComposition } from "./ArteDocument";
 import { ArteSearchComposition } from "./ArteSearch";
 import { ArteMainComposition } from "./ArteMain";
+import { ArteLocationComposition } from "./ArteLocation";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ export const RemotionRoot: React.FC = () => {
       <ArteDocumentComposition />
       <ArteSearchComposition />
       <ArteMainComposition />
+      <ArteLocationComposition />
     </>
   );
 };

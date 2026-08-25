@@ -1,5 +1,5 @@
 import { Easing, Interactive, interpolate, useCurrentFrame } from "remotion";
-import { RiseWindow, ScaleWindow } from "./PageWindow";
+import { RiseWindow, ScaleWindow, DrawnBorder } from "./PageWindow";
 
 // 영상 (left column) + 도서 (right column). Offset by 26 so the motion is
 // underway once the section is actually on screen, not mid-flick.
@@ -55,9 +55,14 @@ export const VideoBookSection: React.FC = () => {
         }}
       />
       <ScaleWindow name="도서 book 1 cover" top={1684} left={980} width={360} height={194} from={BASE_DELAY + 10} />
-      <RiseWindow name="도서 book 1 text" top={1684} left={1340} width={420} height={194} from={BASE_DELAY + 24} />
+      <RiseWindow name="도서 book 1 hashtags" top={1724} left={1372} width={356} height={24} from={BASE_DELAY + 24} />
+      <RiseWindow name="도서 book 1 title" top={1760} left={1372} width={356} height={78} from={BASE_DELAY + 32} />
+      <DrawnBorder top={1684} left={980} width={780} height={194} from={BASE_DELAY + 40} segmentDuration={10} />
+
       <ScaleWindow name="도서 book 2 cover" top={1902} left={980} width={360} height={194} from={BASE_DELAY + 18} />
-      <RiseWindow name="도서 book 2 text" top={1902} left={1340} width={420} height={194} from={BASE_DELAY + 32} />
+      <RiseWindow name="도서 book 2 hashtags" top={1942} left={1372} width={356} height={24} from={BASE_DELAY + 32} />
+      <RiseWindow name="도서 book 2 title" top={1978} left={1372} width={356} height={78} from={BASE_DELAY + 40} />
+      <DrawnBorder top={1902} left={980} width={780} height={194} from={BASE_DELAY + 48} segmentDuration={10} />
     </>
   );
 };

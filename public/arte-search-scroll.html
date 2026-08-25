@@ -86,35 +86,59 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 .olb.in .ol{clip-path:inset(0 0 0 0)}
 
 /* ---- the pinned header ------------------------------------------- */
-/* 133px: a 32px government masthead over the 101px gnb. On scroll the
-   masthead rolls up and the gnb rides to the top. The redesign dropped
-   the black plate the old collapse animated, and the scrolled-header
-   component in Figma has not been redrawn to match, so the collapse is
-   derived from this design instead. */
-#hdr{position:absolute;top:0;left:0;width:1920px;height:133px;overflow:hidden;
-     background:#fff;transition:height 1.067s cubic-bezier(.33,1,.68,1)}
-#hdr .mast{position:absolute;top:0;left:0;width:1920px;height:32px;overflow:hidden;
-           transition:height 1.067s cubic-bezier(.33,1,.68,1)}
-#hdr .gnb{position:absolute;top:32px;left:0;width:1920px;height:101px;overflow:hidden;
-          transition:top 1.067s cubic-bezier(.33,1,.68,1)}
-#hdr i{position:absolute;left:0;width:1920px;height:3304px;
+/* 133px, and it stays 133px. The masthead strip and the two icons on the
+   right are identical in both states, so they are drawn once and never
+   move. On the first scroll the "arte 라이브러리" wordmark is eaten from
+   the right as its window narrows to the 51px the mark occupies, the blue
+   plate carrying that mark fades in behind it, and the nav links and the
+   account pill go. The narrowing window is what carries the wordmark
+   away, so the two read as one move rather than a crossfade sitting on
+   top of a resize. */
+#hdr{position:absolute;top:0;left:0;width:1920px;height:133px;overflow:hidden;background:#fff}
+#hdr i{position:absolute;top:0;left:0;width:1920px;height:3304px;
        background-image:url(arte-search/page-loaded.png);
        background-size:1920px auto;background-repeat:no-repeat}
-#hdr .mast i{top:0;background-position:0 0}
-#hdr .gnb i{top:0;background-position:0 -32px}
-#root.scrolled #hdr{height:101px}
-#root.scrolled #hdr .mast{height:0}
-#root.scrolled #hdr .gnb{top:0}
+#hdr .mast{position:absolute;top:0;left:0;width:1920px;height:32px;overflow:hidden}
+#hdr .mast i{background-position:0 0}
+#hdr .icons{position:absolute;top:32px;left:1685px;width:110px;height:101px;overflow:hidden}
+#hdr .icons i{background-position:-1685px -32px}
+#hdr .nav{position:absolute;top:32px;left:450px;width:1235px;height:101px;overflow:hidden;
+          transition:opacity .6s ease-out}
+#hdr .nav i{background-position:-450px -32px}
+#hdr .plate{position:absolute;top:56px;left:150px;width:51px;height:51px;overflow:hidden;
+            opacity:0;transition:opacity .733s ease-out .467s}
+#hdr .plate i{height:133px;background-image:url(arte-search/header-scrolled.png);
+              background-position:-150px -56px}
+#hdr .word{position:absolute;top:56px;left:150px;width:209px;height:51px;overflow:hidden;
+           transition:width 1.067s cubic-bezier(.33,1,.68,1)}
+#hdr .wi{position:absolute;top:0;left:0;width:209px;height:51px;overflow:hidden;
+         transition:opacity .733s ease-out}
+#hdr .wi i{background-position:-150px -56px}
+#root.scrolled #hdr .nav{opacity:0}
+#root.scrolled #hdr .plate{opacity:1}
+#root.scrolled #hdr .word{width:51px}
+#root.scrolled #hdr .wi{opacity:0}
 
-/* 문서·도서 in the nav links out to the arte-document page. The hit area is
-   that item's own flex box (x459 w170 within the 40px-tall menu row), and
-   the rule on hover spans just the label. */
+/* The wordmark links home. Its hit area is the same box the wordmark window
+   occupies, so it narrows to the plate as the header collapses and stays on
+   whatever is actually showing.
+
+   문서·도서 in the nav links out to the arte-document page. That hit area is
+   the item's own flex box (x459 w170 within the 40px-tall menu row), and the
+   rule on hover spans just the label. Both hrefs are relative, so they
+   resolve the same over file:// and over the dev server. */
+#hdr .logolink{position:absolute;left:150px;top:56px;width:209px;height:51px;
+  display:block;cursor:pointer;
+  transition:width 1.067s cubic-bezier(.33,1,.68,1)}
+#root.scrolled #hdr .logolink{width:51px}
 #hdr .navlink{position:absolute;left:459px;top:62px;width:170px;height:40px;
   display:block;cursor:pointer}
 #hdr .navlink b{position:absolute;left:40px;right:40px;bottom:1px;height:2px;
   background:#000;transform:scaleX(0);transform-origin:left center;
   transition:transform .28s cubic-bezier(.33,1,.68,1)}
 #hdr .navlink:hover b{transform:scaleX(1)}
+/* the nav is gone once collapsed, so the hit area has to go with it */
+#root.scrolled #hdr .navlink{opacity:0;pointer-events:none}
 
 /* ---- viewer chrome ----------------------------------------------- */
 #ui{position:fixed;right:18px;bottom:18px;z-index:200}
@@ -133,8 +157,12 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
   <div id="stick">
     <div id="hdr">
       <div class="mast"><i></i></div>
-      <div class="gnb"><i></i></div>
+      <div class="icons"><i></i></div>
+      <div class="nav"><i></i></div>
+      <div class="plate"><i></i></div>
+      <div class="word"><div class="wi"><i></i></div></div>
       <a class="navlink" href="arte-document-scroll.html" title="문서·도서"><b></b></a>
+      <a class="logolink" href="arte-main-scroll.html" title="arte 라이브러리"></a>
     </div>
   </div>
 

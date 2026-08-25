@@ -46,7 +46,9 @@ export const RecommendSection: React.FC = () => {
       {FEATURE_CARDS.map((card) => (
         <Fragment key={card.left}>
           <ScaleWindow name="Feature image" top={3036} left={card.left} width={780} height={204} from={card.from} />
-          <RiseWindow name="Feature text" top={3240} left={card.left} width={780} height={203} from={card.from + 14} />
+          <RiseWindow name="Feature title" top={3268} left={card.left + 28} width={400} height={60} from={card.from + 14} />
+          <RiseWindow name="Feature description" top={3324} left={card.left + 28} width={724} height={27} from={card.from + 22} />
+          <RiseWindow name="Feature more link" top={3391} left={card.left + 28} width={200} height={30} from={card.from + 30} />
           <DrawnBorder top={3036} left={card.left} width={780} height={407} from={card.from + 44} />
         </Fragment>
       ))}
@@ -89,12 +91,20 @@ export const RecommendSection: React.FC = () => {
         <Fragment key={book.left}>
           <ScaleWindow name="Book cover art" top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={171} from={book.from} />
           <RiseWindow
-            name="Book cover caption"
-            top={BOOK_CURATION_TOP + 80 + 171}
-            left={book.left}
-            width={249}
-            height={170}
+            name="Book cover title"
+            top={BOOK_CURATION_TOP + 80 + 171 + 81}
+            left={book.left + 24}
+            width={210}
+            height={36}
             from={book.from + 10}
+          />
+          <RiseWindow
+            name="Book cover author"
+            top={BOOK_CURATION_TOP + 80 + 171 + 125}
+            left={book.left + 24}
+            width={110}
+            height={21}
+            from={book.from + 18}
           />
           <DrawnBorder top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from + 40} />
         </Fragment>
