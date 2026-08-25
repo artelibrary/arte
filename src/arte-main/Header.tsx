@@ -1,17 +1,25 @@
 import { Easing, Img, Interactive, interpolate, staticFile, useCurrentFrame } from "remotion";
 
-// The pinned header. It starts as the full masthead and crossfades the first
-// time the page scrolls, over the first wheel flick (frames 160-190):
+// The pinned header. Pinned outside the scroll container, so these are
+// composition frames.
 //
-//   - the wordmark, nav links and login pill (everything left of the icon
-//     pair) fade out together
-//   - a blue mark fades in to take their place
+// It collapses to its compact form over the first wheel flick (the page
+// starts moving at frame 160), the same way arte-document does: the two
+// states share only the masthead and the search/menu icons, while the nav
+// and the login pill go, and a 51px blue square with a mark takes the
+// wordmark's place.
 //
-// The search and menu icons on the right belong to both states and sit at
-// the same coordinates in each, so they are drawn once, statically.
+// The wordmark sits in a mask that collapses leftwards from 200px to 51px as
+// it fades, so it is wiped by the closing edge rather than dissolving in
+// place, and the mask lands exactly where the square does. The square fades
+// in from frame 170 - early enough that the collapsing mask never leaves the
+// logo slot empty.
 //
-// Landmarks in page coordinates: masthead 0-32 (always static), gnb 32-133,
-// left content x0-1680, icon pair x1680-1920, blue mark at x150 y56 51x51.
+// Landmarks in page coordinates, shared with arte-document: masthead 0-32
+// (always static), gnb 32-133, wordmark x160 y66 200x32, nav x459 y60
+// 917x45, login pill x1475 y62 201x41, icon pair x1680-1920, blue mark x150
+// y56 51x51. Every crop windows into the full page render, except the blue
+// square, which only exists in the scrolled-state export.
 export const Header: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -45,44 +53,51 @@ export const Header: React.FC = () => {
         }}
       />
 
-      <div
+      <Interactive.Div
+        name="Header nav"
         style={{
           position: "absolute",
-          top: 32,
-          left: 0,
-          width: 1680,
-          height: 101,
+          top: 60,
+          left: 459,
+          width: 917,
+          height: 45,
           overflow: "hidden",
+          opacity: interpolate(frame, [164, 182], [1, 0], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            easing: Easing.inOut(Easing.quad),
+          }),
         }}
       >
-        <Interactive.Div
-          name="Header left content"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 1680,
-            height: 101,
-            opacity: interpolate(frame, [160, 178], [1, 0], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Wordmark, nav and login"
-            src={staticFile("arte-main/page.png")}
-            style={{
-              position: "absolute",
-              top: -32,
-              left: 0,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
+        <Img
+          name="Page"
+          src={staticFile("arte-main/page.png")}
+          style={{ position: "absolute", top: -60, left: -459, width: 1920, maxWidth: "none" }}
+        />
+      </Interactive.Div>
+
+      <Interactive.Div
+        name="Header account links"
+        style={{
+          position: "absolute",
+          top: 62,
+          left: 1475,
+          width: 201,
+          height: 41,
+          overflow: "hidden",
+          opacity: interpolate(frame, [164, 182], [1, 0], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            easing: Easing.inOut(Easing.quad),
+          }),
+        }}
+      >
+        <Img
+          name="Page"
+          src={staticFile("arte-main/page.png")}
+          style={{ position: "absolute", top: -62, left: -1475, width: 1920, maxWidth: "none" }}
+        />
+      </Interactive.Div>
 
       <div
         style={{
@@ -107,6 +122,49 @@ export const Header: React.FC = () => {
         />
       </div>
 
+      <Interactive.Div
+        name="Header wordmark mask"
+        style={{
+          position: "absolute",
+          top: 66,
+          height: 32,
+          overflow: "hidden",
+          left: interpolate(frame, [164, 194], [160, 150], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+          width: interpolate(frame, [164, 194], [200, 51], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+        }}
+      >
+        <Interactive.Div
+          name="Header wordmark"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 32,
+            overflow: "hidden",
+            opacity: interpolate(frame, [164, 178], [1, 0], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.inOut(Easing.quad),
+            }),
+          }}
+        >
+          <Img
+            name="Page"
+            src={staticFile("arte-main/page.png")}
+            style={{ position: "absolute", top: -66, left: -160, width: 1920, maxWidth: "none" }}
+          />
+        </Interactive.Div>
+      </Interactive.Div>
+
       <div
         style={{
           position: "absolute",
@@ -125,7 +183,7 @@ export const Header: React.FC = () => {
             left: 0,
             width: 51,
             height: 51,
-            opacity: interpolate(frame, [172, 194], [0, 1], {
+            opacity: interpolate(frame, [170, 190], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
