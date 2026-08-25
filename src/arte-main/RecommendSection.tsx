@@ -13,7 +13,7 @@ const BOOK_CURATION_TOP = 3483;
 const BOOK_CURATION_WIDTH = 1600;
 const BOOK_CURATION_HEIGHT = 501;
 const BOOK_CURATION_CENTER_X = 160 + BOOK_CURATION_WIDTH / 2;
-const BACKDROP_FROM = BASE_DELAY + 70;
+const BACKDROP_FROM = BASE_DELAY + 4;
 
 const BOOKS = [
   { left: 857, from: BACKDROP_FROM + 30 },
@@ -79,30 +79,24 @@ export const RecommendSection: React.FC = () => {
           backgroundColor: "#000000",
         }}
       />
-      {/* "북 큐레이션" fills in as a pink box, left to right, before the
-          label itself (title + #미래/AI tag + date) rises in on top of it. */}
-      <Interactive.Div
-        name="북 큐레이션 title pink fill"
-        style={{
-          position: "absolute",
-          top: BOOK_CURATION_TOP + 80,
-          left: 260,
-          height: 27,
-          backgroundColor: "#FF2268",
-          width: interpolate(frame, [BACKDROP_FROM + 24, BACKDROP_FROM + 40], [0, 83], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.bezier(0.16, 1, 0.3, 1),
-          }),
-        }}
-      />
-      <FadeWindow
-        name="북 큐레이션 label"
+      {/* The label rises up one line at a time - title, then date. The
+          pink "#미래/AI" tag between them is dropped entirely, not just its
+          motion - it doesn't render at all now. */}
+      <RiseWindow
+        name="북 큐레이션 title text"
         top={BOOK_CURATION_TOP + 80}
         left={260}
+        width={83}
+        height={27}
+        from={BACKDROP_FROM + 24}
+      />
+      <RiseWindow
+        name="북 큐레이션 date"
+        top={BOOK_CURATION_TOP + 80 + 317}
+        left={260}
         width={199}
-        height={341}
-        from={BACKDROP_FROM + 40}
+        height={24}
+        from={BACKDROP_FROM + 32}
       />
       {/* Each cover is its own "list" frame, same as 문서: "image 9994" fills
           the entire 249x341 box and the title/author pair is one fade block

@@ -52,16 +52,29 @@ export const EventNoticeSection: React.FC = () => {
           }),
         }}
       />
-      {NOTICE_ROWS.map((top, i) => (
+      {/* Every row moves in the same single beat - the tabs' technique
+          (SlideWindow), just travelling vertically: the anchor row settles
+          slightly ahead, then the rest snap down from its slot together
+          rather than peeling off one at a time. */}
+      <CascadeWindow
+        name="공지·소식 row 1"
+        top={NOTICE_ROWS[0]}
+        left={900}
+        width={860}
+        height={39}
+        startOffset={0}
+        from={BASE_DELAY + 14}
+      />
+      {NOTICE_ROWS.slice(1).map((top, i) => (
         <CascadeWindow
           key={top}
-          name={`공지·소식 row ${i + 1}`}
+          name={`공지·소식 row ${i + 2}`}
           top={top}
           left={900}
           width={860}
           height={39}
           startOffset={top - NOTICE_ROWS[0]}
-          from={BASE_DELAY + 18 + i * 3}
+          from={BASE_DELAY + 18}
         />
       ))}
     </>

@@ -12,8 +12,12 @@ export const PAGE = "arte-location/page.png";
 // The whole screen is a single 1920x1808 render (page.png) and every element
 // is a window onto it - a static mask the size of the crop, an animated inner
 // layer, and the page image offset negatively so the right slice shows
-// through. Anything no window covers stays white, which is what lets the
-// rules below be drawn as their own divs rather than arriving baked in.
+// through. Anything no window covers stays white.
+//
+// That is what makes the split possible: a text window is cropped to the text
+// alone, clear of any box it sits in, and the box's lines are drawn as their
+// own divs. So a text reveal only ever moves text, and a line only ever
+// appears by being drawn - never both at once, and never twice.
 //
 // Same helper set as arte-main/PageWindow.tsx, retimed for the single
 // continuous glide arte-document uses.
@@ -144,8 +148,24 @@ export const Rule: React.FC<{
   from: number;
   duration?: number;
   color?: string;
-}> = ({ name, top, left, width, height, from, duration = 30, color = "#000000" }) => {
+  vertical?: boolean;
+}> = ({
+  name,
+  top,
+  left,
+  width,
+  height,
+  from,
+  duration = 30,
+  color = "#000000",
+  vertical = false,
+}) => {
   const frame = useCurrentFrame();
+  const remaining = interpolate(frame, [from, from + duration], [100, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: RISE_EASING,
+  });
 
   return (
     <Interactive.Div
@@ -157,12 +177,89 @@ export const Rule: React.FC<{
         width,
         height,
         backgroundColor: color,
-        clipPath: `inset(0 ${interpolate(frame, [from, from + duration], [100, 0], {
-          extrapolateLeft: "clamp",
-          extrapolateRight: "clamp",
-          easing: RISE_EASING,
-        })}% 0 0)`,
+        clipPath: vertical
+          ? `inset(0 0 ${remaining}% 0)`
+          : `inset(0 ${remaining}% 0 0)`,
       }}
     />
+  );
+};
+
+// A 1px rule drawn around a box, four segments back to back from the
+// top-left corner, running anti-clockwise: down the left edge, across the
+// bottom, up the right edge, then back along the top. Each segment is linear
+// so the pen keeps a constant speed the whole way around.
+//
+// The content window inside a drawn box is always inset clear of these
+// lines, so a box outline is only ever drawn - it never rides up inside a
+// text reveal.
+export const DrawnBorder: React.FC<{
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+  from: number;
+  segmentDuration?: number;
+  color?: string;
+}> = ({ top, left, width, height, from, segmentDuration = 8, color = "#000000" }) => {
+  const frame = useCurrentFrame();
+  const seg = (f: number) =>
+    interpolate(frame, [f, f + segmentDuration], [100, 0], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+      easing: Easing.linear,
+    });
+
+  return (
+    <>
+      <Interactive.Div
+        name="Outline left"
+        style={{
+          position: "absolute",
+          top,
+          left,
+          width: 1,
+          height,
+          backgroundColor: color,
+          clipPath: `inset(0 0 ${seg(from)}% 0)`,
+        }}
+      />
+      <Interactive.Div
+        name="Outline bottom"
+        style={{
+          position: "absolute",
+          top: top + height,
+          left,
+          width,
+          height: 1,
+          backgroundColor: color,
+          clipPath: `inset(0 ${seg(from + segmentDuration)}% 0 0)`,
+        }}
+      />
+      <Interactive.Div
+        name="Outline right"
+        style={{
+          position: "absolute",
+          top,
+          left: left + width,
+          width: 1,
+          height,
+          backgroundColor: color,
+          clipPath: `inset(${seg(from + segmentDuration * 2)}% 0 0 0)`,
+        }}
+      />
+      <Interactive.Div
+        name="Outline top"
+        style={{
+          position: "absolute",
+          top,
+          left,
+          width,
+          height: 1,
+          backgroundColor: color,
+          clipPath: `inset(0 0 0 ${seg(from + segmentDuration * 3)}%)`,
+        }}
+      />
+    </>
   );
 };

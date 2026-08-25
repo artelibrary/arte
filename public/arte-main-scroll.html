@@ -70,11 +70,21 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 .zoom.in>i{transform:none;opacity:1}
 
 /* category chips: stacked on the anchor chip's slot, sliding right into
-   their own resting position while fading in - 32 frames */
-.slide>i{transform:translateX(var(--dx));opacity:0;
-         transition:transform 1.067s cubic-bezier(.16,1,.3,1),opacity 1.067s cubic-bezier(.16,1,.3,1);
-         transition-delay:var(--d,0s)}
-.slide.in>i{transform:none;opacity:1}
+   their own resting position while fading in - 32 frames.
+   Same reasoning as .cascade below: the box's own `left` travels rather
+   than content sliding inside a fixed mask, so the chip shown is always
+   this chip's own content, never a neighbour's. --dx is a bare number
+   (px implied), the chip's own left minus the anchor's left. */
+.slide{position:absolute;overflow:hidden;
+       top:calc(var(--t)*1px);width:calc(var(--w)*1px);height:calc(var(--h)*1px);
+       left:calc((var(--l) + var(--dx))*1px);opacity:0;
+       transition:left 1.067s cubic-bezier(.16,1,.3,1),opacity 1.067s cubic-bezier(.16,1,.3,1);
+       transition-delay:var(--d,0s)}
+.slide.in{left:calc(var(--l)*1px);opacity:1}
+.slide>i{position:absolute;top:0;left:0;width:1920px;height:5359px;
+         background-image:url(arte-main/page.png);background-size:1920px auto;
+         background-repeat:no-repeat;
+         background-position:calc(var(--l)*-1px) calc(var(--t)*-1px)}
 
 /* 공지·소식 rows: gathered on the first row's slot, then riffling down
    into position - 20 frames.
@@ -104,7 +114,6 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       transition:clip-path .8s cubic-bezier(.16,1,.3,1);
       transition-delay:var(--d,0s)}
 .rule.in{clip-path:inset(0 0 0 0)}
-.rule.pink{background:#FF2268}
 
 /* 추천's book-curation backdrop: opens from the centre outward to both
    sides - 24 frames */
@@ -171,10 +180,12 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 #root.scrolled #hdr .mark{opacity:1}
 
 /* ---- header links -------------------------------------------------
-   문서·도서 in the nav links out to the arte-document page. The hit area
-   is the item's own flex box (x459 w170 within the 40px-tall menu row),
-   with a hover rule spanning just the label - it goes with the rest of
-   the left content once the header collapses. */
+   문서·도서 and 지역별 정보 in the nav link out to their own pages. Each hit
+   area is that item's own flex box within the 40px-tall menu row (x459
+   w170 for 문서·도서, x873 w190 for 지역별 정보 - the latter set inline since
+   its left/width differ from the class default), with a hover rule
+   spanning just the label - both go with the rest of the left content
+   once the header collapses. */
 #hdr .navlink{position:absolute;left:459px;top:62px;width:170px;height:40px;
   display:block;cursor:pointer}
 #hdr .navlink b{position:absolute;left:40px;right:40px;bottom:1px;height:2px;
@@ -204,6 +215,7 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="left"><i></i></div>
       <div class="mark"><i></i></div>
       <a class="navlink" href="arte-document-scroll.html" title="문서·도서"><b></b></a>
+      <a class="navlink" href="arte-location-scroll.html" title="지역별 정보" style="left:873px;width:190px"><b></b></a>
     </div>
   </div>
 
@@ -236,14 +248,14 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="rule" style="--l:160;--t:762;--w:1600;--h:4;--d:.533s"></div>
 
       <div class="m fade" style="--l:160;--t:806;--w:75;--h:45;--d:0s;--dur:.267s"><i></i></div>
-      <div class="m slide" style="--l:235;--t:806;--w:189;--h:45;--dx:-75px;--d:.133s"><i></i></div>
-      <div class="m slide" style="--l:424;--t:806;--w:132;--h:45;--dx:-264px;--d:.133s"><i></i></div>
-      <div class="m slide" style="--l:556;--t:806;--w:113;--h:45;--dx:-396px;--d:.133s"><i></i></div>
-      <div class="m slide" style="--l:669;--t:806;--w:113;--h:45;--dx:-509px;--d:.133s"><i></i></div>
-      <div class="m slide" style="--l:782;--t:806;--w:170;--h:45;--dx:-622px;--d:.133s"><i></i></div>
-      <div class="m slide" style="--l:952;--t:806;--w:132;--h:45;--dx:-792px;--d:.133s"><i></i></div>
-      <div class="m slide" style="--l:1084;--t:806;--w:113;--h:45;--dx:-924px;--d:.133s"><i></i></div>
-      <div class="m slide" style="--l:1197;--t:806;--w:75;--h:45;--dx:-1037px;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:235;--t:806;--w:189;--h:45;--dx:-75;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:424;--t:806;--w:132;--h:45;--dx:-264;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:556;--t:806;--w:113;--h:45;--dx:-396;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:669;--t:806;--w:113;--h:45;--dx:-509;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:782;--t:806;--w:170;--h:45;--dx:-622;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:952;--t:806;--w:132;--h:45;--dx:-792;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:1084;--t:806;--w:113;--h:45;--dx:-924;--d:.133s"><i></i></div>
+      <div class="slide" style="--l:1197;--t:806;--w:75;--h:45;--dx:-1037;--d:.133s"><i></i></div>
 
       <div class="m zoom" style="--l:160;--t:891;--w:340;--h:447;--d:0s"><i></i></div>
       <div class="m fade" style="--l:160;--t:1123;--w:340;--h:215;--d:1.0s"><i></i></div>
@@ -311,25 +323,25 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="olb" style="--l:980;--t:3036;--w:780;--h:407;--d:.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <!-- 북 큐레이션: 검정 배경이 가운데에서 양쪽으로 열리고, "북 큐레이션"
-           타이틀은 핑크색 박스가 왼쪽에서 오른쪽으로 채워진 뒤 그 위로 라벨이
-           올라온다 -->
-      <div class="expand" style="--t:3483;--h:501;--cx:960;--l:160;--w:1600;--d:2.333s"></div>
-      <div class="rule pink" style="--l:260;--t:3563;--w:83;--h:27;--d:3.133s"></div>
-      <div class="m fade" style="--l:260;--t:3563;--w:199;--h:341;--d:3.667s"><i></i></div>
+           타이틀은 핑크색 박스가 왼쪽에서 오른쪽으로 채워진 뒤, 라벨의 나머지
+           줄(태그·날짜)이 한 줄씩 아래에서 위로 올라온다 -->
+      <div class="expand" style="--t:3483;--h:501;--cx:960;--l:160;--w:1600;--d:.133s"></div>
+      <div class="m rise" style="--l:260;--t:3563;--w:83;--h:27;--d:.933s"><i></i></div>
+      <div class="m rise" style="--l:260;--t:3880;--w:199;--h:24;--d:1.2s"><i></i></div>
 
       <!-- 각 표지는 문서 카드와 동일하게 "image 9994" 레이어가 249x341 전체를
            채우고, 제목·저자는 그 아래쪽에 겹쳐지는 하나의 페이드 블록이다 -->
-      <div class="m zoom" style="--l:857;--t:3563;--w:249;--h:341;--d:3.333s"><i></i></div>
-      <div class="m fade" style="--l:857;--t:3734;--w:249;--h:170;--d:4.333s"><i></i></div>
-      <div class="olb" style="--l:857;--t:3563;--w:249;--h:341;--d:3.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m zoom" style="--l:857;--t:3563;--w:249;--h:341;--d:1.133s"><i></i></div>
+      <div class="m fade" style="--l:857;--t:3734;--w:249;--h:170;--d:2.133s"><i></i></div>
+      <div class="olb" style="--l:857;--t:3563;--w:249;--h:341;--d:1.133s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
-      <div class="m zoom" style="--l:1134;--t:3563;--w:249;--h:341;--d:3.6s"><i></i></div>
-      <div class="m fade" style="--l:1134;--t:3734;--w:249;--h:170;--d:4.6s"><i></i></div>
-      <div class="olb" style="--l:1134;--t:3563;--w:249;--h:341;--d:3.6s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m zoom" style="--l:1134;--t:3563;--w:249;--h:341;--d:1.4s"><i></i></div>
+      <div class="m fade" style="--l:1134;--t:3734;--w:249;--h:170;--d:2.4s"><i></i></div>
+      <div class="olb" style="--l:1134;--t:3563;--w:249;--h:341;--d:1.4s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
-      <div class="m zoom" style="--l:1411;--t:3563;--w:249;--h:341;--d:3.867s"><i></i></div>
-      <div class="m fade" style="--l:1411;--t:3734;--w:249;--h:170;--d:4.867s"><i></i></div>
-      <div class="olb" style="--l:1411;--t:3563;--w:249;--h:341;--d:3.867s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m zoom" style="--l:1411;--t:3563;--w:249;--h:341;--d:1.667s"><i></i></div>
+      <div class="m fade" style="--l:1411;--t:3734;--w:249;--h:170;--d:2.667s"><i></i></div>
+      <div class="olb" style="--l:1411;--t:3563;--w:249;--h:341;--d:1.667s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <!-- 이벤트·행사 -->
       <div class="m rise" style="--l:160;--t:4104;--w:700;--h:62;--d:0s"><i></i></div>
@@ -344,12 +356,12 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="m rise" style="--l:900;--t:4104;--w:860;--h:62;--d:.267s"><i></i></div>
       <div class="rule" style="--l:900;--t:4182;--w:860;--h:4;--d:.8s"></div>
 
-      <div class="cascade" style="--l:900;--t:4226;--w:860;--h:39;--dy:0;--d:.6s"><i></i></div>
-      <div class="cascade" style="--l:900;--t:4299;--w:860;--h:39;--dy:73;--d:.7s"><i></i></div>
-      <div class="cascade" style="--l:900;--t:4372;--w:860;--h:39;--dy:146;--d:.8s"><i></i></div>
-      <div class="cascade" style="--l:900;--t:4444;--w:860;--h:39;--dy:218;--d:.9s"><i></i></div>
-      <div class="cascade" style="--l:900;--t:4517;--w:860;--h:39;--dy:291;--d:1.0s"><i></i></div>
-      <div class="cascade" style="--l:900;--t:4590;--w:860;--h:39;--dy:364;--d:1.1s"><i></i></div>
+      <div class="cascade" style="--l:900;--t:4226;--w:860;--h:39;--dy:0;--d:.467s"><i></i></div>
+      <div class="cascade" style="--l:900;--t:4299;--w:860;--h:39;--dy:73;--d:.6s"><i></i></div>
+      <div class="cascade" style="--l:900;--t:4372;--w:860;--h:39;--dy:146;--d:.6s"><i></i></div>
+      <div class="cascade" style="--l:900;--t:4444;--w:860;--h:39;--dy:218;--d:.6s"><i></i></div>
+      <div class="cascade" style="--l:900;--t:4517;--w:860;--h:39;--dy:291;--d:.6s"><i></i></div>
+      <div class="cascade" style="--l:900;--t:4590;--w:860;--h:39;--dy:364;--d:.6s"><i></i></div>
 
       <!-- 배너·푸터: 등장 모션 없이, 스크롤로 페이지에 들어오면 바로 보인다 -->
       <div class="m" style="--l:0;--t:4749;--w:1920;--h:132"><i></i></div>
@@ -406,7 +418,7 @@ searchbar.addEventListener('click', (e) => {
   if (searchClicked) return;
   searchClicked = true;
   searchbar.classList.add('clicked');
-  setTimeout(() => { window.location.href = searchbar.getAttribute('href'); }, 550);
+  setTimeout(() => { window.location.href = searchbar.getAttribute('href'); }, 1000);
 });
 
 /* ---- viewport-triggered reveals ------------------------------------ */

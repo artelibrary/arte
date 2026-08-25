@@ -155,6 +155,13 @@ export const ScaleWindow: React.FC<{
 // their own resting position while fading in - the arte-document technique
 // (ListHeader.tsx), adapted to window into the shared page render instead of
 // per-chip PNGs.
+//
+// The box itself travels rather than content sliding inside a fixed mask: a
+// fixed mask with the background sliding inside it would, at the start,
+// show whatever sits to the right of this chip through this chip's own
+// window - the wrong chip's content, not this chip's own content
+// pre-positioned over the anchor. Animating the box's own `left` keeps the
+// crop (and so the chip it shows) correct throughout the slide.
 export const SlideWindow: React.FC<{
   name: string;
   top: number;
@@ -168,37 +175,32 @@ export const SlideWindow: React.FC<{
   const frame = useCurrentFrame();
 
   return (
-    <div
-      style={{ position: "absolute", top, left, width, height, overflow: "hidden" }}
+    <Interactive.Div
+      name={name}
+      style={{
+        position: "absolute",
+        top,
+        width,
+        height,
+        overflow: "hidden",
+        left: interpolate(frame, [from, from + duration], [left + offsetX, left], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+        }),
+        opacity: interpolate(frame, [from, from + duration], [0, 1], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+        }),
+      }}
     >
-      <Interactive.Div
-        name={name}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width,
-          height,
-          overflow: "hidden",
-          translate: interpolate(frame, [from, from + duration], [`${offsetX}px 0px`, "0px 0px"], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.bezier(0.16, 1, 0.3, 1),
-          }),
-          opacity: interpolate(frame, [from, from + duration], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.bezier(0.16, 1, 0.3, 1),
-          }),
-        }}
-      >
-        <Img
-          name="Page"
-          src={staticFile(PAGE)}
-          style={{ position: "absolute", top: -top, left: -left, width: 1920, maxWidth: "none" }}
-        />
-      </Interactive.Div>
-    </div>
+      <Img
+        name="Page"
+        src={staticFile(PAGE)}
+        style={{ position: "absolute", top: -top, left: -left, width: 1920, maxWidth: "none" }}
+      />
+    </Interactive.Div>
   );
 };
 
