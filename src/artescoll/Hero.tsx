@@ -28,6 +28,7 @@ export const Hero: React.FC = () => {
     extrapolateRight: "clamp",
     easing: Easing.out(Easing.cubic),
   });
+  const pillLeft = BAR_CENTER_X - pillWidth / 2;
 
   return (
     <>
@@ -98,17 +99,16 @@ export const Hero: React.FC = () => {
       </Interactive.Div>
 
       <Interactive.Div
-        name="Hero search pill outline"
+        name="Hero search bar mask"
         style={{
           position: "absolute",
           top: BAR_TOP,
-          left: BAR_CENTER_X - pillWidth / 2,
+          left: pillLeft,
           width: pillWidth,
           height: BAR_HEIGHT,
           borderRadius: BAR_HEIGHT / 2,
-          border: "4px solid #000000",
-          backgroundColor: "#ffffff",
-          opacity: interpolate(frame, [38, 54, 105, 120], [0, 1, 1, 0], {
+          overflow: "hidden",
+          opacity: interpolate(frame, [38, 54], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.out(Easing.cubic),
@@ -119,7 +119,18 @@ export const Hero: React.FC = () => {
             easing: Easing.out(Easing.cubic),
           }),
         }}
-      />
+      >
+        <Img
+          name="Hero search bar"
+          src={staticFile("webpage-sections/hero-search.png")}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: BAR_LEFT - pillLeft,
+            width: BAR_WIDTH,
+          }}
+        />
+      </Interactive.Div>
       <Img
         name="Hero search icon"
         src={staticFile("webpage-sections/hero-search-icon.png")}
@@ -146,7 +157,7 @@ export const Hero: React.FC = () => {
             },
           ),
           width: ICON_WIDTH,
-          opacity: interpolate(frame, [38, 54, 105, 120], [0, 1, 1, 0], {
+          opacity: interpolate(frame, [38, 54], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.out(Easing.cubic),
@@ -155,28 +166,6 @@ export const Hero: React.FC = () => {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.out(Easing.cubic),
-          }),
-        }}
-      />
-
-      <Img
-        name="Hero search final bar"
-        src={staticFile("webpage-sections/hero-search.png")}
-        style={{
-          position: "absolute",
-          top: BAR_TOP,
-          left: BAR_LEFT,
-          width: BAR_WIDTH,
-          opacity: interpolate(frame, [98, 120], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.out(Easing.cubic),
-          }),
-          scale: interpolate(frame, [98, 120], [1.2, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.out(Easing.cubic),
-            output: "perceptual-scale",
           }),
         }}
       />

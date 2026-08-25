@@ -16,10 +16,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2472,
+          top: 2008,
           left: 160,
           width: 1600,
-          height: 62,
+          height: 60,
           overflow: "hidden",
         }}
       >
@@ -30,9 +30,9 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 62,
+            height: 60,
             overflow: "hidden",
-            translate: interpolate(frame, [4, 32], ["0px 62px", "0px 0px"], {
+            translate: interpolate(frame, [4, 32], ["0px 60px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -49,7 +49,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2472,
+              top: -2008,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -60,7 +60,7 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2569,
+          top: 2105,
           left: 160,
           width: 420,
           height: 235,
@@ -94,7 +94,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2569,
+              top: -2105,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -105,10 +105,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2600,
+          top: 2140,
           left: 620,
           width: 1140,
-          height: 22,
+          height: 15,
           overflow: "hidden",
         }}
       >
@@ -119,9 +119,9 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 22,
+            height: 15,
             overflow: "hidden",
-            translate: interpolate(frame, [18, 40], ["0px 22px", "0px 0px"], {
+            translate: interpolate(frame, [18, 40], ["0px 15px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -138,7 +138,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2600,
+              top: -2140,
               left: -620,
               width: 1920,
               maxWidth: "none",
@@ -149,10 +149,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2651,
+          top: 2191,
           left: 620,
           width: 1140,
-          height: 33,
+          height: 26,
           overflow: "hidden",
         }}
       >
@@ -163,9 +163,9 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 33,
+            height: 26,
             overflow: "hidden",
-            translate: interpolate(frame, [23, 45], ["0px 33px", "0px 0px"], {
+            translate: interpolate(frame, [23, 45], ["0px 26px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -182,7 +182,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2651,
+              top: -2191,
               left: -620,
               width: 1920,
               maxWidth: "none",
@@ -193,10 +193,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2696,
+          top: 2236,
           left: 620,
           width: 1140,
-          height: 22,
+          height: 14,
           overflow: "hidden",
         }}
       >
@@ -207,9 +207,9 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 22,
+            height: 14,
             overflow: "hidden",
-            translate: interpolate(frame, [28, 50], ["0px 22px", "0px 0px"], {
+            translate: interpolate(frame, [28, 50], ["0px 14px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -226,7 +226,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2696,
+              top: -2236,
               left: -620,
               width: 1920,
               maxWidth: "none",
@@ -237,10 +237,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2746,
+          top: 2286,
           left: 620,
           width: 1140,
-          height: 26,
+          height: 18,
           overflow: "hidden",
         }}
       >
@@ -251,9 +251,9 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 26,
+            height: 18,
             overflow: "hidden",
-            translate: interpolate(frame, [33, 55], ["0px 26px", "0px 0px"], {
+            translate: interpolate(frame, [33, 55], ["0px 18px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -270,7 +270,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2746,
+              top: -2286,
               left: -620,
               width: 1920,
               maxWidth: "none",

@@ -1,6 +1,5 @@
 import {
   AbsoluteFill,
-  Composition,
   Easing,
   Img,
   Interactive,
@@ -12,16 +11,7 @@ import {
 } from "remotion";
 
 export const WebsiteScrollComposition = () => {
-  return (
-    <Composition
-      id="WebsiteScroll"
-      component={WebsiteScroll}
-      durationInFrames={1185}
-      fps={30}
-      width={1920}
-      height={1080}
-    />
-  );
+  return null;
 };
 
 const SCROLL_EASING = Easing.bezier(0.45, 0, 0.55, 1);
@@ -126,7 +116,6 @@ export const WebsiteScroll: React.FC = () => {
             }),
           }}
         />
-
         {/* Hero — headline first, search bar 2 frames behind it */}
         <Interactive.Div
           name="Hero headline"
@@ -197,7 +186,6 @@ export const WebsiteScroll: React.FC = () => {
             }),
           }}
         />
-
         {/* Documents — title, tabs, then 5 cards curtain-reveal in a fast cascade */}
         <Img
           name="Doc section title"
@@ -212,16 +200,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [150, 160],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [150, 160], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Img
@@ -447,19 +430,13 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [175, 185],
-              ["0px 12px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [175, 185], ["0px 12px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
-
         {/* Video feature — no entrance motion, just scrolls into view normally */}
         <Img
           name="Banner photo image"
@@ -476,7 +453,6 @@ export const WebsiteScroll: React.FC = () => {
           src={staticFile("webpage-sections/s4-textblock.png")}
           style={{ position: "absolute", top: 1745, left: 968, width: 712 }}
         />
-
         {/* Books — title then 3 cards curtain-reveal */}
         <Img
           name="Cards section title"
@@ -491,16 +467,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [415, 425],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [415, 425], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Interactive.Div
@@ -614,7 +585,6 @@ export const WebsiteScroll: React.FC = () => {
             }}
           />
         </Interactive.Div>
-
         {/* Regional info — title then 3 rows fade up in sequence */}
         <Img
           name="Region info title"
@@ -629,16 +599,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [510, 520],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [510, 520], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Img
@@ -654,16 +619,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [512, 522],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [512, 522], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Img
@@ -679,16 +639,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [514, 524],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [514, 524], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Img
@@ -704,19 +659,13 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [516, 526],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [516, 526], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
-
         {/* 추천 — the visual highlight: title, two feature cards, curated books banner */}
         <Img
           name="Recommended content title"
@@ -731,16 +680,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [615, 625],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [615, 625], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Interactive.Div
@@ -830,16 +774,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [634, 644],
-              ["0px 40px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [634, 644], ["0px 40px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Interactive.Div
@@ -953,7 +892,6 @@ export const WebsiteScroll: React.FC = () => {
             }}
           />
         </Interactive.Div>
-
         {/* Events/notices — two columns fade up, right slightly behind left */}
         <Img
           name="Two column left"
@@ -968,16 +906,11 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [945, 955],
-              ["0px 50px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [945, 955], ["0px 50px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
         <Img
@@ -993,19 +926,13 @@ export const WebsiteScroll: React.FC = () => {
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.cubic),
             }),
-            translate: interpolate(
-              frame,
-              [947, 957],
-              ["0px 50px", "0px 0px"],
-              {
-                extrapolateLeft: "clamp",
-                extrapolateRight: "clamp",
-                easing: Easing.out(Easing.cubic),
-              },
-            ),
+            translate: interpolate(frame, [947, 957], ["0px 50px", "0px 0px"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.out(Easing.cubic),
+            }),
           }}
         />
-
         {/* Partner logo strip — passes by during the approach to the footer, quick fade */}
         <Img
           name="Contact bar"
@@ -1032,7 +959,6 @@ export const WebsiteScroll: React.FC = () => {
             ),
           }}
         />
-
         {/* Footer — no entrance motion, just scrolls into view normally */}
         <Img
           name="Footer"
@@ -1040,7 +966,6 @@ export const WebsiteScroll: React.FC = () => {
           style={{ position: "absolute", top: 5592, left: 0, width: 1920 }}
         />
       </Interactive.Div>
-
       <AbsoluteFill
         name="Vignette"
         style={{
@@ -1048,7 +973,6 @@ export const WebsiteScroll: React.FC = () => {
             "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 14%, rgba(0,0,0,0) 86%, rgba(0,0,0,0.35) 100%)",
         }}
       />
-
       <Sequence
         name="Wipe transition"
         from={590}
@@ -1057,8 +981,12 @@ export const WebsiteScroll: React.FC = () => {
       >
         <WipeOverlay />
       </Sequence>
-
-      <Sequence name="Outro" from={1095} durationInFrames={90} premountFor={fps}>
+      <Sequence
+        name="Outro"
+        from={1095}
+        durationInFrames={90}
+        premountFor={fps}
+      >
         <Outro />
       </Sequence>
     </AbsoluteFill>

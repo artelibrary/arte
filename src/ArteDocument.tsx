@@ -6,7 +6,6 @@ import {
   interpolate,
   Sequence,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
 import { Header } from "./arte-document/Header";
 import { TitleBlock } from "./arte-document/TitleBlock";
@@ -21,7 +20,7 @@ export const ArteDocumentComposition = () => {
     <Composition
       id="arte-document"
       component={ArteDocument}
-      durationInFrames={450}
+      durationInFrames={380}
       fps={30}
       width={1920}
       height={1080}
@@ -29,11 +28,14 @@ export const ArteDocumentComposition = () => {
   );
 };
 
-// The Figma frame is 1920x1697. The header (143px) is pinned, so the body
-// scrolls inside a 937px viewport underneath it - 617px of travel in total.
+// The revised Figma frame is 1920x1844. The header is 133px and pinned, so
+// the body scrolls inside a 947px viewport underneath it - 764px of travel.
+//
+// Every section mounts from frame 0 and animates on absolute frame numbers,
+// so a number in a component is the composition frame with no offset to
+// carry in your head.
 export const ArteDocument: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
   return (
     <AbsoluteFill
@@ -44,10 +46,10 @@ export const ArteDocument: React.FC = () => {
         name="Viewport"
         style={{
           position: "absolute",
-          top: 143,
+          top: 133,
           left: 0,
           width: 1920,
-          height: 937,
+          height: 947,
           overflow: "hidden",
         }}
       >
@@ -55,24 +57,24 @@ export const ArteDocument: React.FC = () => {
           name="Page scroll"
           style={{
             position: "absolute",
-            top: -143,
+            top: -133,
             left: 0,
             width: 1920,
-            height: 1697,
-            // One continuous glide down the page instead of two wheel
-            // flicks, keeping the same ease-out the flicks used. It starts
-            // where the first flick did, once the card covers have settled,
-            // and covers the full 617px in one move:
+            height: 1844,
+            // One continuous glide down the page, keeping the ease-out the
+            // earlier flicks used. It waits for the intro - including the
+            // card covers, the only part of the list above the fold - then
+            // runs the full 764px in a single move:
             //   0    intro, page top          y=0
             //   172  scroll starts
-            //   280  page bottom              y=617
-            // The span is chosen so the page still clears each element before
-            // that element's own animation begins - most importantly the card
+            //   280  page bottom              y=764
+            // The span is chosen so the page clears each element before that
+            // element's own animation begins - most importantly the card
             // bottom edge, which the outline draws along at frames 194-208.
             translate: interpolate(
               frame,
-              [0, 172, 280, 450],
-              ["0px 0px", "0px 0px", "0px -617px", "0px -617px"],
+              [0, 172, 280, 380],
+              ["0px 0px", "0px 0px", "0px -764px", "0px -764px"],
               {
                 extrapolateLeft: "clamp",
                 extrapolateRight: "clamp",
@@ -84,19 +86,19 @@ export const ArteDocument: React.FC = () => {
           <Sequence name="Title block">
             <TitleBlock />
           </Sequence>
-          <Sequence name="Section intro" from={40}>
+          <Sequence name="Section intro">
             <SectionIntro />
           </Sequence>
-          <Sequence name="Filter rail" from={58} premountFor={fps}>
+          <Sequence name="Filter rail">
             <Filter />
           </Sequence>
-          <Sequence name="List header" from={62} premountFor={fps}>
+          <Sequence name="List header">
             <ListHeader />
           </Sequence>
-          <Sequence name="Result cards" from={118} premountFor={fps}>
+          <Sequence name="Result cards">
             <Cards />
           </Sequence>
-          <Sequence name="Pagination" from={205} premountFor={fps}>
+          <Sequence name="Pagination">
             <Pagination />
           </Sequence>
         </Interactive.Div>

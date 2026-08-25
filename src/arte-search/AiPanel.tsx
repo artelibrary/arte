@@ -7,25 +7,19 @@ import {
   useCurrentFrame,
 } from "remotion";
 
-// The AI answer panel, and the whole loading -> loaded beat.
+// The AI answer panel and the whole loading -> answered beat.
 //
-// The grey #f5f5f5 block unfolds downwards from the top of its own box: it
-// opens to the 753px skeleton height first, holds there while the placeholder
-// bars sit in place, then grows on to its final 1301px as the real answer
-// arrives. Nothing is clipped to the box because every reveal below is timed
-// to start only once the box has already grown past it.
+// The panel is a white box with a 4px black rule around it, so the unfold
+// reads on the border rather than on a fill: it opens downwards from y335 to
+// the 421px skeleton height, holds while the placeholder sits there, then
+// grows on to 811px as the answer lands.
 //
-// The keyword sections further down the page are placed at their final
-// coordinates from the start. The 548px the page grows by when the panel
-// expands happens entirely below the fold at scroll 0, so pinning them would
-// cost a shift nobody can see.
+// All four result cards and the "20개 자료 모두 보기" bar are above the fold
+// at scroll 0, so they belong to this load beat rather than to a scroll stop.
 //
 // Card outlines are four 1px rules drawn back to back from the top-left
-// corner, running anti-clockwise - down the left edge, across the bottom, up
-// the right edge, then back along the top - on linear easing so the pen keeps
-// a constant speed the whole way round. On row 1 the bottom edge is drawn
-// below the fold; the eye picks the line back up as the right edge climbs
-// into view.
+// corner, running anti-clockwise, each timed to its own edge length so the
+// pen keeps a constant speed the whole way round.
 export const AiPanel: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -35,11 +29,16 @@ export const AiPanel: React.FC = () => {
         name="AI panel"
         style={{
           position: "absolute",
-          top: 401,
+          top: 335,
           left: 160,
           width: 1600,
-          backgroundColor: "#f5f5f5",
-          height: interpolate(frame, [8, 34, 118, 146], [0, 753, 753, 1301], {
+          borderLeft: "4px solid #000000",
+          borderRight: "4px solid #000000",
+          borderTop: "4px solid #000000",
+          borderBottom: "4px solid #000000",
+          boxSizing: "border-box",
+          backgroundColor: "#ffffff",
+          height: interpolate(frame, [8, 34, 118, 146], [0, 421, 421, 811], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -51,9 +50,9 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 480,
-          left: 240,
-          width: 1440,
+          top: 399,
+          left: 224,
+          width: 1472,
           height: 44,
           overflow: "hidden",
         }}
@@ -64,7 +63,7 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1440,
+            width: 1472,
             height: 44,
             overflow: "hidden",
             translate: interpolate(frame, [20, 44], ["0px 44px", "0px 0px"], {
@@ -84,8 +83,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loading.png")}
             style={{
               position: "absolute",
-              top: -480,
-              left: -240,
+              top: -399,
+              left: -224,
               width: 1920,
               maxWidth: "none",
             }}
@@ -95,10 +94,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 548,
-          left: 240,
-          width: 1440,
-          height: 33,
+          top: 466,
+          left: 224,
+          width: 1472,
+          height: 35,
           overflow: "hidden",
         }}
       >
@@ -108,10 +107,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1440,
-            height: 33,
+            width: 1472,
+            height: 35,
             overflow: "hidden",
-            translate: interpolate(frame, [28, 52], ["0px 33px", "0px 0px"], {
+            translate: interpolate(frame, [28, 52], ["0px 35px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -128,8 +127,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loading.png")}
             style={{
               position: "absolute",
-              top: -548,
-              left: -240,
+              top: -466,
+              left: -224,
               width: 1920,
               maxWidth: "none",
             }}
@@ -139,10 +138,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 615,
-          left: 240,
-          width: 1440,
-          height: 400,
+          top: 536,
+          left: 224,
+          width: 1472,
+          height: 160,
           overflow: "hidden",
         }}
       >
@@ -152,8 +151,8 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1440,
-            height: 400,
+            width: 1472,
+            height: 160,
             overflow: "hidden",
             opacity: interpolate(frame, [48, 80, 108, 122], [0, 1, 1, 0], {
               extrapolateLeft: "clamp",
@@ -167,52 +166,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loading.png")}
             style={{
               position: "absolute",
-              top: -615,
-              left: -240,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1040,
-          left: 240,
-          width: 1440,
-          height: 40,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Loading pagination"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 1440,
-            height: 40,
-            overflow: "hidden",
-            translate: interpolate(frame, [64, 92], ["0px 40px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [64, 78, 108, 122], [0, 1, 1, 0], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Loading page"
-            src={staticFile("arte-search/page-loading.png")}
-            style={{
-              position: "absolute",
-              top: -1040,
-              left: -240,
+              top: -536,
+              left: -224,
               width: 1920,
               maxWidth: "none",
             }}
@@ -220,13 +175,13 @@ export const AiPanel: React.FC = () => {
         </Interactive.Div>
       </div>
 
-      {/* Loaded state - the answer replaces the skeleton. */}
+      {/* Answered state - the answer replaces the skeleton. */}
       <div
         style={{
           position: "absolute",
-          top: 480,
-          left: 240,
-          width: 1440,
+          top: 399,
+          left: 224,
+          width: 1472,
           height: 44,
           overflow: "hidden",
         }}
@@ -237,7 +192,7 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1440,
+            width: 1472,
             height: 44,
             overflow: "hidden",
             opacity: interpolate(frame, [122, 140], [0, 1], {
@@ -252,8 +207,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -480,
-              left: -240,
+              top: -399,
+              left: -224,
               width: 1920,
               maxWidth: "none",
             }}
@@ -263,9 +218,9 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 545,
-          left: 240,
-          width: 1440,
+          top: 465,
+          left: 224,
+          width: 1472,
           height: 33,
           overflow: "hidden",
         }}
@@ -276,7 +231,7 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1440,
+            width: 1472,
             height: 33,
             overflow: "hidden",
             translate: interpolate(frame, [128, 154], ["0px 33px", "0px 0px"], {
@@ -296,8 +251,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -545,
-              left: -240,
+              top: -465,
+              left: -224,
               width: 1920,
               maxWidth: "none",
             }}
@@ -307,10 +262,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 578,
-          left: 240,
-          width: 1440,
-          height: 34,
+          top: 498,
+          left: 224,
+          width: 1472,
+          height: 33,
           overflow: "hidden",
         }}
       >
@@ -320,10 +275,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1440,
-            height: 34,
+            width: 1472,
+            height: 33,
             overflow: "hidden",
-            translate: interpolate(frame, [134, 160], ["0px 34px", "0px 0px"], {
+            translate: interpolate(frame, [134, 160], ["0px 33px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -340,8 +295,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -578,
-              left: -240,
+              top: -498,
+              left: -224,
               width: 1920,
               maxWidth: "none",
             }}
@@ -351,10 +306,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 650,
-          left: 236,
+          top: 567,
+          left: 220,
           width: 430,
-          height: 50,
+          height: 53,
           overflow: "hidden",
         }}
       >
@@ -365,9 +320,9 @@ export const AiPanel: React.FC = () => {
             top: 0,
             left: 0,
             width: 430,
-            height: 50,
+            height: 53,
             overflow: "hidden",
-            translate: interpolate(frame, [142, 168], ["0px 50px", "0px 0px"], {
+            translate: interpolate(frame, [142, 168], ["0px 53px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -384,8 +339,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -650,
-              left: -236,
+              top: -567,
+              left: -220,
               width: 1920,
               maxWidth: "none",
             }}
@@ -397,10 +352,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 739,
-          left: 241,
-          width: 276,
-          height: 388,
+          top: 657,
+          left: 225,
+          width: 108,
+          height: 152,
           overflow: "hidden",
         }}
       >
@@ -410,8 +365,8 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 276,
-            height: 388,
+            width: 108,
+            height: 152,
             overflow: "hidden",
             scale: interpolate(frame, [152, 196], [1.2, 1], {
               extrapolateLeft: "clamp",
@@ -431,8 +386,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -739,
-              left: -241,
+              top: -657,
+              left: -225,
               width: 1920,
               maxWidth: "none",
             }}
@@ -443,12 +398,12 @@ export const AiPanel: React.FC = () => {
         name="Card 1 outline left"
         style={{
           position: "absolute",
-          top: 738,
-          left: 240,
+          top: 656,
+          left: 224,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 ${interpolate(frame, [160, 167], [100, 0], {
+          clipPath: `inset(0 0 ${interpolate(frame, [160, 163], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -459,12 +414,12 @@ export const AiPanel: React.FC = () => {
         name="Card 1 outline bottom"
         style={{
           position: "absolute",
-          top: 1127,
-          left: 240,
-          width: 700,
+          top: 809,
+          left: 224,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 ${interpolate(frame, [167, 179], [100, 0], {
+          clipPath: `inset(0 ${interpolate(frame, [163, 179], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -475,12 +430,12 @@ export const AiPanel: React.FC = () => {
         name="Card 1 outline right"
         style={{
           position: "absolute",
-          top: 738,
-          left: 939,
+          top: 656,
+          left: 953,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(${interpolate(frame, [179, 186], [100, 0], {
+          clipPath: `inset(${interpolate(frame, [179, 182], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -491,12 +446,12 @@ export const AiPanel: React.FC = () => {
         name="Card 1 outline top"
         style={{
           position: "absolute",
-          top: 738,
-          left: 240,
-          width: 700,
+          top: 656,
+          left: 224,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 0 ${interpolate(frame, [186, 198], [100, 0], {
+          clipPath: `inset(0 0 0 ${interpolate(frame, [182, 198], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -506,10 +461,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 787,
-          left: 556,
-          width: 343,
-          height: 27,
+          top: 683,
+          left: 334,
+          width: 618,
+          height: 23,
           overflow: "hidden",
         }}
       >
@@ -519,10 +474,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 27,
+            width: 618,
+            height: 23,
             overflow: "hidden",
-            translate: interpolate(frame, [168, 190], ["0px 27px", "0px 0px"], {
+            translate: interpolate(frame, [168, 190], ["0px 23px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -539,8 +494,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -787,
-              left: -556,
+              top: -683,
+              left: -334,
               width: 1920,
               maxWidth: "none",
             }}
@@ -550,10 +505,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 826,
-          left: 556,
-          width: 343,
-          height: 24,
+          top: 730,
+          left: 334,
+          width: 618,
+          height: 27,
           overflow: "hidden",
         }}
       >
@@ -563,10 +518,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 24,
+            width: 618,
+            height: 27,
             overflow: "hidden",
-            translate: interpolate(frame, [173, 195], ["0px 24px", "0px 0px"], {
+            translate: interpolate(frame, [173, 195], ["0px 27px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -583,8 +538,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -826,
-              left: -556,
+              top: -730,
+              left: -334,
               width: 1920,
               maxWidth: "none",
             }}
@@ -594,10 +549,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 865,
-          left: 556,
-          width: 343,
-          height: 24,
+          top: 770,
+          left: 334,
+          width: 618,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -607,10 +562,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 24,
+            width: 618,
+            height: 17,
             overflow: "hidden",
-            translate: interpolate(frame, [178, 200], ["0px 24px", "0px 0px"], {
+            translate: interpolate(frame, [178, 200], ["0px 17px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -627,184 +582,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -865,
-              left: -556,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 932,
-          left: 556,
-          width: 343,
-          height: 36,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 1 text 4"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 36,
-            overflow: "hidden",
-            translate: interpolate(frame, [183, 205], ["0px 36px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [183, 197], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -932,
-              left: -556,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 986,
-          left: 556,
-          width: 343,
-          height: 22,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 1 text 5"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 22,
-            overflow: "hidden",
-            translate: interpolate(frame, [188, 210], ["0px 22px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [188, 202], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -986,
-              left: -556,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1016,
-          left: 556,
-          width: 343,
-          height: 22,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 1 text 6"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 22,
-            overflow: "hidden",
-            translate: interpolate(frame, [193, 215], ["0px 22px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [193, 207], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1016,
-              left: -556,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1046,
-          left: 556,
-          width: 343,
-          height: 22,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 1 text 7"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 22,
-            overflow: "hidden",
-            translate: interpolate(frame, [198, 220], ["0px 22px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [198, 212], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1046,
-              left: -556,
+              top: -770,
+              left: -334,
               width: 1920,
               maxWidth: "none",
             }}
@@ -816,10 +595,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 739,
-          left: 981,
-          width: 276,
-          height: 388,
+          top: 657,
+          left: 967,
+          width: 108,
+          height: 152,
           overflow: "hidden",
         }}
       >
@@ -829,8 +608,8 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 276,
-            height: 388,
+            width: 108,
+            height: 152,
             overflow: "hidden",
             scale: interpolate(frame, [166, 210], [1.2, 1], {
               extrapolateLeft: "clamp",
@@ -850,8 +629,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -739,
-              left: -981,
+              top: -657,
+              left: -967,
               width: 1920,
               maxWidth: "none",
             }}
@@ -862,12 +641,12 @@ export const AiPanel: React.FC = () => {
         name="Card 2 outline left"
         style={{
           position: "absolute",
-          top: 738,
-          left: 980,
+          top: 656,
+          left: 966,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 ${interpolate(frame, [174, 181], [100, 0], {
+          clipPath: `inset(0 0 ${interpolate(frame, [174, 177], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -878,12 +657,12 @@ export const AiPanel: React.FC = () => {
         name="Card 2 outline bottom"
         style={{
           position: "absolute",
-          top: 1127,
-          left: 980,
-          width: 700,
+          top: 809,
+          left: 966,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 ${interpolate(frame, [181, 193], [100, 0], {
+          clipPath: `inset(0 ${interpolate(frame, [177, 193], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -894,12 +673,12 @@ export const AiPanel: React.FC = () => {
         name="Card 2 outline right"
         style={{
           position: "absolute",
-          top: 738,
-          left: 1679,
+          top: 656,
+          left: 1695,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(${interpolate(frame, [193, 200], [100, 0], {
+          clipPath: `inset(${interpolate(frame, [193, 196], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -910,12 +689,12 @@ export const AiPanel: React.FC = () => {
         name="Card 2 outline top"
         style={{
           position: "absolute",
-          top: 738,
-          left: 980,
-          width: 700,
+          top: 656,
+          left: 966,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 0 ${interpolate(frame, [200, 212], [100, 0], {
+          clipPath: `inset(0 0 0 ${interpolate(frame, [196, 212], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -925,10 +704,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 787,
-          left: 1296,
-          width: 343,
-          height: 27,
+          top: 683,
+          left: 1076,
+          width: 618,
+          height: 23,
           overflow: "hidden",
         }}
       >
@@ -938,10 +717,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 27,
+            width: 618,
+            height: 23,
             overflow: "hidden",
-            translate: interpolate(frame, [182, 204], ["0px 27px", "0px 0px"], {
+            translate: interpolate(frame, [182, 204], ["0px 23px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -958,8 +737,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -787,
-              left: -1296,
+              top: -683,
+              left: -1076,
               width: 1920,
               maxWidth: "none",
             }}
@@ -969,10 +748,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 826,
-          left: 1296,
-          width: 343,
-          height: 24,
+          top: 730,
+          left: 1076,
+          width: 618,
+          height: 27,
           overflow: "hidden",
         }}
       >
@@ -982,10 +761,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 24,
+            width: 618,
+            height: 27,
             overflow: "hidden",
-            translate: interpolate(frame, [187, 209], ["0px 24px", "0px 0px"], {
+            translate: interpolate(frame, [187, 209], ["0px 27px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -1002,8 +781,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -826,
-              left: -1296,
+              top: -730,
+              left: -1076,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1013,10 +792,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 865,
-          left: 1296,
-          width: 343,
-          height: 24,
+          top: 770,
+          left: 1076,
+          width: 618,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -1026,10 +805,10 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 24,
+            width: 618,
+            height: 17,
             overflow: "hidden",
-            translate: interpolate(frame, [192, 214], ["0px 24px", "0px 0px"], {
+            translate: interpolate(frame, [192, 214], ["0px 17px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -1046,184 +825,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -865,
-              left: -1296,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 951,
-          left: 1296,
-          width: 343,
-          height: 36,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 2 text 4"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 36,
-            overflow: "hidden",
-            translate: interpolate(frame, [197, 219], ["0px 36px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [197, 211], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -951,
-              left: -1296,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1005,
-          left: 1296,
-          width: 343,
-          height: 22,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 2 text 5"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 22,
-            overflow: "hidden",
-            translate: interpolate(frame, [202, 224], ["0px 22px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [202, 216], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1005,
-              left: -1296,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1035,
-          left: 1296,
-          width: 343,
-          height: 22,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 2 text 6"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 22,
-            overflow: "hidden",
-            translate: interpolate(frame, [207, 229], ["0px 22px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [207, 221], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1035,
-              left: -1296,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1065,
-          left: 1296,
-          width: 343,
-          height: 22,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 2 text 7"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 22,
-            overflow: "hidden",
-            translate: interpolate(frame, [212, 234], ["0px 22px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [212, 226], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1065,
-              left: -1296,
+              top: -770,
+              left: -1076,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1235,10 +838,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1169,
-          left: 241,
-          width: 276,
-          height: 388,
+          top: 823,
+          left: 225,
+          width: 108,
+          height: 152,
           overflow: "hidden",
         }}
       >
@@ -1248,16 +851,16 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 276,
-            height: 388,
+            width: 108,
+            height: 152,
             overflow: "hidden",
-            scale: interpolate(frame, [248, 292], [1.2, 1], {
+            scale: interpolate(frame, [180, 224], [1.2, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
               output: "perceptual-scale",
             }),
-            opacity: interpolate(frame, [248, 266], [0, 1], {
+            opacity: interpolate(frame, [180, 198], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1269,8 +872,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1169,
-              left: -241,
+              top: -823,
+              left: -225,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1281,12 +884,12 @@ export const AiPanel: React.FC = () => {
         name="Card 3 outline left"
         style={{
           position: "absolute",
-          top: 1168,
-          left: 240,
+          top: 822,
+          left: 224,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 ${interpolate(frame, [254, 261], [100, 0], {
+          clipPath: `inset(0 0 ${interpolate(frame, [188, 191], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1297,12 +900,12 @@ export const AiPanel: React.FC = () => {
         name="Card 3 outline bottom"
         style={{
           position: "absolute",
-          top: 1557,
-          left: 240,
-          width: 700,
+          top: 975,
+          left: 224,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 ${interpolate(frame, [261, 273], [100, 0], {
+          clipPath: `inset(0 ${interpolate(frame, [191, 207], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1313,12 +916,12 @@ export const AiPanel: React.FC = () => {
         name="Card 3 outline right"
         style={{
           position: "absolute",
-          top: 1168,
-          left: 939,
+          top: 822,
+          left: 953,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(${interpolate(frame, [273, 280], [100, 0], {
+          clipPath: `inset(${interpolate(frame, [207, 210], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1329,12 +932,12 @@ export const AiPanel: React.FC = () => {
         name="Card 3 outline top"
         style={{
           position: "absolute",
-          top: 1168,
-          left: 240,
-          width: 700,
+          top: 822,
+          left: 224,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 0 ${interpolate(frame, [280, 292], [100, 0], {
+          clipPath: `inset(0 0 0 ${interpolate(frame, [210, 226], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1344,10 +947,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1217,
-          left: 556,
-          width: 343,
-          height: 27,
+          top: 849,
+          left: 334,
+          width: 618,
+          height: 23,
           overflow: "hidden",
         }}
       >
@@ -1357,15 +960,15 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 27,
+            width: 618,
+            height: 23,
             overflow: "hidden",
-            translate: interpolate(frame, [262, 284], ["0px 27px", "0px 0px"], {
+            translate: interpolate(frame, [196, 218], ["0px 23px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [262, 276], [0, 1], {
+            opacity: interpolate(frame, [196, 210], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1377,8 +980,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1217,
-              left: -556,
+              top: -849,
+              left: -334,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1388,10 +991,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1256,
-          left: 556,
-          width: 343,
-          height: 24,
+          top: 896,
+          left: 334,
+          width: 618,
+          height: 27,
           overflow: "hidden",
         }}
       >
@@ -1401,15 +1004,15 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 24,
+            width: 618,
+            height: 27,
             overflow: "hidden",
-            translate: interpolate(frame, [267, 289], ["0px 24px", "0px 0px"], {
+            translate: interpolate(frame, [201, 223], ["0px 27px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [267, 281], [0, 1], {
+            opacity: interpolate(frame, [201, 215], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1421,8 +1024,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1256,
-              left: -556,
+              top: -896,
+              left: -334,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1432,10 +1035,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1381,
-          left: 556,
-          width: 343,
-          height: 36,
+          top: 936,
+          left: 334,
+          width: 618,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -1445,15 +1048,15 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 36,
+            width: 618,
+            height: 17,
             overflow: "hidden",
-            translate: interpolate(frame, [272, 294], ["0px 36px", "0px 0px"], {
+            translate: interpolate(frame, [206, 228], ["0px 17px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [272, 286], [0, 1], {
+            opacity: interpolate(frame, [206, 220], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1465,140 +1068,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1381,
-              left: -556,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1434,
-          left: 556,
-          width: 343,
-          height: 22,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 3 text 4"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 22,
-            overflow: "hidden",
-            translate: interpolate(frame, [277, 299], ["0px 22px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [277, 291], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1434,
-              left: -556,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1465,
-          left: 556,
-          width: 343,
-          height: 21,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 3 text 5"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 21,
-            overflow: "hidden",
-            translate: interpolate(frame, [282, 304], ["0px 21px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [282, 296], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1465,
-              left: -556,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1495,
-          left: 556,
-          width: 343,
-          height: 21,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 3 text 6"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 21,
-            overflow: "hidden",
-            translate: interpolate(frame, [287, 309], ["0px 21px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [287, 301], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1495,
-              left: -556,
+              top: -936,
+              left: -334,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1610,10 +1081,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1169,
-          left: 981,
-          width: 276,
-          height: 388,
+          top: 823,
+          left: 967,
+          width: 108,
+          height: 152,
           overflow: "hidden",
         }}
       >
@@ -1623,16 +1094,16 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 276,
-            height: 388,
+            width: 108,
+            height: 152,
             overflow: "hidden",
-            scale: interpolate(frame, [262, 306], [1.2, 1], {
+            scale: interpolate(frame, [194, 238], [1.2, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
               output: "perceptual-scale",
             }),
-            opacity: interpolate(frame, [262, 280], [0, 1], {
+            opacity: interpolate(frame, [194, 212], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1644,8 +1115,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1169,
-              left: -981,
+              top: -823,
+              left: -967,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1656,12 +1127,12 @@ export const AiPanel: React.FC = () => {
         name="Card 4 outline left"
         style={{
           position: "absolute",
-          top: 1168,
-          left: 980,
+          top: 822,
+          left: 966,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 ${interpolate(frame, [268, 275], [100, 0], {
+          clipPath: `inset(0 0 ${interpolate(frame, [202, 205], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1672,12 +1143,12 @@ export const AiPanel: React.FC = () => {
         name="Card 4 outline bottom"
         style={{
           position: "absolute",
-          top: 1557,
-          left: 980,
-          width: 700,
+          top: 975,
+          left: 966,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 ${interpolate(frame, [275, 287], [100, 0], {
+          clipPath: `inset(0 ${interpolate(frame, [205, 221], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1688,12 +1159,12 @@ export const AiPanel: React.FC = () => {
         name="Card 4 outline right"
         style={{
           position: "absolute",
-          top: 1168,
-          left: 1679,
+          top: 822,
+          left: 1695,
           width: 1,
-          height: 390,
+          height: 154,
           backgroundColor: "#000000",
-          clipPath: `inset(${interpolate(frame, [287, 294], [100, 0], {
+          clipPath: `inset(${interpolate(frame, [221, 224], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1704,12 +1175,12 @@ export const AiPanel: React.FC = () => {
         name="Card 4 outline top"
         style={{
           position: "absolute",
-          top: 1168,
-          left: 980,
-          width: 700,
+          top: 822,
+          left: 966,
+          width: 730,
           height: 1,
           backgroundColor: "#000000",
-          clipPath: `inset(0 0 0 ${interpolate(frame, [294, 306], [100, 0], {
+          clipPath: `inset(0 0 0 ${interpolate(frame, [224, 240], [100, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.linear,
@@ -1719,10 +1190,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1217,
-          left: 1296,
-          width: 343,
-          height: 24,
+          top: 849,
+          left: 1076,
+          width: 618,
+          height: 21,
           overflow: "hidden",
         }}
       >
@@ -1732,15 +1203,15 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 24,
+            width: 618,
+            height: 21,
             overflow: "hidden",
-            translate: interpolate(frame, [276, 298], ["0px 24px", "0px 0px"], {
+            translate: interpolate(frame, [210, 232], ["0px 21px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [276, 290], [0, 1], {
+            opacity: interpolate(frame, [210, 224], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1752,8 +1223,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1217,
-              left: -1296,
+              top: -849,
+              left: -1076,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1763,10 +1234,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1256,
-          left: 1296,
-          width: 343,
-          height: 23,
+          top: 912,
+          left: 1076,
+          width: 618,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -1776,15 +1247,15 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 23,
+            width: 618,
+            height: 17,
             overflow: "hidden",
-            translate: interpolate(frame, [281, 303], ["0px 23px", "0px 0px"], {
+            translate: interpolate(frame, [215, 237], ["0px 17px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [281, 295], [0, 1], {
+            opacity: interpolate(frame, [215, 229], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1796,8 +1267,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1256,
-              left: -1296,
+              top: -912,
+              left: -1076,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1807,10 +1278,10 @@ export const AiPanel: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1432,
-          left: 1296,
-          width: 343,
-          height: 22,
+          top: 936,
+          left: 1076,
+          width: 618,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -1820,15 +1291,15 @@ export const AiPanel: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 343,
-            height: 22,
+            width: 618,
+            height: 17,
             overflow: "hidden",
-            translate: interpolate(frame, [286, 308], ["0px 22px", "0px 0px"], {
+            translate: interpolate(frame, [220, 242], ["0px 17px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [286, 300], [0, 1], {
+            opacity: interpolate(frame, [220, 234], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1840,96 +1311,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1432,
-              left: -1296,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1463,
-          left: 1296,
-          width: 343,
-          height: 21,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 4 text 4"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 21,
-            overflow: "hidden",
-            translate: interpolate(frame, [291, 313], ["0px 21px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [291, 305], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1463,
-              left: -1296,
-              width: 1920,
-              maxWidth: "none",
-            }}
-          />
-        </Interactive.Div>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 1493,
-          left: 1296,
-          width: 343,
-          height: 21,
-          overflow: "hidden",
-        }}
-      >
-        <Interactive.Div
-          name="Card 4 text 5"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 343,
-            height: 21,
-            overflow: "hidden",
-            translate: interpolate(frame, [296, 318], ["0px 21px", "0px 0px"], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.bezier(0.16, 1, 0.3, 1),
-            }),
-            opacity: interpolate(frame, [296, 310], [0, 1], {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: Easing.out(Easing.quad),
-            }),
-          }}
-        >
-          <Img
-            name="Page"
-            src={staticFile("arte-search/page-loaded.png")}
-            style={{
-              position: "absolute",
-              top: -1493,
-              left: -1296,
+              top: -936,
+              left: -1076,
               width: 1920,
               maxWidth: "none",
             }}
@@ -1937,31 +1320,32 @@ export const AiPanel: React.FC = () => {
         </Interactive.Div>
       </div>
 
+      {/* The "20개 자료 모두 보기" bar closes the panel. */}
       <div
         style={{
           position: "absolute",
-          top: 1595,
-          left: 240,
-          width: 1440,
-          height: 30,
+          top: 1016,
+          left: 224,
+          width: 1472,
+          height: 66,
           overflow: "hidden",
         }}
       >
         <Interactive.Div
-          name="AI pagination"
+          name="AI more results bar"
           style={{
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1440,
-            height: 30,
+            width: 1472,
+            height: 66,
             overflow: "hidden",
-            translate: interpolate(frame, [290, 316], ["0px 30px", "0px 0px"], {
+            translate: interpolate(frame, [226, 252], ["0px 66px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [290, 304], [0, 1], {
+            opacity: interpolate(frame, [226, 240], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -1973,8 +1357,8 @@ export const AiPanel: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1595,
-              left: -240,
+              top: -1016,
+              left: -224,
               width: 1920,
               maxWidth: "none",
             }}

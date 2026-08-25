@@ -7,10 +7,9 @@ import {
   useCurrentFrame,
 } from "remotion";
 
-// 추천 - the only section with no thumbnail, so the copy runs the full
-// 1600px width and carries the whole reveal on its own. Its heading is
-// already peeking in at the bottom of the 영상 stop, so it reveals there at
-// local 4; the body waits for the flick that actually brings it into view.
+// 추천 - the only section with no thumbnail, so the copy runs the full 1600px
+// width. Its heading is already peeking in at the 영상 stop, so that reveals
+// early while the body waits for the flick that brings it into view.
 export const RecommendSection: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -19,10 +18,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2869,
+          top: 2465,
           left: 160,
           width: 1600,
-          height: 62,
+          height: 60,
           overflow: "hidden",
         }}
       >
@@ -33,9 +32,9 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 62,
+            height: 60,
             overflow: "hidden",
-            translate: interpolate(frame, [4, 32], ["0px 62px", "0px 0px"], {
+            translate: interpolate(frame, [4, 32], ["0px 60px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -52,7 +51,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2869,
+              top: -2465,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -63,10 +62,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2967,
+          top: 2567,
           left: 160,
           width: 1600,
-          height: 22,
+          height: 15,
           overflow: "hidden",
         }}
       >
@@ -77,14 +76,14 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 22,
+            height: 15,
             overflow: "hidden",
-            translate: interpolate(frame, [48, 70], ["0px 22px", "0px 0px"], {
+            translate: interpolate(frame, [62, 84], ["0px 15px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [48, 62], [0, 1], {
+            opacity: interpolate(frame, [62, 76], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -96,7 +95,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2967,
+              top: -2567,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -107,10 +106,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3018,
+          top: 2618,
           left: 160,
           width: 1600,
-          height: 33,
+          height: 26,
           overflow: "hidden",
         }}
       >
@@ -121,14 +120,14 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 33,
+            height: 26,
             overflow: "hidden",
-            translate: interpolate(frame, [53, 75], ["0px 33px", "0px 0px"], {
+            translate: interpolate(frame, [67, 89], ["0px 26px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [53, 67], [0, 1], {
+            opacity: interpolate(frame, [67, 81], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -140,7 +139,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3018,
+              top: -2618,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -151,10 +150,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3063,
+          top: 2663,
           left: 160,
           width: 1600,
-          height: 22,
+          height: 14,
           overflow: "hidden",
         }}
       >
@@ -165,14 +164,14 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 22,
+            height: 14,
             overflow: "hidden",
-            translate: interpolate(frame, [58, 80], ["0px 22px", "0px 0px"], {
+            translate: interpolate(frame, [72, 94], ["0px 14px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [58, 72], [0, 1], {
+            opacity: interpolate(frame, [72, 86], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -184,7 +183,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3063,
+              top: -2663,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -195,10 +194,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3113,
+          top: 2713,
           left: 160,
           width: 1600,
-          height: 27,
+          height: 20,
           overflow: "hidden",
         }}
       >
@@ -209,14 +208,14 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 27,
+            height: 20,
             overflow: "hidden",
-            translate: interpolate(frame, [63, 85], ["0px 27px", "0px 0px"], {
+            translate: interpolate(frame, [77, 99], ["0px 20px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [63, 77], [0, 1], {
+            opacity: interpolate(frame, [77, 91], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -228,7 +227,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3113,
+              top: -2713,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -239,10 +238,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3143,
+          top: 2743,
           left: 160,
           width: 1600,
-          height: 25,
+          height: 18,
           overflow: "hidden",
         }}
       >
@@ -253,14 +252,14 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 25,
+            height: 18,
             overflow: "hidden",
-            translate: interpolate(frame, [68, 90], ["0px 25px", "0px 0px"], {
+            translate: interpolate(frame, [82, 104], ["0px 18px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [68, 82], [0, 1], {
+            opacity: interpolate(frame, [82, 96], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -272,7 +271,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3143,
+              top: -2743,
               left: -160,
               width: 1920,
               maxWidth: "none",

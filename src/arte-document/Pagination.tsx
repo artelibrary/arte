@@ -15,10 +15,10 @@ export const Pagination: React.FC = () => {
       name="Pagination mask"
       style={{
         position: "absolute",
-        top: 1521,
-        left: 560,
-        width: 1200,
-        height: 24,
+        top: 1563,
+        left: 592,
+        width: 1168,
+        height: 32,
         overflow: "hidden",
       }}
     >
@@ -29,8 +29,8 @@ export const Pagination: React.FC = () => {
           position: "absolute",
           top: 0,
           left: 0,
-          width: 1200,
-          translate: interpolate(frame, [0, 30], ["0px 100%", "0px 0%"], {
+          width: 1168,
+          translate: interpolate(frame, [290, 320], ["0px 100%", "0px 0%"], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: Easing.bezier(0.16, 1, 0.3, 1),

@@ -7,9 +7,8 @@ import {
   useCurrentFrame,
 } from "remotion";
 
-// Breadcrumb, the "문서·도서" headline and the pink rule beneath it.
-// Every text tile rises out of a mask the height of the tile itself, so the
-// copy slides up from behind its own baseline the way the reference sites do.
+// Breadcrumb, the left-aligned "문서·도서" headline and the two large tabs.
+// The revised design drops the pink rule that used to sit under the title.
 export const TitleBlock: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -19,7 +18,7 @@ export const TitleBlock: React.FC = () => {
         name="Breadcrumb mask"
         style={{
           position: "absolute",
-          top: 223,
+          top: 153,
           left: 160,
           width: 199,
           height: 24,
@@ -34,7 +33,7 @@ export const TitleBlock: React.FC = () => {
             top: 0,
             left: 0,
             width: 199,
-            translate: interpolate(frame, [6, 30], ["0px 100%", "0px 0%"], {
+            translate: interpolate(frame, [6, 34], ["0px 100%", "0px 0%"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -47,10 +46,10 @@ export const TitleBlock: React.FC = () => {
         name="Page title mask"
         style={{
           position: "absolute",
-          top: 285,
+          top: 253,
           left: 160,
-          width: 1600,
-          height: 84,
+          width: 300,
+          height: 88,
           overflow: "hidden",
         }}
       >
@@ -61,7 +60,7 @@ export const TitleBlock: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1600,
+            width: 300,
             translate: interpolate(frame, [14, 46], ["0px 100%", "0px 0%"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
@@ -72,25 +71,25 @@ export const TitleBlock: React.FC = () => {
       </Interactive.Div>
 
       <Interactive.Div
-        name="Doc/book toggle mask"
+        name="Documents tab mask"
         style={{
           position: "absolute",
-          top: 306,
-          left: 1643,
-          width: 118,
-          height: 41,
+          top: 377,
+          left: 160,
+          width: 797,
+          height: 80,
           overflow: "hidden",
         }}
       >
         <Img
-          name="Doc/book toggle"
-          src={staticFile("arte-document/title-toggle.png")}
+          name="Documents tab"
+          src={staticFile("arte-document/tab-doc.png")}
           style={{
             position: "absolute",
             top: 0,
             left: 0,
-            width: 118,
-            translate: interpolate(frame, [26, 54], ["0px 100%", "0px 0%"], {
+            width: 797,
+            translate: interpolate(frame, [26, 56], ["0px 100%", "0px 0%"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -100,22 +99,32 @@ export const TitleBlock: React.FC = () => {
       </Interactive.Div>
 
       <Interactive.Div
-        name="Title pink rule"
+        name="Books tab mask"
         style={{
           position: "absolute",
-          top: 391,
-          left: 160,
-          width: 1600,
-          height: 4,
-          backgroundColor: "#FF2268",
-          // Drawn left to right by retracting the right-hand inset.
-          clipPath: `inset(0 ${interpolate(frame, [38, 78], [100, 0], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.bezier(0.16, 1, 0.3, 1),
-          })}% 0 0)`,
+          top: 377,
+          left: 963,
+          width: 798,
+          height: 80,
+          overflow: "hidden",
         }}
-      />
+      >
+        <Img
+          name="Books tab"
+          src={staticFile("arte-document/tab-book.png")}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: 798,
+            translate: interpolate(frame, [32, 62], ["0px 100%", "0px 0%"], {
+              extrapolateLeft: "clamp",
+              extrapolateRight: "clamp",
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        />
+      </Interactive.Div>
     </>
   );
 };

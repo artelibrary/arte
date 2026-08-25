@@ -7,9 +7,11 @@ import {
   useCurrentFrame,
 } from "remotion";
 
-// "키워드 검색 결과" and the category tabs, revealed as the second flick
-// brings them under the pinned header. The heading and the 2px rule beneath it
-// share one mask so the rule arrives with the words rather than after them.
+// "키워드 검색 결과" and the category tabs. The keyword results are not what
+// the AI panel is waiting on - they are already on the page while the answer
+// is still a skeleton - so these reveal during the load beat. The panel
+// expansion then pushes them below the fold, and the first scroll brings them
+// back.
 export const KeywordHeader: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -18,10 +20,10 @@ export const KeywordHeader: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1780,
+          top: 1264,
           left: 160,
           width: 1600,
-          height: 72,
+          height: 62,
           overflow: "hidden",
         }}
       >
@@ -32,14 +34,14 @@ export const KeywordHeader: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 72,
+            height: 62,
             overflow: "hidden",
-            translate: interpolate(frame, [4, 32], ["0px 72px", "0px 0px"], {
+            translate: interpolate(frame, [36, 62], ["0px 62px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [4, 18], [0, 1], {
+            opacity: interpolate(frame, [36, 50], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -51,7 +53,7 @@ export const KeywordHeader: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1780,
+              top: -1264,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -62,10 +64,10 @@ export const KeywordHeader: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1885,
-          left: 160,
-          width: 1600,
-          height: 64,
+          top: 1360,
+          left: 156,
+          width: 910,
+          height: 65,
           overflow: "hidden",
         }}
       >
@@ -75,15 +77,15 @@ export const KeywordHeader: React.FC = () => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 1600,
-            height: 64,
+            width: 910,
+            height: 65,
             overflow: "hidden",
-            translate: interpolate(frame, [16, 44], ["0px 64px", "0px 0px"], {
+            translate: interpolate(frame, [46, 72], ["0px 65px", "0px 0px"], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            opacity: interpolate(frame, [16, 30], [0, 1], {
+            opacity: interpolate(frame, [46, 60], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
               easing: Easing.out(Easing.quad),
@@ -95,8 +97,8 @@ export const KeywordHeader: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1885,
-              left: -160,
+              top: -1360,
+              left: -156,
               width: 1920,
               maxWidth: "none",
             }}

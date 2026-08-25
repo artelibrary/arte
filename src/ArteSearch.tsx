@@ -23,7 +23,7 @@ export const ArteSearchComposition = () => {
     <Composition
       id="arte-search"
       component={ArteSearch}
-      durationInFrames={830}
+      durationInFrames={780}
       fps={30}
       width={1920}
       height={1080}
@@ -31,10 +31,10 @@ export const ArteSearchComposition = () => {
   );
 };
 
-// The search-results page is 1920x3648 once the AI answer has loaded. Two
-// full-page renders back the whole video - `page-loading.png` (1920x3100,
-// skeleton state) and `page-loaded.png` (1920x3648) - and every animated
-// element is a window onto one of them. Each window follows the same three
+// The search-results page is 1920x3304 once the AI answer has landed. Two
+// full-page renders back the whole video - `page-loading.png` (1920x2914,
+// skeleton state) and `page-loaded.png` (1920x3304) - and every animated
+// element is a window onto one of them. Each window has the same three
 // layers:
 //
 //   <div>              a static mask at the element's page coordinates
@@ -45,17 +45,15 @@ export const ArteSearchComposition = () => {
 // full-page <Img> directly would pivot around the middle of the page rather
 // than around the element.
 //
-// Only the header is pinned. The search bar scrolls away with the page and
-// passes behind it, so it sits in the scrolling layer rather than in the
-// pinned band.
+// Only the header is pinned. The search block scrolls away with the page.
 //
 // Page landmarks:
-//   0     header top                      143  header bottom (pinned)
-//   223   search pill                     321  pill bottom
-//   401   AI panel top - 1600 wide, 753 tall while loading, 1301 once loaded
-//   738   AI card row 1   1168  AI card row 2   1598  AI pagination
-//   1785  "키워드 검색 결과"                1888  category tabs
-//   1994  문서·도서   2476  영상   2873  추천   3240  지역
+//   0     header top          32  masthead bottom   133  header bottom
+//   181   search block        275  its rule
+//   335   AI panel - 1600 wide, 421 tall while loading, 811 once answered
+//   656   card row 1   822  card row 2   1016  "20개 자료 모두 보기"
+//   1266  "키워드 검색 결과"   1364  category tabs
+//   1461  문서·도서   2003  영상   2460  추천   2887  지역
 export const ArteSearch: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -72,38 +70,33 @@ export const ArteSearch: React.FC = () => {
           top: 0,
           left: 0,
           width: 1920,
-          height: 3648,
+          height: 3304,
           // Wheel-flick scrolling: a quick move, then a pause long enough to
-          // read the section that just arrived - not one continuous glide.
-          // Each stop parks a section inside the 143-1080 window left under
-          // the pinned header.
-          //   0    AI panel loads and reveals            y=0
-          //   240  flick
-          //   275  AI card row 2 + pagination            y=620
-          //   365  flick
-          //   407  키워드 검색 결과 + 문서·도서            y=1380
-          //   495  flick
-          //   532  영상                                  y=1850
-          //   595  flick
-          //   630  추천                                  y=2250
-          //   700  flick
-          //   732  지역 (page bottom)                    y=2568
+          // read the section that just arrived. Each stop parks a section in
+          // the 133-1080 window left under the pinned header.
+          //   0    the panel loads and answers          y=0
+          //   280  flick
+          //   318  키워드 검색 결과 + 문서·도서          y=900
+          //   400  flick
+          //   438  영상                                 y=1450
+          //   520  flick
+          //   556  추천                                 y=1850
+          //   640  flick
+          //   674  지역 (page bottom)                   y=2224
           translate: interpolate(
             frame,
-            [0, 240, 275, 365, 407, 495, 532, 595, 630, 700, 732, 830],
+            [0, 280, 318, 400, 438, 520, 556, 640, 674, 780],
             [
               "0px 0px",
               "0px 0px",
-              "0px -620px",
-              "0px -620px",
-              "0px -1380px",
-              "0px -1380px",
+              "0px -900px",
+              "0px -900px",
+              "0px -1450px",
+              "0px -1450px",
               "0px -1850px",
               "0px -1850px",
-              "0px -2250px",
-              "0px -2250px",
-              "0px -2568px",
-              "0px -2568px",
+              "0px -2224px",
+              "0px -2224px",
             ],
             {
               extrapolateLeft: "clamp",
@@ -113,25 +106,24 @@ export const ArteSearch: React.FC = () => {
           ),
         }}
       >
-        {/* The search bar travels with the page and slides up behind the
-            pinned header, so it is part of the scrolling layer. It never
-            animates on its own - the scroll carries it. */}
+        {/* The search block travels with the page and passes behind the
+            header. It never animates on its own - the scroll carries it. */}
         <div
           style={{
             position: "absolute",
-            top: 143,
+            top: 133,
             left: 0,
             width: 1920,
-            height: 258,
+            height: 202,
             overflow: "hidden",
           }}
         >
           <Img
-            name="Search bar"
+            name="Search block"
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -143,
+              top: -133,
               left: 0,
               width: 1920,
               maxWidth: "none",
@@ -142,38 +134,50 @@ export const ArteSearch: React.FC = () => {
         <Sequence name="AI panel">
           <AiPanel />
         </Sequence>
-        <Sequence name="Keyword header" from={369} premountFor={fps}>
-          <KeywordHeader />
-        </Sequence>
-        <Sequence name="문서·도서" from={385} premountFor={fps}>
-          <DocSection />
-        </Sequence>
-        <Sequence name="영상" from={499} premountFor={fps}>
-          <VideoSection />
-        </Sequence>
-        <Sequence name="추천" from={555} premountFor={fps}>
-          <RecommendSection />
-        </Sequence>
-        <Sequence name="지역" from={610} premountFor={fps}>
-          <RegionSection />
-        </Sequence>
+
+        {/* Everything under the panel sits 390px higher while the panel is
+            still skeleton-height, and is pushed down as it grows to fit the
+            answer. The keyword results are on screen for that whole move, so
+            the shift has to be carried rather than skipped. */}
+        <Interactive.Div
+          name="Below the panel"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: 1920,
+            height: 3304,
+            translate: interpolate(
+              frame,
+              [118, 146],
+              ["0px -390px", "0px 0px"],
+              {
+                extrapolateLeft: "clamp",
+                extrapolateRight: "clamp",
+                easing: Easing.bezier(0.16, 1, 0.3, 1),
+              },
+            ),
+          }}
+        >
+          <Sequence name="Keyword header">
+            <KeywordHeader />
+          </Sequence>
+          <Sequence name="문서·도서" from={288} premountFor={fps}>
+            <DocSection />
+          </Sequence>
+          <Sequence name="영상" from={404} premountFor={fps}>
+            <VideoSection />
+          </Sequence>
+          <Sequence name="추천" from={466} premountFor={fps}>
+            <RecommendSection />
+          </Sequence>
+          <Sequence name="지역" from={584} premountFor={fps}>
+            <RegionSection />
+          </Sequence>
+        </Interactive.Div>
       </Interactive.Div>
 
-      {/* The header stays put while the page - search bar included - moves
-          under it, so it lives outside the scrolling layer. It collapses to
-          its scrolled state over the first flick. */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: 1920,
-          height: 143,
-          overflow: "hidden",
-        }}
-      >
-        <Header />
-      </div>
+      <Header />
     </AbsoluteFill>
   );
 };
