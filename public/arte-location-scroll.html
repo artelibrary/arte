@@ -20,7 +20,11 @@
    into the render.
 
    Durations are the composition's frame counts at 30fps, so a 30-frame
-   reveal is 1s here. In the composition the page glided on a fixed
+   reveal is 1s here. Text takes one line at a time, ~7 frames apart; the
+   card grid is the exception, a row of three landing as one beat. Nothing
+   draws a line over a line the render already has - a card carries its own
+   outline inside its window, and the rail's rules are drawn only because
+   no window covers their rows. In the composition the page glided on a fixed
    timeline; here the reader drives it, so the intro (frames 0-168, which
    played at scroll 0) runs on load and everything below the fold waits
    for the viewport instead.
@@ -59,14 +63,6 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 /* short labels settle in 28 */
 .rise.label>i{transition-duration:.933s}
 
-/* tall blocks travel a fixed distance and fade instead of wiping the
-   whole band, which over 400px would read as a curtain rather than a
-   rise - used for the rail caption under the map */
-.lift>i{transform:translateY(40px);opacity:0;
-        transition:transform 1.133s cubic-bezier(.16,1,.3,1),opacity .667s ease-out;
-        transition-delay:var(--d,0s)}
-.lift.in>i{transform:none;opacity:1}
-
 /* cover art settles from 120% to 100% inside a fixed crop - 40 frames */
 .zoom>i{transform:scale(1.2);opacity:0;
         transition:transform 1.333s cubic-bezier(.16,1,.3,1),opacity .533s ease-out;
@@ -82,24 +78,6 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       clip-path:inset(0 100% 0 0);
       transition:clip-path 1s cubic-bezier(.16,1,.3,1) var(--d,0s)}
 .rule.in{clip-path:inset(0 0 0 0)}
-
-/* ---- card outlines ----------------------------------------------- */
-/* Four 1px rules drawn back to back from the top-left corner, running
-   anti-clockwise - down the left edge, across the bottom, up the right
-   edge, then back along the top. 8 frames each, linear, so the pen keeps
-   a constant speed the whole way round. */
-.olb{position:absolute;top:calc(var(--t)*1px);left:calc(var(--l)*1px);
-     width:calc(var(--w)*1px);height:calc(var(--h)*1px);pointer-events:none}
-.ol{position:absolute;background:#000;transition:clip-path .267s linear}
-.e1{left:0;top:0;width:1px;height:100%;clip-path:inset(0 0 100% 0);
-    transition-delay:var(--d,0s)}
-.e2{left:0;bottom:0;width:100%;height:1px;clip-path:inset(0 100% 0 0);
-    transition-delay:calc(var(--d,0s) + .267s)}
-.e3{right:0;top:0;width:1px;height:100%;clip-path:inset(100% 0 0 0);
-    transition-delay:calc(var(--d,0s) + .533s)}
-.e4{left:0;top:0;width:100%;height:1px;clip-path:inset(0 0 0 100%);
-    transition-delay:calc(var(--d,0s) + .800s)}
-.olb.in .ol{clip-path:inset(0 0 0 0)}
 
 /* ---- the pinned header ------------------------------------------- */
 /* 133px, and it stays 133px. The masthead strip and the two icons on the
@@ -198,73 +176,57 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="m rise label" style="--l:160;--t:153;--w:241;--h:24;--d:0.200s"><i></i></div>
       <div class="m rise" style="--l:160;--t:257;--w:337;--h:80;--d:0.467s"><i></i></div>
 
-      <div class="m rise" style="--l:160;--t:377;--w:528;--h:80;--d:0.867s"><i></i></div>
-      <div class="m rise" style="--l:696;--t:377;--w:528;--h:80;--d:1.067s"><i></i></div>
-      <div class="m rise" style="--l:1232;--t:377;--w:528;--h:80;--d:1.267s"><i></i></div>
+      <div class="m rise" style="--l:160;--t:377;--w:528;--h:80;--d:0.733s"><i></i></div>
+      <div class="m rise" style="--l:696;--t:377;--w:528;--h:80;--d:0.967s"><i></i></div>
+      <div class="m rise" style="--l:1232;--t:377;--w:528;--h:80;--d:1.200s"><i></i></div>
 
-      <div class="m rise" style="--l:160;--t:557;--w:180;--h:52;--d:1.533s"><i></i></div>
-      <div class="m rise label" style="--l:1341;--t:585;--w:419;--h:24;--d:1.800s"><i></i></div>
+      <div class="m rise" style="--l:160;--t:557;--w:180;--h:52;--d:1.500s"><i></i></div>
+      <div class="m rise label" style="--l:1341;--t:585;--w:419;--h:24;--d:1.733s"><i></i></div>
 
       <!-- filter rail, above the fold -->
-      <div class="m rise label" style="--l:160;--t:649;--w:60;--h:24;--d:2.067s"><i></i></div>
-      <div class="m rise" style="--l:160;--t:689;--w:312;--h:51;--d:2.333s"><i></i></div>
-      <div class="rule" style="--l:160;--t:780;--w:312;--h:4;--d:2.600s"></div>
-      <div class="m rise label" style="--l:160;--t:808;--w:60;--h:24;--d:3.000s"><i></i></div>
-      <div class="m zoom" style="--l:160;--t:832;--w:312;--h:444;--d:3.200s"><i></i></div>
+      <div class="m rise label" style="--l:160;--t:649;--w:60;--h:24;--d:2.000s"><i></i></div>
+      <div class="m rise" style="--l:160;--t:689;--w:312;--h:51;--d:2.233s"><i></i></div>
+      <div class="rule" style="--l:160;--t:780;--w:312;--h:4;--d:2.467s"></div>
 
       <!-- list header -->
-      <div class="m rise" style="--l:592;--t:649;--w:1168;--h:39;--d:2.067s"><i></i></div>
-      <div class="m rise" style="--l:592;--t:712;--w:389;--h:120;--d:2.333s"><i></i></div>
-      <div class="m rise" style="--l:981;--t:712;--w:389;--h:120;--d:2.533s"><i></i></div>
-      <div class="m rise" style="--l:1370;--t:712;--w:390;--h:120;--d:2.733s"><i></i></div>
-      <div class="m rise label" style="--l:592;--t:912;--w:1168;--h:24;--d:3.467s"><i></i></div>
+      <div class="m rise" style="--l:592;--t:649;--w:1168;--h:39;--d:2.700s"><i></i></div>
+      <div class="m rise" style="--l:592;--t:712;--w:389;--h:120;--d:2.933s"><i></i></div>
+      <div class="m rise" style="--l:981;--t:712;--w:389;--h:120;--d:3.167s"><i></i></div>
+      <div class="m rise" style="--l:1370;--t:712;--w:390;--h:120;--d:3.400s"><i></i></div>
 
-      <!-- card row 1 -->
-      <div class="m zoom" style="--l:593;--t:961;--w:131;--h:189;--d:3.733s"><i></i></div>
-      <div class="m rise quick" style="--l:724;--t:961;--w:240;--h:189;--d:3.933s"><i></i></div>
-      <div class="olb" style="--l:592;--t:960;--w:372;--h:190;--d:4.133s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:990;--t:961;--w:131;--h:189;--d:3.933s"><i></i></div>
-      <div class="m rise quick" style="--l:1121;--t:961;--w:240;--h:189;--d:4.133s"><i></i></div>
-      <div class="olb" style="--l:989;--t:960;--w:372;--h:190;--d:4.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:1387;--t:961;--w:131;--h:189;--d:4.133s"><i></i></div>
-      <div class="m rise quick" style="--l:1518;--t:961;--w:240;--h:189;--d:4.333s"><i></i></div>
-      <div class="olb" style="--l:1386;--t:960;--w:372;--h:190;--d:4.533s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m rise label" style="--l:160;--t:808;--w:60;--h:24;--d:3.633s"><i></i></div>
+      <div class="m zoom" style="--l:160;--t:832;--w:312;--h:444;--d:3.867s"><i></i></div>
+
+      <div class="m rise label" style="--l:592;--t:912;--w:1168;--h:24;--d:4.133s"><i></i></div>
+
+      <!-- card row 1: three at once -->
+      <div class="m rise" style="--l:591;--t:958;--w:375;--h:196;--d:4.400s"><i></i></div>
+      <div class="m rise" style="--l:988;--t:958;--w:375;--h:196;--d:4.400s"><i></i></div>
+      <div class="m rise" style="--l:1385;--t:958;--w:375;--h:196;--d:4.400s"><i></i></div>
     </div>
 
     <!-- ===== below the fold: waits for the viewport ===== -->
     <div data-scroll>
-      <!-- card row 2 -->
-      <div class="m zoom" style="--l:593;--t:1176;--w:131;--h:189;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:724;--t:1176;--w:240;--h:189;--d:0.200s"><i></i></div>
-      <div class="olb" style="--l:592;--t:1175;--w:372;--h:190;--d:0.400s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:990;--t:1176;--w:131;--h:189;--d:0.200s"><i></i></div>
-      <div class="m rise quick" style="--l:1121;--t:1176;--w:240;--h:189;--d:0.400s"><i></i></div>
-      <div class="olb" style="--l:989;--t:1175;--w:372;--h:190;--d:0.600s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:1387;--t:1176;--w:131;--h:189;--d:0.400s"><i></i></div>
-      <div class="m rise quick" style="--l:1518;--t:1176;--w:240;--h:189;--d:0.600s"><i></i></div>
-      <div class="olb" style="--l:1386;--t:1175;--w:372;--h:190;--d:0.800s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <!-- card rows 2 and 3: three at once, top row first -->
+      <div class="m rise" style="--l:591;--t:1173;--w:375;--h:196;--d:0.000s"><i></i></div>
+      <div class="m rise" style="--l:988;--t:1173;--w:375;--h:196;--d:0.000s"><i></i></div>
+      <div class="m rise" style="--l:1385;--t:1173;--w:375;--h:196;--d:0.000s"><i></i></div>
 
-      <!-- card row 3 -->
-      <div class="m zoom" style="--l:593;--t:1392;--w:131;--h:189;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:724;--t:1392;--w:240;--h:189;--d:0.200s"><i></i></div>
-      <div class="olb" style="--l:592;--t:1391;--w:372;--h:190;--d:0.400s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:990;--t:1392;--w:131;--h:189;--d:0.200s"><i></i></div>
-      <div class="m rise quick" style="--l:1121;--t:1392;--w:240;--h:189;--d:0.400s"><i></i></div>
-      <div class="olb" style="--l:989;--t:1391;--w:372;--h:190;--d:0.600s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:1387;--t:1392;--w:131;--h:189;--d:0.400s"><i></i></div>
-      <div class="m rise quick" style="--l:1518;--t:1392;--w:240;--h:189;--d:0.600s"><i></i></div>
-      <div class="olb" style="--l:1386;--t:1391;--w:372;--h:190;--d:0.800s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m rise" style="--l:591;--t:1389;--w:375;--h:196;--d:0.000s"><i></i></div>
+      <div class="m rise" style="--l:988;--t:1389;--w:375;--h:196;--d:0.000s"><i></i></div>
+      <div class="m rise" style="--l:1385;--t:1389;--w:375;--h:196;--d:0.000s"><i></i></div>
 
-      <!-- filter rail, below the fold -->
-      <div class="m lift" style="--l:160;--t:1307;--w:312;--h:42;--d:0.000s"><i></i></div>
+      <!-- filter rail, below the fold - the caption comes a line at a time -->
+      <div class="m rise quick" style="--l:160;--t:1305;--w:312;--h:21;--d:0.000s"><i></i></div>
+      <div class="m rise quick" style="--l:160;--t:1327;--w:312;--h:22;--d:0.233s"><i></i></div>
       <div class="rule" style="--l:160;--t:1380;--w:312;--h:2;--c:#858585;--d:0.133s"></div>
       <div class="m rise" style="--l:160;--t:1422;--w:332;--h:52;--d:0.000s"><i></i></div>
       <div class="rule" style="--l:160;--t:1475;--w:312;--h:2;--c:#858585;--d:0.133s"></div>
       <div class="m rise" style="--l:160;--t:1517;--w:332;--h:52;--d:0.000s"><i></i></div>
       <div class="rule" style="--l:160;--t:1570;--w:312;--h:2;--c:#858585;--d:0.133s"></div>
       <div class="m rise label" style="--l:160;--t:1612;--w:60;--h:24;--d:0.000s"><i></i></div>
-      <div class="m rise" style="--l:160;--t:1650;--w:332;--h:55;--d:0.133s"><i></i></div>
-      <div class="rule" style="--l:160;--t:1726;--w:312;--h:2;--c:#858585;--d:0.267s"></div>
+      <div class="m rise" style="--l:160;--t:1650;--w:332;--h:55;--d:0.233s"><i></i></div>
+      <div class="rule" style="--l:160;--t:1726;--w:312;--h:2;--c:#858585;--d:0.400s"></div>
 
       <div class="m rise" style="--l:592;--t:1660;--w:1168;--h:32;--d:0.000s"><i></i></div>
     </div>
@@ -296,7 +258,7 @@ addEventListener('resize', () => { scale = fit(); });
 /* ---- the intro ------------------------------------------------------
    Every element carries its own transition-delay, taken from the frame it
    started on in the composition, so one class switch is enough. */
-const introEls = document.querySelectorAll('#intro .m, #intro .rule, #intro .olb');
+const introEls = document.querySelectorAll('#intro .m, #intro .rule');
 function playIntro() {
   introEls.forEach(e => e.classList.remove('in'));
   void document.getElementById('page').offsetHeight;   // flush, so the reset is not animated away
@@ -309,23 +271,18 @@ document.getElementById('replay').addEventListener('click', () => {
 });
 
 /* ---- viewport-triggered reveals ------------------------------------ */
-const pending = new Set(document.querySelectorAll('[data-scroll] .m, [data-scroll] .rule, [data-scroll] .olb'));
+const pending = new Set(document.querySelectorAll('[data-scroll] .m, [data-scroll] .rule'));
 const reveal = (el) => {
   el.classList.add('in'); pending.delete(el);
-  ioMask.unobserve(el); ioBox.unobserve(el);
+  io.unobserve(el);
 };
 const cb = (entries) => { for (const en of entries) if (en.isIntersecting) reveal(en.target); };
 
-/* Masks and rules are small, so a negative bottom margin is enough to hold
-   them back until they are properly inside the viewport. */
-const ioMask = new IntersectionObserver(cb, { rootMargin: '0px 0px -12% 0px' });
+/* A negative bottom margin holds each element back until it is properly
+   inside the viewport rather than firing the moment its top edge clears. */
+const io = new IntersectionObserver(cb, { rootMargin: '0px 0px -12% 0px' });
 
-/* A card outline is 190px tall and its second segment is drawn along the
-   bottom edge, so requiring almost the whole box to be on screen keeps the
-   pen from travelling below the fold. */
-const ioBox = new IntersectionObserver(cb, { threshold: 0.95 });
-
-pending.forEach((e) => (e.classList.contains('olb') ? ioBox : ioMask).observe(e));
+pending.forEach((e) => io.observe(e));
 
 /* That margin means the last elements sit inside it while the scroll is
    already at the bottom, with nowhere further to go - they would never

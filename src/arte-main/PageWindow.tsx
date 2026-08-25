@@ -205,6 +205,14 @@ export const SlideWindow: React.FC<{
 // A row that starts gathered at another row's slot (startOffset px above its
 // own resting place) and snaps down into position - the "촤르륵" riffle-open
 // used for the 공지·소식 list.
+//
+// Unlike RiseWindow, the mask itself has to travel here rather than the
+// content sliding inside a fixed mask: a fixed mask with the content
+// sliding inside it would, at the start, show whatever page content sits
+// above this row (i.e. a different row entirely) through this row's own
+// window - the wrong text, not this row's own text pre-positioned higher
+// up. Animating the box's own `top` keeps the crop (and so the text it
+// shows) correct throughout, with the whole row travelling as one piece.
 export const CascadeWindow: React.FC<{
   name: string;
   top: number;
@@ -218,37 +226,32 @@ export const CascadeWindow: React.FC<{
   const frame = useCurrentFrame();
 
   return (
-    <div
-      style={{ position: "absolute", top, left, width, height, overflow: "hidden" }}
+    <Interactive.Div
+      name={name}
+      style={{
+        position: "absolute",
+        left,
+        width,
+        height,
+        overflow: "hidden",
+        top: interpolate(frame, [from, from + duration], [top - startOffset, top], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+          easing: Easing.bezier(0.16, 1, 0.3, 1),
+        }),
+        opacity: interpolate(frame, [from, from + Math.min(duration, 12)], [0, 1], {
+          extrapolateLeft: "clamp",
+          extrapolateRight: "clamp",
+          easing: Easing.out(Easing.quad),
+        }),
+      }}
     >
-      <Interactive.Div
-        name={name}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width,
-          height,
-          overflow: "hidden",
-          translate: interpolate(frame, [from, from + duration], [`0px ${-startOffset}px`, "0px 0px"], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.bezier(0.16, 1, 0.3, 1),
-          }),
-          opacity: interpolate(frame, [from, from + Math.min(duration, 12)], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.out(Easing.quad),
-          }),
-        }}
-      >
-        <Img
-          name="Page"
-          src={staticFile(PAGE)}
-          style={{ position: "absolute", top: -top, left: -left, width: 1920, maxWidth: "none" }}
-        />
-      </Interactive.Div>
-    </div>
+      <Img
+        name="Page"
+        src={staticFile(PAGE)}
+        style={{ position: "absolute", top: -top, left: -left, width: 1920, maxWidth: "none" }}
+      />
+    </Interactive.Div>
   );
 };
 

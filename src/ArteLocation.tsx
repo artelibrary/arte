@@ -37,6 +37,13 @@ export const ArteLocationComposition = () => {
 // one render (page.png) and each element is a window onto it, so anything no
 // window covers stays white - which is what lets the rail rules be drawn
 // rather than arrive baked in.
+//
+// Two rules keep the reveal legible. Text takes one line at a time, roughly
+// seven frames apart, so no two lines are ever coming up at once. The card
+// grid is the exception: a row of three lands as a single beat, and the rows
+// run top down. And nothing draws a line over a line the render already has -
+// a card carries its own outline inside its window, and the rail's rules are
+// drawn only because no window covers their rows.
 export const ArteLocation: React.FC = () => {
   const frame = useCurrentFrame();
 
@@ -65,8 +72,9 @@ export const ArteLocation: React.FC = () => {
             width: 1920,
             height: 1808,
             // One continuous glide down the page - not wheel flicks. It waits
-            // for the intro, which covers everything above the fold down to
-            // the first card row, then runs the full 728px in a single move:
+            // for the intro, which runs 6-162 and covers everything above the
+            // fold down to the first card row, then runs the full 728px in a
+            // single move:
             //   0    intro, page top          y=0
             //   172  scroll starts
             //   280  page bottom              y=728

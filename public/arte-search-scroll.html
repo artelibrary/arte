@@ -123,16 +123,17 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
    occupies, so it narrows to the plate as the header collapses and stays on
    whatever is actually showing.
 
-   문서·도서 in the nav links out to the arte-document page. That hit area is
-   the item's own flex box (x459 w170 within the 40px-tall menu row), and the
-   rule on hover spans just the label. Both hrefs are relative, so they
-   resolve the same over file:// and over the dev server. */
+   Two of the nav items link out. Each hit area is that item's own flex box
+   in the 40px-tall menu row - 문서·도서 at x459 w170, 지역별 정보 at x873
+   w190 - and the rule on hover spans just the label, which sits 40px inside
+   the box either side. All hrefs are relative, so they resolve the same over
+   file:// and over the dev server. */
 #hdr .logolink{position:absolute;left:150px;top:56px;width:209px;height:51px;
   display:block;cursor:pointer;
   transition:width 1.067s cubic-bezier(.33,1,.68,1)}
 #root.scrolled #hdr .logolink{width:51px}
-#hdr .navlink{position:absolute;left:459px;top:62px;width:170px;height:40px;
-  display:block;cursor:pointer}
+#hdr .navlink{position:absolute;top:62px;height:40px;display:block;cursor:pointer;
+  left:calc(var(--x)*1px);width:calc(var(--w)*1px)}
 #hdr .navlink b{position:absolute;left:40px;right:40px;bottom:1px;height:2px;
   background:#000;transform:scaleX(0);transform-origin:left center;
   transition:transform .28s cubic-bezier(.33,1,.68,1)}
@@ -161,7 +162,8 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="nav"><i></i></div>
       <div class="plate"><i></i></div>
       <div class="word"><div class="wi"><i></i></div></div>
-      <a class="navlink" href="arte-document-scroll.html" title="문서·도서"><b></b></a>
+      <a class="navlink" style="--x:459;--w:170" href="arte-document-scroll.html" title="문서·도서"><b></b></a>
+      <a class="navlink" style="--x:873;--w:190" href="arte-location-scroll.html" title="지역별 정보"><b></b></a>
       <a class="logolink" href="arte-main-scroll.html" title="arte 라이브러리"></a>
     </div>
   </div>

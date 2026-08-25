@@ -96,7 +96,7 @@ export const RecommendSection: React.FC = () => {
           }),
         }}
       />
-      <RiseWindow
+      <FadeWindow
         name="북 큐레이션 label"
         top={BOOK_CURATION_TOP + 80}
         left={260}

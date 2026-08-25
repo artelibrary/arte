@@ -143,6 +143,17 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 #hdr .icolink:hover{background:rgba(0,0,0,.08)}
 #hdr .word,#hdr .mark{cursor:pointer}
 #hdr .word:hover img,#hdr .mark:hover img{opacity:.72}
+/* "지역별 정보" in the nav leads to the region screen. The item box is
+   873-1063 and the label sits 40px inside it either side, so the hover rule
+   is inset to span just the words. Unlike the logo and the search icon the
+   nav does not survive the collapse, so its hit area has to go with it. */
+#hdr .navlink{position:absolute;left:873px;top:62px;width:190px;height:40px;
+  display:block;cursor:pointer;transition:opacity .600s ease-in-out}
+#hdr .navlink b{position:absolute;left:40px;right:40px;bottom:1px;height:2px;
+  background:#000;transform:scaleX(0);transform-origin:left center;
+  transition:transform .28s cubic-bezier(.33,1,.68,1)}
+#hdr .navlink:hover b{transform:scaleX(1)}
+#root.scrolled #hdr .navlink{opacity:0;pointer-events:none}
 
 /* ---- viewer chrome --------------------------------------------- */
 #ui{position:fixed;right:18px;bottom:18px;z-index:200;display:flex;gap:8px;align-items:center}
@@ -163,6 +174,8 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="white"></div>
       <div class="mast"><img src="arte-document/hd-masthead.png" alt=""></div>
       <div class="nav"><img src="arte-document/hd-nav.png" alt=""></div>
+      <a class="navlink" href="arte-location-scroll.html" title="지역별 정보"
+         aria-label="지역별 정보"><b></b></a>
       <div class="acct"><img src="arte-document/hd-account.png" alt=""></div>
       <div class="ico"><img src="arte-document/hd-icons.png" alt=""></div>
       <a class="icolink" href="arte-search-scroll.html" title="AI 검색 결과"></a>

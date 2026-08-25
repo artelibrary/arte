@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Easing, Interactive, interpolate, useCurrentFrame } from "remotion";
-import { FadeWindow, ScaleWindow, SlideWindow, DrawnBorder } from "./PageWindow";
+import { FadeWindow, ScaleWindow, SlideWindow } from "./PageWindow";
 
 // 문서: text fades in (no rise/mask), only the cover art scales 120% -> 100%.
 // The flick that brings this section into view is 30 frames (160-190), so
@@ -96,13 +96,6 @@ export const DocSection: React.FC = () => {
               width={CARD_WIDTH}
               height={CARD_TEXT_HEIGHT}
               from={textFrom}
-            />
-            <DrawnBorder
-              top={891}
-              left={card.left}
-              width={CARD_WIDTH}
-              height={CARD_HEIGHT}
-              from={card.from}
             />
           </Fragment>
         );

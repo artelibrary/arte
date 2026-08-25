@@ -81,57 +81,6 @@ export const RiseWindow: React.FC<Timed> = ({
   );
 };
 
-// Tall blocks travel a fixed distance and fade instead of wiping the whole
-// band, which over a few hundred px would read as a curtain rather than a
-// rise. Used for the region map caption and the date-range group.
-export const LiftWindow: React.FC<Timed & { offset?: number }> = ({
-  name,
-  top,
-  left,
-  width,
-  height,
-  from,
-  duration = 34,
-  offset = 72,
-}) => {
-  const frame = useCurrentFrame();
-
-  return (
-    <div
-      style={{ position: "absolute", top, left, width, height, overflow: "hidden" }}
-    >
-      <Interactive.Div
-        name={name}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width,
-          height,
-          overflow: "hidden",
-          translate: interpolate(
-            frame,
-            [from, from + duration],
-            [`0px ${offset}px`, "0px 0px"],
-            {
-              extrapolateLeft: "clamp",
-              extrapolateRight: "clamp",
-              easing: RISE_EASING,
-            },
-          ),
-          opacity: interpolate(frame, [from, from + 20], [0, 1], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-            easing: Easing.out(Easing.quad),
-          }),
-        }}
-      >
-        {pageImg(top, left)}
-      </Interactive.Div>
-    </div>
-  );
-};
-
 // Image: a static mask (never animated, so the scale never spills outside
 // its frame) with the crop inside settling from 120% to 100%.
 export const ScaleWindow: React.FC<Timed> = ({
@@ -177,13 +126,6 @@ export const ScaleWindow: React.FC<Timed> = ({
   );
 };
 
-// A plain crop with no entrance motion.
-export const StaticWindow: React.FC<Rect> = ({ top, left, width, height }) => (
-  <div style={{ position: "absolute", top, left, width, height, overflow: "hidden" }}>
-    {pageImg(top, left)}
-  </div>
-);
-
 // A horizontal rule drawn left to right by retracting its right-hand inset -
 // the filter-rail treatment from arte-document. The render underneath has
 // these baked in, so no window covers their rows and they only ever appear
@@ -222,84 +164,5 @@ export const Rule: React.FC<{
         })}% 0 0)`,
       }}
     />
-  );
-};
-
-// A 1px black rule drawn around a box, four segments back to back from the
-// top-left corner, running anti-clockwise: down the left edge, across the
-// bottom, up the right edge, then back along the top. Each segment is linear
-// so the pen keeps a constant speed the whole way around.
-export const DrawnBorder: React.FC<{
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-  from: number;
-  segmentDuration?: number;
-}> = ({ top, left, width, height, from, segmentDuration = 10 }) => {
-  const frame = useCurrentFrame();
-  const leftDraw = from;
-  const bottomDraw = leftDraw + segmentDuration;
-  const rightDraw = bottomDraw + segmentDuration;
-  const topDraw = rightDraw + segmentDuration;
-
-  const seg = (f: number) =>
-    interpolate(frame, [f, f + segmentDuration], [100, 0], {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-      easing: Easing.linear,
-    });
-
-  return (
-    <>
-      <Interactive.Div
-        name="Outline left"
-        style={{
-          position: "absolute",
-          top,
-          left,
-          width: 1,
-          height,
-          backgroundColor: "#000000",
-          clipPath: `inset(0 0 ${seg(leftDraw)}% 0)`,
-        }}
-      />
-      <Interactive.Div
-        name="Outline bottom"
-        style={{
-          position: "absolute",
-          top: top + height,
-          left,
-          width,
-          height: 1,
-          backgroundColor: "#000000",
-          clipPath: `inset(0 ${seg(bottomDraw)}% 0 0)`,
-        }}
-      />
-      <Interactive.Div
-        name="Outline right"
-        style={{
-          position: "absolute",
-          top,
-          left: left + width,
-          width: 1,
-          height,
-          backgroundColor: "#000000",
-          clipPath: `inset(${seg(rightDraw)}% 0 0 0)`,
-        }}
-      />
-      <Interactive.Div
-        name="Outline top"
-        style={{
-          position: "absolute",
-          top,
-          left,
-          width,
-          height: 1,
-          backgroundColor: "#000000",
-          clipPath: `inset(0 0 0 ${seg(topDraw)}%)`,
-        }}
-      />
-    </>
   );
 };
