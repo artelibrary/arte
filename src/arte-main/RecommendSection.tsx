@@ -79,42 +79,45 @@ export const RecommendSection: React.FC = () => {
           backgroundColor: "#000000",
         }}
       />
-      {/* The label rises up one line at a time - title, then date. The
-          pink "#미래/AI" tag between them is dropped entirely, not just its
-          motion - it doesn't render at all now. */}
-      <RiseWindow
-        name="북 큐레이션 title text"
-        top={BOOK_CURATION_TOP + 80}
-        left={260}
-        width={83}
-        height={27}
-        from={BACKDROP_FROM + 24}
-      />
-      <RiseWindow
-        name="북 큐레이션 date"
-        top={BOOK_CURATION_TOP + 80 + 317}
-        left={260}
-        width={199}
-        height={24}
-        from={BACKDROP_FROM + 32}
-      />
-      {/* Each cover is its own "list" frame, same as 문서: "image 9994" fills
-          the entire 249x341 box and the title/author pair is one fade block
-          overlaid on its lower portion. */}
-      {BOOKS.map((book) => (
-        <Fragment key={book.left}>
-          <ScaleWindow name="Book cover image 9994" top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from} />
-          <FadeWindow
-            name="Book cover text"
-            top={BOOK_CURATION_TOP + 80 + 171}
-            left={book.left}
-            width={249}
-            height={170}
-            from={book.from + 30}
-          />
-          <DrawnBorder top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from} />
-        </Fragment>
-      ))}
+      {/* This section's y leaves no margin below the fold (see ArteMain.tsx),
+          so rec-left/rec-books (Figma's own +80 from the backdrop's top) run
+          past the frame's bottom edge at their real position - the label's
+          date and each cover's author/year line both land off-screen.
+          Wrapping the whole row in a plain position:absolute box shifted up
+          80px moves it flush with the backdrop's own top instead: a
+          position:absolute ancestor is what CSS resolves an absolutely
+          positioned descendant's own top/left against, so every child below
+          keeps its normal (uncropped-position) numbers and still lands
+          correctly, just 80px higher on screen. */}
+      <div style={{ position: "absolute", top: -80, left: 0 }}>
+        {/* "rec-left" (Figma 18170:5087): title, #미래/AI tag + arrow, and
+            the date all fade in together as one block. */}
+        <FadeWindow
+          name="북 큐레이션 label"
+          top={BOOK_CURATION_TOP + 80}
+          left={260}
+          width={199}
+          height={341}
+          from={BACKDROP_FROM + 24}
+        />
+        {/* Each cover is its own "list" frame, same as 문서: "image 9994"
+            fills the entire 249x341 box and the title/author pair is one
+            fade block overlaid on its lower portion. */}
+        {BOOKS.map((book) => (
+          <Fragment key={book.left}>
+            <ScaleWindow name="Book cover image 9994" top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from} />
+            <FadeWindow
+              name="Book cover text"
+              top={BOOK_CURATION_TOP + 80 + 171}
+              left={book.left}
+              width={249}
+              height={170}
+              from={book.from + 30}
+            />
+            <DrawnBorder top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from} />
+          </Fragment>
+        ))}
+      </div>
     </>
   );
 };

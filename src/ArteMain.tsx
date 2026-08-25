@@ -50,7 +50,7 @@ export const ArteMainComposition = () => {
 //   490   flick
 //   520   지역별 정보                            y=2013
 //   600   flick
-//   630   추천                                  y=2711
+//   630   추천                                  y=2781
 //   870   flick
 //   900   이벤트·행사 · 공지·소식                y=3901
 //   980   flick
@@ -60,6 +60,12 @@ export const ArteMainComposition = () => {
 // usual 110): the book-curation strip alone needs a backdrop open, a label,
 // and three books each with their own image/text/border chain, which adds
 // up to more runtime than a normal section's motion.
+//
+// Its y is also not the usual "title lands 203px under the header" - the
+// section (title through the book-curation strip) is taller than the
+// 133-1080 window has room for, so this instead puts the title's top right
+// at the header's edge (y=133), trading that padding for keeping the
+// book-curation label on screen instead of clipped below the frame.
 const SCROLL_EASING = Easing.out(Easing.cubic);
 
 export const ArteMain: React.FC = () => {
@@ -91,8 +97,8 @@ export const ArteMain: React.FC = () => {
               "0px -1359px",
               "0px -2013px",
               "0px -2013px",
-              "0px -2711px",
-              "0px -2711px",
+              "0px -2781px",
+              "0px -2781px",
               "0px -3901px",
               "0px -3901px",
               "0px -4279px",
