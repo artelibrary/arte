@@ -1,5 +1,9 @@
 import { LiftWindow, RiseWindow, Rule, ScaleWindow } from "./PageWindow";
 
+// The rail's group dividers, sampled off the render. Only the section rule
+// under 검색 is black.
+const DIVIDER = "#858585";
+
 // The 312px filter rail down the left of the list. Its groups are separated
 // by rules rather than a panel, and each is drawn left to right by
 // retracting its right-hand inset - the arte-document filter treatment. No
@@ -26,17 +30,17 @@ export const Sidebar: React.FC = () => {
       {/* 444px of map has just gone by, so the caption lifts a short fixed
           distance rather than wiping its whole band. */}
       <LiftWindow name="Rail caption" top={1307} left={160} width={312} height={42} from={182} offset={40} />
-      <Rule name="Rail rule 2" top={1380} left={160} width={312} height={2} from={186} />
+      <Rule name="Rail rule 2" top={1380} left={160} width={312} height={2} color={DIVIDER} from={186} />
 
       <RiseWindow name="장르 row" top={1422} left={160} width={332} height={52} from={190} />
-      <Rule name="Rail rule 3" top={1475} left={160} width={312} height={2} from={194} />
+      <Rule name="Rail rule 3" top={1475} left={160} width={312} height={2} color={DIVIDER} from={194} />
 
       <RiseWindow name="교육대상 row" top={1517} left={160} width={332} height={52} from={197} />
-      <Rule name="Rail rule 4" top={1570} left={160} width={312} height={2} from={201} />
+      <Rule name="Rail rule 4" top={1570} left={160} width={312} height={2} color={DIVIDER} from={201} />
 
       <RiseWindow name="운영기간 label" top={1612} left={160} width={60} height={24} from={203} duration={28} />
-      <RiseWindow name="운영기간 fields" top={1650} left={160} width={312} height={55} from={207} />
-      <Rule name="Rail rule 5" top={1726} left={160} width={312} height={1} from={212} />
+      <RiseWindow name="운영기간 fields" top={1650} left={160} width={332} height={55} from={207} />
+      <Rule name="Rail rule 5" top={1726} left={160} width={312} height={2} color={DIVIDER} from={212} />
     </>
   );
 };

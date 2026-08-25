@@ -33,7 +33,7 @@ export const EventNoticeSection: React.FC = () => {
       <RiseWindow name="Event badges" top={4490} left={200} width={142} height={32} from={BASE_DELAY + 24} />
       <RiseWindow name="Event title" top={4532} left={200} width={636} height={39} from={BASE_DELAY + 32} />
       <RiseWindow name="Event date" top={4581} left={200} width={189} height={24} from={BASE_DELAY + 40} />
-      <DrawnBorder top={4226} left={160} width={700} height={403} from={BASE_DELAY + 48} segmentDuration={10} />
+      <DrawnBorder top={4226} left={160} width={700} height={403} from={BASE_DELAY + 10} segmentDuration={10} />
 
       {/* 공지·소식 */}
       <RiseWindow name="공지·소식 title" top={4104} left={900} width={860} height={62} from={BASE_DELAY + 8} />

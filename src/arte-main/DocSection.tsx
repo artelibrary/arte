@@ -78,7 +78,6 @@ export const DocSection: React.FC = () => {
 
       {CARDS.map((card, i) => {
         const textFrom = card.from + 30;
-        const borderFrom = textFrom + 20;
 
         return (
           <Fragment key={card.left}>
@@ -103,7 +102,7 @@ export const DocSection: React.FC = () => {
               left={card.left}
               width={CARD_WIDTH}
               height={CARD_HEIGHT}
-              from={borderFrom}
+              from={card.from}
             />
           </Fragment>
         );

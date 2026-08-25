@@ -35,7 +35,7 @@ export const RegionSection: React.FC = () => {
       {ROWS.map((row) => (
         <Fragment key={row.top}>
           <RiseWindow name="Region row" top={row.top} left={160} width={1600} height={152} from={row.from} />
-          <DrawnBorder top={row.top} left={160} width={1600} height={152} from={row.from + 30} />
+          <DrawnBorder top={row.top} left={160} width={1600} height={152} from={row.from} />
         </Fragment>
       ))}
     </>

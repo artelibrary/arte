@@ -188,6 +188,11 @@ export const StaticWindow: React.FC<Rect> = ({ top, left, width, height }) => (
 // the filter-rail treatment from arte-document. The render underneath has
 // these baked in, so no window covers their rows and they only ever appear
 // by being drawn.
+//
+// `color` matters: unlike arte-document's black rail, this screen separates
+// its groups with a 2px grey divider and reserves black for the one section
+// rule under 검색. Sampled off the render so the drawn rule and the baked
+// one are the same weight.
 export const Rule: React.FC<{
   name: string;
   top: number;
@@ -196,7 +201,8 @@ export const Rule: React.FC<{
   height: number;
   from: number;
   duration?: number;
-}> = ({ name, top, left, width, height, from, duration = 30 }) => {
+  color?: string;
+}> = ({ name, top, left, width, height, from, duration = 30, color = "#000000" }) => {
   const frame = useCurrentFrame();
 
   return (
@@ -208,7 +214,7 @@ export const Rule: React.FC<{
         left,
         width,
         height,
-        backgroundColor: "#000000",
+        backgroundColor: color,
         clipPath: `inset(0 ${interpolate(frame, [from, from + duration], [100, 0], {
           extrapolateLeft: "clamp",
           extrapolateRight: "clamp",

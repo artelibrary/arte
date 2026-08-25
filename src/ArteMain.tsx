@@ -22,7 +22,7 @@ export const ArteMainComposition = () => {
     <Composition
       id="arte-main"
       component={ArteMain}
-      durationInFrames={1050}
+      durationInFrames={1210}
       fps={30}
       width={1920}
       height={1080}
@@ -51,10 +51,15 @@ export const ArteMainComposition = () => {
 //   520   지역별 정보                            y=2013
 //   600   flick
 //   630   추천                                  y=2711
-//   710   flick
-//   740   이벤트·행사 · 공지·소식                y=3901
-//   820   flick
-//   850   footer settle (page bottom)           y=4279
+//   870   flick
+//   900   이벤트·행사 · 공지·소식                y=3901
+//   980   flick
+//   1010  footer settle (page bottom)           y=4279
+//
+// 추천's hold is stretched well past the others (240 frames instead of the
+// usual 110): the book-curation strip alone needs a backdrop open, a label,
+// and three books each with their own image/text/border chain, which adds
+// up to more runtime than a normal section's motion.
 const SCROLL_EASING = Easing.out(Easing.cubic);
 
 export const ArteMain: React.FC = () => {
@@ -76,7 +81,7 @@ export const ArteMain: React.FC = () => {
           height: 5359,
           translate: interpolate(
             frame,
-            [0, 160, 190, 380, 410, 490, 520, 600, 630, 710, 740, 820, 850, 1050],
+            [0, 160, 190, 380, 410, 490, 520, 600, 630, 870, 900, 980, 1010, 1210],
             [
               "0px 0px",
               "0px 0px",
@@ -116,10 +121,10 @@ export const ArteMain: React.FC = () => {
         <Sequence name="추천" from={600} premountFor={fps}>
           <RecommendSection />
         </Sequence>
-        <Sequence name="이벤트·행사·공지·소식" from={710} premountFor={fps}>
+        <Sequence name="이벤트·행사·공지·소식" from={870} premountFor={fps}>
           <EventNoticeSection />
         </Sequence>
-        <Sequence name="footer" from={820} premountFor={fps}>
+        <Sequence name="footer" from={980} premountFor={fps}>
           <FooterSection />
         </Sequence>
       </Interactive.Div>

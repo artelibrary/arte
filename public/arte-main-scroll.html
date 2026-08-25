@@ -59,8 +59,12 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 .fade>i{opacity:0;transition:opacity var(--dur,.6s) ease-out;transition-delay:var(--d,0s)}
 .fade.in>i{opacity:1}
 
-/* cover art settles from 120% to 100% inside a fixed crop - 40 frames */
+/* cover art settles from 120% to 100% inside a fixed crop - 40 frames.
+   transform-origin is pinned to the crop's own centre (in the shared i
+   layer's local space, not the tag's 1920x5359 box) so it zooms in place
+   instead of drifting toward the page's centre. */
 .zoom>i{transform:scale(1.2);opacity:0;
+        transform-origin:calc(var(--w)*.5px) calc(var(--h)*.5px);
         transition:transform 1.333s cubic-bezier(.16,1,.3,1),opacity .533s ease-out;
         transition-delay:var(--d,0s)}
 .zoom.in>i{transform:none;opacity:1}
@@ -87,6 +91,7 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       transition:clip-path .8s cubic-bezier(.16,1,.3,1);
       transition-delay:var(--d,0s)}
 .rule.in{clip-path:inset(0 0 0 0)}
+.rule.pink{background:#FF2268}
 
 /* 추천's book-curation backdrop: opens from the centre outward to both
    sides - 24 frames */
@@ -229,23 +234,23 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 
       <div class="m zoom" style="--l:160;--t:891;--w:340;--h:447;--d:0s"><i></i></div>
       <div class="m fade" style="--l:160;--t:1123;--w:340;--h:215;--d:1.0s"><i></i></div>
-      <div class="olb" style="--l:160;--t:891;--w:340;--h:447;--d:1.667s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:160;--t:891;--w:340;--h:447;--d:0s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m zoom" style="--l:530;--t:891;--w:340;--h:447;--d:.267s"><i></i></div>
       <div class="m fade" style="--l:530;--t:1123;--w:340;--h:215;--d:1.267s"><i></i></div>
-      <div class="olb" style="--l:530;--t:891;--w:340;--h:447;--d:1.933s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:530;--t:891;--w:340;--h:447;--d:.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m zoom" style="--l:900;--t:891;--w:340;--h:447;--d:.533s"><i></i></div>
       <div class="m fade" style="--l:900;--t:1123;--w:340;--h:215;--d:1.533s"><i></i></div>
-      <div class="olb" style="--l:900;--t:891;--w:340;--h:447;--d:2.2s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:900;--t:891;--w:340;--h:447;--d:.533s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m zoom" style="--l:1270;--t:891;--w:340;--h:447;--d:.8s"><i></i></div>
       <div class="m fade" style="--l:1270;--t:1123;--w:340;--h:215;--d:1.8s"><i></i></div>
-      <div class="olb" style="--l:1270;--t:891;--w:340;--h:447;--d:2.467s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:1270;--t:891;--w:340;--h:447;--d:.8s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m zoom" style="--l:1640;--t:891;--w:340;--h:447;--d:1.067s"><i></i></div>
       <div class="m fade" style="--l:1640;--t:1123;--w:340;--h:215;--d:2.067s"><i></i></div>
-      <div class="olb" style="--l:1640;--t:891;--w:340;--h:447;--d:2.733s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:1640;--t:891;--w:340;--h:447;--d:1.067s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <!-- 영상 -->
       <div class="m rise" style="--l:160;--t:1562;--w:780;--h:62;--d:0s"><i></i></div>
@@ -261,25 +266,25 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="m zoom" style="--l:980;--t:1684;--w:360;--h:194;--d:.333s"><i></i></div>
       <div class="m rise" style="--l:1372;--t:1724;--w:356;--h:24;--d:.8s"><i></i></div>
       <div class="m rise" style="--l:1372;--t:1760;--w:356;--h:78;--d:1.067s"><i></i></div>
-      <div class="olb" style="--l:980;--t:1684;--w:780;--h:194;--seg:.333s;--d:1.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:980;--t:1684;--w:780;--h:194;--seg:.333s;--d:.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m zoom" style="--l:980;--t:1902;--w:360;--h:194;--d:.6s"><i></i></div>
       <div class="m rise" style="--l:1372;--t:1942;--w:356;--h:24;--d:1.067s"><i></i></div>
       <div class="m rise" style="--l:1372;--t:1978;--w:356;--h:78;--d:1.333s"><i></i></div>
-      <div class="olb" style="--l:980;--t:1902;--w:780;--h:194;--seg:.333s;--d:1.6s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:980;--t:1902;--w:780;--h:194;--seg:.333s;--d:.6s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <!-- 지역별 정보 -->
       <div class="m rise" style="--l:160;--t:2216;--w:1600;--h:62;--d:0s"><i></i></div>
       <div class="rule" style="--l:160;--t:2294;--w:1600;--h:4;--d:.533s"></div>
 
       <div class="m rise" style="--l:160;--t:2338;--w:1600;--h:152;--d:0s"><i></i></div>
-      <div class="olb" style="--l:160;--t:2338;--w:1600;--h:152;--d:1.0s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:160;--t:2338;--w:1600;--h:152;--d:0s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m rise" style="--l:160;--t:2490;--w:1600;--h:152;--d:.333s"><i></i></div>
-      <div class="olb" style="--l:160;--t:2490;--w:1600;--h:152;--d:1.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:160;--t:2490;--w:1600;--h:152;--d:.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m rise" style="--l:160;--t:2642;--w:1600;--h:152;--d:.667s"><i></i></div>
-      <div class="olb" style="--l:160;--t:2642;--w:1600;--h:152;--d:1.667s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:160;--t:2642;--w:1600;--h:152;--d:.667s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <!-- 추천 -->
       <div class="m rise" style="--l:160;--t:2914;--w:1600;--h:62;--d:0s"><i></i></div>
@@ -289,32 +294,34 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="m rise" style="--l:188;--t:3268;--w:400;--h:60;--d:.467s"><i></i></div>
       <div class="m rise" style="--l:188;--t:3324;--w:724;--h:27;--d:.733s"><i></i></div>
       <div class="m rise" style="--l:188;--t:3391;--w:200;--h:30;--d:1.0s"><i></i></div>
-      <div class="olb" style="--l:160;--t:3036;--w:780;--h:407;--d:1.467s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:160;--t:3036;--w:780;--h:407;--d:0s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m zoom" style="--l:980;--t:3036;--w:780;--h:204;--d:.267s"><i></i></div>
       <div class="m rise" style="--l:1008;--t:3268;--w:400;--h:60;--d:.733s"><i></i></div>
       <div class="m rise" style="--l:1008;--t:3324;--w:724;--h:27;--d:1.0s"><i></i></div>
       <div class="m rise" style="--l:1008;--t:3391;--w:200;--h:30;--d:1.267s"><i></i></div>
-      <div class="olb" style="--l:980;--t:3036;--w:780;--h:407;--d:1.733s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:980;--t:3036;--w:780;--h:407;--d:.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
-      <!-- 북 큐레이션: 검정 배경이 가운데에서 양쪽으로 열린다 -->
+      <!-- 북 큐레이션: 검정 배경이 가운데에서 양쪽으로 열리고, "북 큐레이션"
+           타이틀은 핑크색 박스가 왼쪽에서 오른쪽으로 채워진 뒤 그 위로 라벨이
+           올라온다 -->
       <div class="expand" style="--t:3483;--h:501;--cx:960;--l:160;--w:1600;--d:2.333s"></div>
-      <div class="m rise" style="--l:260;--t:3563;--w:199;--h:341;--d:3.133s"><i></i></div>
+      <div class="rule pink" style="--l:260;--t:3563;--w:83;--h:27;--d:3.133s"></div>
+      <div class="m rise" style="--l:260;--t:3563;--w:199;--h:341;--d:3.667s"><i></i></div>
 
-      <div class="m zoom" style="--l:857;--t:3563;--w:249;--h:171;--d:3.333s"><i></i></div>
-      <div class="m rise" style="--l:881;--t:3815;--w:210;--h:36;--d:3.667s"><i></i></div>
-      <div class="m rise" style="--l:881;--t:3859;--w:110;--h:21;--d:3.933s"><i></i></div>
-      <div class="olb" style="--l:857;--t:3563;--w:249;--h:341;--d:4.667s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <!-- 각 표지는 문서 카드와 동일하게 "image 9994" 레이어가 249x341 전체를
+           채우고, 제목·저자는 그 아래쪽에 겹쳐지는 하나의 페이드 블록이다 -->
+      <div class="m zoom" style="--l:857;--t:3563;--w:249;--h:341;--d:3.333s"><i></i></div>
+      <div class="m fade" style="--l:857;--t:3734;--w:249;--h:170;--d:4.333s"><i></i></div>
+      <div class="olb" style="--l:857;--t:3563;--w:249;--h:341;--d:3.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
-      <div class="m zoom" style="--l:1134;--t:3563;--w:249;--h:171;--d:3.6s"><i></i></div>
-      <div class="m rise" style="--l:1158;--t:3815;--w:210;--h:36;--d:3.933s"><i></i></div>
-      <div class="m rise" style="--l:1158;--t:3859;--w:110;--h:21;--d:4.2s"><i></i></div>
-      <div class="olb" style="--l:1134;--t:3563;--w:249;--h:341;--d:4.933s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m zoom" style="--l:1134;--t:3563;--w:249;--h:341;--d:3.6s"><i></i></div>
+      <div class="m fade" style="--l:1134;--t:3734;--w:249;--h:170;--d:4.6s"><i></i></div>
+      <div class="olb" style="--l:1134;--t:3563;--w:249;--h:341;--d:3.6s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
-      <div class="m zoom" style="--l:1411;--t:3563;--w:249;--h:171;--d:3.867s"><i></i></div>
-      <div class="m rise" style="--l:1435;--t:3815;--w:210;--h:36;--d:4.2s"><i></i></div>
-      <div class="m rise" style="--l:1435;--t:3859;--w:110;--h:21;--d:4.467s"><i></i></div>
-      <div class="olb" style="--l:1411;--t:3563;--w:249;--h:341;--d:5.2s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m zoom" style="--l:1411;--t:3563;--w:249;--h:341;--d:3.867s"><i></i></div>
+      <div class="m fade" style="--l:1411;--t:3734;--w:249;--h:170;--d:4.867s"><i></i></div>
+      <div class="olb" style="--l:1411;--t:3563;--w:249;--h:341;--d:3.867s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <!-- 이벤트·행사 -->
       <div class="m rise" style="--l:160;--t:4104;--w:700;--h:62;--d:0s"><i></i></div>
@@ -323,7 +330,7 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="m rise" style="--l:200;--t:4490;--w:142;--h:32;--d:.8s"><i></i></div>
       <div class="m rise" style="--l:200;--t:4532;--w:636;--h:39;--d:1.067s"><i></i></div>
       <div class="m rise" style="--l:200;--t:4581;--w:189;--h:24;--d:1.333s"><i></i></div>
-      <div class="olb" style="--l:160;--t:4226;--w:700;--h:403;--seg:.333s;--d:1.6s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:160;--t:4226;--w:700;--h:403;--seg:.333s;--d:.333s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <!-- 공지·소식: 첫 줄 자리에 모여 있다가 아래로 펼쳐진다 -->
       <div class="m rise" style="--l:900;--t:4104;--w:860;--h:62;--d:.267s"><i></i></div>
@@ -415,13 +422,25 @@ const ioMask = new IntersectionObserver(cb, { rootMargin: '0px 0px -12% 0px' });
 const ioBox = new IntersectionObserver(cb, { threshold: 0.95 });
 const boxes = new Set(document.querySelectorAll('[data-scroll] .olb'));
 
-pending.forEach((e) => ioMask.observe(e));
-boxes.forEach((e) => { pending.add(e); ioBox.observe(e); });
+/* Nothing below the fold may start until the hero's own intro is done -
+   its slowest element (the hashtag chips' rise) finishes at 2.333s, so
+   scrolling fast right after load can't overtake it. Observation itself
+   is what's gated, not just the reveal, so a scroll-to-bottom during that
+   window can't sweep everything in early either. */
+let introGateOpen = false;
+function openIntroGate() {
+  introGateOpen = true;
+  pending.forEach((e) => ioMask.observe(e));
+  boxes.forEach((e) => { pending.add(e); ioBox.observe(e); });
+  sweepBottom();
+}
+setTimeout(openIntroGate, 2400);
 
 /* That margin means the last elements sit inside it while the scroll is
    already at the bottom, with nowhere further to go - they would never
    fire. Once the page bottom is reached, release whatever is left. */
 function sweepBottom() {
+  if (!introGateOpen) return;
   if (!pending.size) return;
   if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 2) return;
   [...pending].forEach(reveal);

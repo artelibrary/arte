@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Easing, Interactive, interpolate, useCurrentFrame } from "remotion";
-import { RiseWindow, ScaleWindow, DrawnBorder } from "./PageWindow";
+import { RiseWindow, FadeWindow, ScaleWindow, DrawnBorder } from "./PageWindow";
 
 const BASE_DELAY = 26;
 
@@ -49,7 +49,7 @@ export const RecommendSection: React.FC = () => {
           <RiseWindow name="Feature title" top={3268} left={card.left + 28} width={400} height={60} from={card.from + 14} />
           <RiseWindow name="Feature description" top={3324} left={card.left + 28} width={724} height={27} from={card.from + 22} />
           <RiseWindow name="Feature more link" top={3391} left={card.left + 28} width={200} height={30} from={card.from + 30} />
-          <DrawnBorder top={3036} left={card.left} width={780} height={407} from={card.from + 44} />
+          <DrawnBorder top={3036} left={card.left} width={780} height={407} from={card.from} />
         </Fragment>
       ))}
 
@@ -79,34 +79,46 @@ export const RecommendSection: React.FC = () => {
           backgroundColor: "#000000",
         }}
       />
+      {/* "북 큐레이션" fills in as a pink box, left to right, before the
+          label itself (title + #미래/AI tag + date) rises in on top of it. */}
+      <Interactive.Div
+        name="북 큐레이션 title pink fill"
+        style={{
+          position: "absolute",
+          top: BOOK_CURATION_TOP + 80,
+          left: 260,
+          height: 27,
+          backgroundColor: "#FF2268",
+          width: interpolate(frame, [BACKDROP_FROM + 24, BACKDROP_FROM + 40], [0, 83], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+        }}
+      />
       <RiseWindow
         name="북 큐레이션 label"
         top={BOOK_CURATION_TOP + 80}
         left={260}
         width={199}
         height={341}
-        from={BACKDROP_FROM + 24}
+        from={BACKDROP_FROM + 40}
       />
+      {/* Each cover is its own "list" frame, same as 문서: "image 9994" fills
+          the entire 249x341 box and the title/author pair is one fade block
+          overlaid on its lower portion. */}
       {BOOKS.map((book) => (
         <Fragment key={book.left}>
-          <ScaleWindow name="Book cover art" top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={171} from={book.from} />
-          <RiseWindow
-            name="Book cover title"
-            top={BOOK_CURATION_TOP + 80 + 171 + 81}
-            left={book.left + 24}
-            width={210}
-            height={36}
-            from={book.from + 10}
+          <ScaleWindow name="Book cover image 9994" top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from} />
+          <FadeWindow
+            name="Book cover text"
+            top={BOOK_CURATION_TOP + 80 + 171}
+            left={book.left}
+            width={249}
+            height={170}
+            from={book.from + 30}
           />
-          <RiseWindow
-            name="Book cover author"
-            top={BOOK_CURATION_TOP + 80 + 171 + 125}
-            left={book.left + 24}
-            width={110}
-            height={21}
-            from={book.from + 18}
-          />
-          <DrawnBorder top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from + 40} />
+          <DrawnBorder top={BOOK_CURATION_TOP + 80} left={book.left} width={249} height={341} from={book.from} />
         </Fragment>
       ))}
     </>
