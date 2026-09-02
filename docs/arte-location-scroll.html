@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>arte 지역별 정보 · 스크롤 모션 미리보기</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
 /* ------------------------------------------------------------------
    A scroll-driven port of the `arte-location` Remotion composition.
@@ -47,7 +48,86 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
 
 #root{width:1920px;margin:0 auto}
 #stick{position:sticky;top:0;height:0;z-index:50;overflow:visible}
-#page{position:relative;width:1920px;height:1808px;background:#fff}
+#page{position:relative;width:1920px;background:#fff}
+
+/* ---- rebuilt filter+list section (real text, from the updated Figma
+   design) - replaces what used to be more page.png crop windows below the
+   프로그램 heading. Everything above this point is still the original
+   screenshot-crop, unaffected. ---- */
+.loc-desc{position:absolute;top:585px;left:922px;width:638px;
+  font:20px/1.5 Pretendard,sans-serif;color:#555;text-align:right}
+.loc-body{position:relative;top:649px;left:160px;width:1600px;
+  display:flex;gap:120px;align-items:flex-start;padding-bottom:120px;
+  font-family:Pretendard,sans-serif}
+.reveal{opacity:0;transform:translateY(28px);
+  transition:opacity .6s ease-out,transform .6s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+.loc-filter{width:292px;flex:none;display:flex;flex-direction:column;gap:24px}
+.lf-label{font:16px/1.5 Pretendard;font-weight:500;color:#000;margin-bottom:16px}
+.lf-input{border:1px solid #000;padding:12px 16px;display:flex;align-items:center;
+  justify-content:space-between;font:18px/1.5 Pretendard;font-weight:500;color:#888}
+.lf-input img{width:20px;height:20px;flex:none}
+.loc-map{margin:16px 0;border-radius:2px;overflow:hidden}
+.loc-map img{display:block;width:100%}
+.loc-note{display:flex;gap:6px;align-items:flex-start;font:14px/1.5 Pretendard;color:#000}
+.loc-note img{width:20px;height:20px;flex:none}
+.loc-accordion{display:flex;flex-direction:column;gap:12px;padding:18px 0}
+.lf-row{display:flex;align-items:center;justify-content:space-between;
+  font:23px/1.5 Pretendard;font-weight:700;color:#000;cursor:pointer}
+.lf-row img{width:20px;height:20px;transform:rotate(90deg)}
+.lf-daterange{display:flex;gap:8px;align-items:center;margin-top:16px}
+.lf-daterange .lf-input{flex:1;min-width:0}
+.lf-daterange img.divider{width:6px;flex:none}
+
+.loc-list{flex:1;min-width:0;display:flex;flex-direction:column;gap:80px}
+.loc-listhead{display:flex;align-items:flex-end;justify-content:space-between}
+.lh-left{display:flex;gap:40px}
+.lh-count{font:18px/1.5 Pretendard;font-weight:500;color:#888;display:flex;gap:16px}
+.lh-count b{font:20px/1.5 Pretendard;font-weight:600;color:#000;font-style:normal}
+.lh-right{display:flex;gap:40px;align-items:center}
+.lh-sort{font:18px/1.5 Pretendard;font-weight:500;color:#888;display:flex;align-items:center;gap:16px}
+.lh-sort::after{content:"";width:1px;height:16px;background:#000;margin-left:16px}
+.lh-sort:last-of-type::after{display:none}
+.lh-sort.active{font-weight:600;color:#000}
+.lh-perpage{font:18px/1.5 Pretendard;font-weight:600;color:#fff;background:#000;
+  border:0;padding:6px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.lh-perpage::after{content:"⌄";font-size:14px}
+
+.loc-tiles{display:flex}
+.tile{flex:1;border:1px solid #000;padding:16px 0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;color:#000}
+.tile-primary{background:#007ade;border-color:#007ade;color:#fff}
+.tile-label{font:21px/1.5 Pretendard;font-weight:600;display:flex;gap:8px;align-items:baseline}
+.tile-label small{font:20px/1.5 Pretendard;font-weight:400}
+.tile strong{font:41px/1.2 Pretendard;font-weight:700;margin-top:2px}
+.tile strong.blue{color:#007ade}
+
+.loc-more-row{display:flex;align-items:flex-start;justify-content:space-between}
+.loc-blue-note{font:18px/1.5 Pretendard;font-weight:500;color:#007ade}
+.loc-more{font:16px/1.5 Pretendard;font-weight:500;color:#000;display:flex;gap:2px;
+  align-items:center;cursor:pointer}
+.loc-more::after{content:"›";font-size:16px}
+
+.loc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.loc-card{border:1px solid #000;display:flex;text-decoration:none;color:inherit;overflow:hidden}
+.lc-thumb{width:132px;flex:none;align-self:stretch;background:#d9d9d9}
+.lc-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.lc-body{flex:1;min-width:0;padding:20px;display:flex;flex-direction:column;gap:16px}
+.lc-head{display:flex;flex-direction:column;gap:6px}
+.lc-badge{background:#000;color:#fff;border:1.5px solid #000;padding:3px 12px;
+  font:14px/1.5 Pretendard;font-weight:500;align-self:flex-start}
+.lc-title{font:20px/1.5 Pretendard;font-weight:600;color:#000;margin:0}
+.lc-desc{font:14px/1.5 Pretendard;font-weight:500;color:#555;margin:0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-tags{display:flex;flex-wrap:wrap;gap:4px 12px;font:14px/1.5 Pretendard;color:#000}
+
+.loc-pagination{display:flex;gap:40px;align-items:center;justify-content:center}
+.pg-arrow{border:0;background:none;font-size:20px;color:#000;cursor:pointer;line-height:1}
+.pg-nums{display:flex;gap:12px}
+.pg-num{width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  font:18px/1.5 Pretendard;font-weight:500;color:#888;cursor:pointer}
+.pg-num.active{background:#000;color:#fff}
 
 /* ---- crop windows ------------------------------------------------ */
 .m{position:absolute;overflow:hidden;
@@ -194,7 +274,7 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="word"><i></i></div>
       <a class="navlink" href="arte-document-scroll.html" title="문서·도서"><b></b></a>
       <a class="icolink" href="arte-search-scroll.html" title="AI 검색 결과"></a>
-      <a class="logolink" href="index.html" title="arte 라이브러리 메인"></a>
+      <a class="logolink" href="arte-main-scroll.html" title="arte 라이브러리 메인"></a>
     </div>
   </div>
 
@@ -214,81 +294,86 @@ body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD G
       <div class="olb" style="--l:1232;--t:377;--w:526;--h:79;--d:1.467s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
 
       <div class="m rise" style="--l:160;--t:557;--w:180;--h:52;--d:1.500s"><i></i></div>
-      <div class="m rise label" style="--l:1341;--t:585;--w:419;--h:24;--d:1.733s"><i></i></div>
-
-      <!-- filter rail, above the fold -->
-      <div class="m rise label" style="--l:160;--t:649;--w:60;--h:24;--d:2.000s"><i></i></div>
-      <div class="m rise quick" style="--l:168;--t:697;--w:296;--h:36;--d:2.233s"><i></i></div>
-      <div class="olb" style="--l:160;--t:689;--w:311;--h:49;--d:2.500s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="rule" style="--l:160;--t:780;--w:312;--h:4;--d:2.467s"></div>
-
-      <!-- list header: the pink plate rises whole, the other two tiles are
-           figures that rise and a box drawn round them -->
-      <div class="m rise" style="--l:592;--t:649;--w:1168;--h:39;--d:2.700s"><i></i></div>
-      <div class="m rise" style="--l:592;--t:712;--w:389;--h:120;--d:2.933s"><i></i></div>
-      <div class="m rise quick" style="--l:1102;--t:728;--w:148;--h:88;--d:3.167s"><i></i></div>
-      <div class="m rise quick" style="--l:1480;--t:728;--w:171;--h:88;--d:3.400s"><i></i></div>
-      <div class="rule" style="--l:981;--t:712;--w:779;--h:1;--d:3.467s"></div>
-      <div class="rule" style="--l:981;--t:831;--w:779;--h:1;--d:3.467s"></div>
-      <div class="rule v" style="--l:1369;--t:712;--w:2;--h:120;--d:3.667s"></div>
-      <div class="rule v" style="--l:1759;--t:712;--w:1;--h:120;--d:3.667s"></div>
-
-      <div class="m rise label" style="--l:160;--t:808;--w:60;--h:24;--d:3.633s"><i></i></div>
-      <div class="m zoom" style="--l:160;--t:832;--w:312;--h:444;--d:3.867s"><i></i></div>
-      <div class="m rise label" style="--l:592;--t:912;--w:1168;--h:24;--d:4.133s"><i></i></div>
-
-      <!-- card row 1: three at once -->
-      <div class="m zoom" style="--l:593;--t:961;--w:131;--h:189;--d:4.333s"><i></i></div>
-      <div class="m rise quick" style="--l:740;--t:976;--w:210;--h:160;--d:4.333s"><i></i></div>
-      <div class="olb" style="--l:592;--t:960;--w:372;--h:190;--d:4.600s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:990;--t:961;--w:131;--h:189;--d:4.333s"><i></i></div>
-      <div class="m rise quick" style="--l:1137;--t:976;--w:210;--h:160;--d:4.333s"><i></i></div>
-      <div class="olb" style="--l:989;--t:960;--w:372;--h:190;--d:4.600s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:1387;--t:961;--w:131;--h:189;--d:4.333s"><i></i></div>
-      <div class="m rise quick" style="--l:1534;--t:976;--w:210;--h:160;--d:4.333s"><i></i></div>
-      <div class="olb" style="--l:1386;--t:960;--w:373;--h:190;--d:4.600s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <p class="loc-desc reveal" style="transition-delay:1.733s">지역별 문화에술교육 프로그램 정보를 검색하고 조회할 수 있습니다.</p>
     </div>
 
-    <!-- ===== below the fold: waits for the viewport ===== -->
-    <div data-scroll>
-      <!-- card rows 2 and 3: three at once, top row first -->
-      <div class="m zoom" style="--l:593;--t:1176;--w:131;--h:190;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:740;--t:1191;--w:210;--h:160;--d:0.000s"><i></i></div>
-      <div class="olb" style="--l:592;--t:1175;--w:372;--h:191;--d:0.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:990;--t:1176;--w:131;--h:190;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:1137;--t:1191;--w:210;--h:160;--d:0.000s"><i></i></div>
-      <div class="olb" style="--l:989;--t:1175;--w:372;--h:191;--d:0.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:1387;--t:1176;--w:131;--h:190;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:1534;--t:1191;--w:210;--h:160;--d:0.000s"><i></i></div>
-      <div class="olb" style="--l:1386;--t:1175;--w:373;--h:191;--d:0.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+    <!-- ===== rebuilt with real text/CSS from the updated Figma design
+         (see the .loc-* rules above). Reveals as one block on scroll,
+         rather than the old per-element frame choreography. ===== -->
+    <div class="loc-body reveal" id="locRebuilt">
+      <aside class="loc-filter">
+        <div>
+          <p class="lf-label">검색</p>
+          <div class="lf-input"><span>검색어를 입력하세요</span><img src="arte-location/rebuild/icon-search.svg" alt=""></div>
+        </div>
+        <div>
+          <p class="lf-label">지역</p>
+          <div class="loc-map"><img src="arte-location/rebuild/map.png" alt="지역별 지도"></div>
+          <div class="loc-note"><img src="arte-location/rebuild/icon-info.svg" alt="">다양한 조건을 설정하여 원하는 자료를 검색할 수 있습니다. (중복 선택 가능)</div>
+        </div>
+        <div class="loc-accordion">
+          <div class="lf-row"><span>장르</span><img src="arte-location/rebuild/icon-chevron.svg" alt=""></div>
+          <div class="lf-row"><span>교육대상</span><img src="arte-location/rebuild/icon-chevron.svg" alt=""></div>
+        </div>
+        <div>
+          <p class="lf-label">운영기간</p>
+          <div class="lf-daterange">
+            <div class="lf-input"><span>연도-월-일</span><img src="arte-location/rebuild/icon-calendar.svg" alt=""></div>
+            <img class="divider" src="arte-location/rebuild/divider-h.svg" alt="">
+            <div class="lf-input"><span>연도-월-일</span><img src="arte-location/rebuild/icon-calendar.svg" alt=""></div>
+          </div>
+        </div>
+      </aside>
 
-      <div class="m zoom" style="--l:593;--t:1392;--w:131;--h:190;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:740;--t:1407;--w:210;--h:160;--d:0.000s"><i></i></div>
-      <div class="olb" style="--l:592;--t:1391;--w:372;--h:191;--d:0.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:990;--t:1392;--w:131;--h:190;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:1137;--t:1407;--w:210;--h:160;--d:0.000s"><i></i></div>
-      <div class="olb" style="--l:989;--t:1391;--w:372;--h:191;--d:0.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="m zoom" style="--l:1387;--t:1392;--w:131;--h:190;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:1534;--t:1407;--w:210;--h:160;--d:0.000s"><i></i></div>
-      <div class="olb" style="--l:1386;--t:1391;--w:373;--h:191;--d:0.267s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="loc-list">
+        <div>
+          <div class="loc-listhead">
+            <div class="lh-left">
+              <span class="lh-count">전체 <b>4,793건</b></span>
+              <span class="lh-count">페이지 <b>1 / 200</b></span>
+            </div>
+            <div class="lh-right">
+              <span class="lh-sort active">최신순</span><span class="lh-sort">조회순</span>
+              <button class="lh-perpage">10개씩 보기</button>
+            </div>
+          </div>
+        </div>
 
-      <!-- filter rail, below the fold - the caption comes a line at a time -->
-      <div class="m rise quick" style="--l:160;--t:1305;--w:312;--h:21;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:160;--t:1327;--w:312;--h:22;--d:0.233s"><i></i></div>
-      <div class="rule" style="--l:160;--t:1380;--w:312;--h:2;--c:#858585;--d:0.133s"></div>
-      <div class="m rise" style="--l:160;--t:1422;--w:332;--h:52;--d:0.000s"><i></i></div>
-      <div class="rule" style="--l:160;--t:1475;--w:312;--h:2;--c:#858585;--d:0.133s"></div>
-      <div class="m rise" style="--l:160;--t:1517;--w:332;--h:52;--d:0.000s"><i></i></div>
-      <div class="rule" style="--l:160;--t:1570;--w:312;--h:2;--c:#858585;--d:0.133s"></div>
-      <div class="m rise label" style="--l:160;--t:1612;--w:60;--h:24;--d:0.000s"><i></i></div>
-      <div class="m rise quick" style="--l:170;--t:1661;--w:126;--h:32;--d:0.233s"><i></i></div>
-      <div class="m rise quick" style="--l:337;--t:1661;--w:126;--h:32;--d:0.233s"><i></i></div>
-      <div class="m rise quick" style="--l:310;--t:1672;--w:12;--h:10;--d:0.367s"><i></i></div>
-      <div class="olb" style="--l:160;--t:1651;--w:144;--h:51;--d:0.500s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="olb" style="--l:327;--t:1651;--w:144;--h:51;--d:0.500s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
-      <div class="rule" style="--l:160;--t:1726;--w:312;--h:2;--c:#858585;--d:0.733s"></div>
+        <div class="loc-tiles">
+          <div class="tile tile-primary">
+            <span class="tile-label">프로그램 <small>누적(건)</small></span>
+            <strong>3,095</strong>
+          </div>
+          <div class="tile">
+            <span class="tile-label">운영단체 <small>누적(개)</small></span>
+            <strong class="blue">1,441</strong>
+          </div>
+          <div class="tile">
+            <span class="tile-label">지역별 자료 <small>누적(건)</small></span>
+            <strong class="blue">1,778</strong>
+          </div>
+        </div>
 
-      <div class="m rise" style="--l:592;--t:1660;--w:1168;--h:32;--d:0.000s"><i></i></div>
+        <div class="loc-more-row">
+          <p class="loc-blue-note">* 단체회원으로 가입하시면, 단체 및 프로그램 정보를 등록하실 수 있습니다.</p>
+          <span class="loc-more">더보기</span>
+        </div>
+
+        <div class="loc-cards" id="locCards">
+          <!-- 9 identical listings (placeholder data in the source design) -->
+        </div>
+
+        <div class="loc-pagination">
+          <button class="pg-arrow" aria-label="이전 페이지">‹</button>
+          <div class="pg-nums">
+            <span class="pg-num active">1</span><span class="pg-num">2</span><span class="pg-num">3</span>
+            <span class="pg-num">4</span><span class="pg-num">5</span><span class="pg-num">6</span>
+            <span class="pg-num">7</span><span class="pg-num">8</span><span class="pg-num">9</span>
+            <span class="pg-num">10</span>
+          </div>
+          <button class="pg-arrow" aria-label="다음 페이지">›</button>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -318,7 +403,7 @@ addEventListener('resize', () => { scale = fit(); });
 /* ---- the intro ------------------------------------------------------
    Every element carries its own transition-delay, taken from the frame it
    started on in the composition, so one class switch is enough. */
-const introEls = document.querySelectorAll('#intro .m, #intro .rule, #intro .olb');
+const introEls = document.querySelectorAll('#intro .m, #intro .rule, #intro .olb, #intro .reveal');
 function playIntro() {
   introEls.forEach(e => e.classList.remove('in'));
   void document.getElementById('page').offsetHeight;   // flush, so the reset is not animated away
@@ -330,8 +415,30 @@ document.getElementById('replay').addEventListener('click', () => {
   playIntro();
 });
 
+/* ---- program listing cards: 9 identical entries (the source design
+   uses the same placeholder copy for all of them), cycling through the
+   4 available thumbnail photos for a little visual variety ---- */
+const CARD_IMAGES = ['card-1.png', 'card-2.png', 'card-3.png', 'card-4.png'];
+const cardsRoot = document.getElementById('locCards');
+for (let i = 0; i < 9; i++) {
+  const a = document.createElement('a');
+  a.className = 'loc-card';
+  a.href = '#';
+  a.innerHTML = `
+    <div class="lc-thumb"><img src="arte-location/rebuild/${CARD_IMAGES[i % CARD_IMAGES.length]}" alt=""></div>
+    <div class="lc-body">
+      <div class="lc-head">
+        <span class="lc-badge">서울</span>
+        <p class="lc-title">찾아-Dream(드림)</p>
+      </div>
+      <p class="lc-desc">연극을 통해 자신의 감정과 사회적 관계를 재발견하고, 삶의 이야기를 표현해보는 장년층(만 50세~64세) 대상...</p>
+      <div class="lc-tags"><span>연극</span><span>중장년</span><span>2025</span><span>다름(DARM)</span></div>
+    </div>`;
+  cardsRoot.appendChild(a);
+}
+
 /* ---- viewport-triggered reveals ------------------------------------ */
-const pending = new Set(document.querySelectorAll('[data-scroll] .m, [data-scroll] .rule, [data-scroll] .olb'));
+const pending = new Set(document.querySelectorAll('#locRebuilt'));
 const reveal = (el) => {
   el.classList.add('in'); pending.delete(el);
   io.unobserve(el);
