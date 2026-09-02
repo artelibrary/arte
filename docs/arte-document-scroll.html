@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>arte 문서·도서 · 스크롤 모션 미리보기</title>
+<style>
+/* ------------------------------------------------------------------
+   A scroll-driven port of the `arte-document` Remotion composition,
+   rebuilt for the revised 1920x1844 screen.
+
+   Every animated element is the same PNG slice the composition uses,
+   sitting in a mask fixed at its page coordinates:
+
+     .m      a crop window at the element's page position
+      img    the slice itself, and the thing that actually moves
+
+   Durations are the composition's frame counts at 30fps, so a 24-frame
+   reveal is 0.8s here. In the composition the page scrolled on a fixed
+   timeline; here the reader drives it, so the intro (frames 0-168, which
+   played at scroll 0) runs on load and everything below the fold waits
+   for the viewport instead.
+
+   Page landmarks: header 0-133 (pinned), breadcrumb 153, title 253,
+   doc/book tabs 377, 문서 553, filter rail 645-1764, category tabs 649,
+   notice 712, count row 790, cards 857-1487, pagination 1563.
+   ------------------------------------------------------------------ */
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:#e9e9ec}
+body{font:400 14px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",sans-serif;
+     color:#111;overflow-x:hidden}
+
+#root{width:1920px;margin:0 auto}
+#stick{position:sticky;top:0;height:0;z-index:50;overflow:visible}
+#page{position:relative;width:1920px;height:1844px;background:#fff}
+
+/* ---- crop windows ------------------------------------------------ */
+.m{position:absolute;overflow:hidden;
+   top:calc(var(--t)*1px);left:calc(var(--l)*1px);
+   width:calc(var(--w)*1px);height:calc(var(--h)*1px)}
+.m>img{position:absolute;top:0;left:0;width:100%;display:block}
+
+/* text rises out of its own mask, bottom to top - 28 frames */
+.rise>img{transform:translateY(100%);
+          transition:transform .933s cubic-bezier(.16,1,.3,1);
+          transition-delay:var(--d,0s)}
+.rise.in>img{transform:none}
+/* the card copy is quicker, 24 frames */
+.rise.quick>img{transition-duration:.800s}
+/* tall blocks travel a fixed 72px and fade instead of wiping the whole
+   band, which at 247px would read as a curtain rather than a rise */
+.rise.short>img{transform:translateY(72px);opacity:0;
+                transition:transform 1.133s cubic-bezier(.16,1,.3,1),opacity .667s ease-out;
+                transition-delay:var(--d,0s)}
+.rise.short.in>img{transform:none;opacity:1}
+
+/* cover art settles from 120% to 100% inside a fixed crop - 40 frames */
+.zoom>img{transform:scale(1.2);opacity:0;
+          transition:transform 1.333s cubic-bezier(.16,1,.3,1),opacity .533s ease-out;
+          transition-delay:var(--d,0s)}
+.zoom.in>img{transform:none;opacity:1}
+
+/* ---- filter rules, drawn left to right -------------------------- */
+/* The revised design has no grey panel behind the rail - the groups are
+   separated by horizontal rules instead. Two are 4px section rules, the
+   rest 1px dividers under each accordion row. */
+.rule{position:absolute;background:#000;
+      top:calc(var(--t)*1px);left:calc(var(--l)*1px);
+      width:calc(var(--w)*1px);height:calc(var(--h)*1px);
+      clip-path:inset(0 100% 0 0);
+      transition:clip-path 1s cubic-bezier(.16,1,.3,1) var(--d,0s)}
+.rule.in{clip-path:inset(0 0 0 0)}
+
+/* ---- category tabs, fanning out to the right -------------------- */
+.chip{position:absolute;overflow:hidden;
+      top:calc(var(--t)*1px);left:calc(var(--l)*1px);width:calc(var(--w)*1px);height:45px}
+.chip>img{position:absolute;top:0;left:0;width:100%;display:block;
+          transform:translateX(var(--dx));opacity:0;
+          transition:transform 1.333s cubic-bezier(.16,1,.3,1),opacity 1.333s cubic-bezier(.16,1,.3,1);
+          transition-delay:var(--d,0s)}
+.chip.in>img{transform:none;opacity:1}
+.chip.anchor{overflow:visible}
+/* "전체" is the anchor the rest unfold from, so it neither travels nor
+   fades - but it should not be on screen before the row's turn either. A
+   near-zero opacity transition on the group's delay makes it simply appear
+   at that moment, the way the composition steps it in on frame 62. */
+.chip.anchor>img{transform:none;opacity:0;
+                 transition:opacity .001s linear;transition-delay:var(--d,0s)}
+.chip.anchor.in>img{opacity:1}
+
+/* ---- card outlines ---------------------------------------------- */
+/* Four 1px rules drawn back to back from the top-left corner, running
+   anti-clockwise - down the left edge, across the bottom, up the right
+   edge, then back along the top. 14 frames each, linear, so the pen
+   keeps a constant speed the whole way round. */
+.olb{position:absolute;top:calc(var(--t)*1px);left:calc(var(--l)*1px);
+     width:calc(var(--w)*1px);height:calc(var(--h)*1px);pointer-events:none}
+.ol{position:absolute;background:#000;transition:clip-path .467s linear}
+.e1{left:0;top:0;width:1px;height:100%;clip-path:inset(0 0 100% 0);
+    transition-delay:calc(var(--d,0s))}
+.e2{left:0;bottom:0;width:100%;height:1px;clip-path:inset(0 100% 0 0);
+    transition-delay:calc(var(--d,0s) + .467s)}
+.e3{right:0;top:0;width:1px;height:100%;clip-path:inset(100% 0 0 0);
+    transition-delay:calc(var(--d,0s) + .933s)}
+.e4{left:0;top:0;width:100%;height:1px;clip-path:inset(0 0 0 100%);
+    transition-delay:calc(var(--d,0s) + 1.400s)}
+.olb.in .ol{clip-path:inset(0 0 0 0)}
+
+/* ---- the pinned header ------------------------------------------ */
+#hdr{position:absolute;top:0;left:0;width:1920px;height:133px}
+#hdr .white{position:absolute;top:32px;left:0;width:1920px;height:101px;background:#fff}
+#hdr .mast{position:absolute;top:0;left:0;width:1920px}
+#hdr .nav{position:absolute;top:60px;left:459px;width:917px;transition:opacity .600s ease-in-out}
+#hdr .acct{position:absolute;top:62px;left:1475px;width:201px;transition:opacity .600s ease-in-out}
+#hdr .ico{position:absolute;top:66px;left:1690px;width:71px}
+/* the wordmark sits in a mask that closes leftwards onto the square's
+   footprint as it fades, so the closing edge wipes it away */
+#hdr .word{position:absolute;display:block;top:66px;left:160px;width:200px;height:32px;
+  overflow:hidden;
+  transition:left 1s cubic-bezier(.16,1,.3,1),width 1s cubic-bezier(.16,1,.3,1)}
+#hdr .word img{position:absolute;top:0;left:0;width:200px;display:block;
+  transition:opacity .467s ease-in-out}
+#hdr .mark{position:absolute;display:block;top:56px;left:150px;width:51px;opacity:0;
+  transition:opacity .667s cubic-bezier(.5,1,.89,1) .200s}
+#hdr img{display:block;width:100%}
+#root.scrolled #hdr .word{left:150px;width:51px}
+#root.scrolled #hdr .word img{opacity:0}
+#root.scrolled #hdr .mark{opacity:1}
+#root.scrolled #hdr .nav,#root.scrolled #hdr .acct{opacity:0}
+
+/* ---- header links ----------------------------------------------- */
+/* Two navigations, both taken from the header itself rather than added as
+   viewer chrome:
+     the logo (Figma imgi_10_logo) -> arte-main
+     the search icon (Figma mystery) -> arte-search
+   The search icon sits at the same coordinates in both header states, so
+   its hit area stays live after the collapse. The logo is two separate
+   elements - the wordmark before the collapse, the square mark after - so
+   both carry the link and it survives the swap. Hrefs are relative so they
+   resolve the same over file:// and over the dev server. */
+#hdr .icolink{position:absolute;left:1687px;top:63px;width:37px;height:37px;
+  display:block;cursor:pointer;border-radius:999px;transition:background .2s ease-out}
+#hdr .icolink:hover{background:rgba(0,0,0,.08)}
+#hdr .word,#hdr .mark{cursor:pointer}
+#hdr .word:hover img,#hdr .mark:hover img{opacity:.72}
+/* "지역별 정보" in the nav leads to the region screen. The item box is
+   873-1063 and the label sits 40px inside it either side, so the hover rule
+   is inset to span just the words. Unlike the logo and the search icon the
+   nav does not survive the collapse, so its hit area has to go with it. */
+#hdr .navlink{position:absolute;left:873px;top:62px;width:190px;height:40px;
+  display:block;cursor:pointer;transition:opacity .600s ease-in-out}
+#hdr .navlink b{position:absolute;left:40px;right:40px;bottom:1px;height:2px;
+  background:#000;transform:scaleX(0);transform-origin:left center;
+  transition:transform .28s cubic-bezier(.33,1,.68,1)}
+#hdr .navlink:hover b{transform:scaleX(1)}
+#root.scrolled #hdr .navlink{opacity:0;pointer-events:none}
+
+/* ---- viewer chrome --------------------------------------------- */
+#ui{position:fixed;right:18px;bottom:18px;z-index:200;display:flex;gap:8px;align-items:center}
+#ui button{font:500 13px/1 inherit;color:#fff;background:rgba(17,17,17,.86);
+  border:0;border-radius:999px;padding:11px 16px;cursor:pointer;backdrop-filter:blur(6px)}
+#ui button:hover{background:#0078d7}
+#hint{position:fixed;left:50%;bottom:22px;translate:-50% 0;z-index:200;
+  font:500 13px/1 inherit;color:#fff;background:rgba(17,17,17,.8);
+  border-radius:999px;padding:11px 18px;transition:opacity .4s ease-out}
+#hint.gone{opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div id="root">
+  <div id="stick">
+    <div id="hdr">
+      <div class="white"></div>
+      <div class="mast"><img src="arte-document/hd-masthead.png" alt=""></div>
+      <div class="nav"><img src="arte-document/hd-nav.png" alt=""></div>
+      <a class="navlink" href="arte-location-scroll.html" title="지역별 정보"
+         aria-label="지역별 정보"><b></b></a>
+      <div class="acct"><img src="arte-document/hd-account.png" alt=""></div>
+      <div class="ico"><img src="arte-document/hd-icons.png" alt=""></div>
+      <a class="icolink" href="arte-search-scroll.html" title="AI 검색 결과"></a>
+      <a class="word" href="index.html" title="arte 라이브러리 메인"
+         aria-label="arte 라이브러리 메인"><img src="arte-document/hd-logo.png" alt=""></a>
+      <a class="mark" href="index.html" title="arte 라이브러리 메인"
+         aria-label="arte 라이브러리 메인"><img src="arte-document/hd-mark.png" alt=""></a>
+    </div>
+  </div>
+
+  <div id="page">
+
+    <!-- ===== intro: composition frames 0-168, at scroll 0 ===== -->
+    <div id="intro">
+      <div class="m rise" style="--l:160;--t:153;--w:199;--h:24;--d:0.200s;"><img src="arte-document/breadcrumb.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:253;--w:300;--h:88;--d:0.467s;"><img src="arte-document/title.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:377;--w:797;--h:80;--d:0.867s;"><img src="arte-document/tab-doc.png" alt=""></div>
+      <div class="m rise" style="--l:963;--t:377;--w:798;--h:80;--d:1.067s;"><img src="arte-document/tab-book.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:553;--w:96;--h:60;--d:1.467s;"><img src="arte-document/sec-heading.png" alt=""></div>
+      <div class="m rise" style="--l:1149;--t:581;--w:613;--h:30;--d:1.733s;"><img src="arte-document/sec-desc.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:645;--w:90;--h:32;--d:2.000s;"><img src="arte-document/fl-label1.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:689;--w:312;--h:51;--d:2.267s;"><img src="arte-document/fl-select.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:752;--w:312;--h:51;--d:2.533s;"><img src="arte-document/fl-search.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:815;--w:312;--h:50;--d:2.800s;"><img src="arte-document/fl-info.png" alt=""></div>
+      <div class="rule" style="--l:160;--t:901;--w:312;--h:4;--d:3.067s"></div>
+      <div class="m rise" style="--l:160;--t:925;--w:60;--h:32;--d:3.333s;"><img src="arte-document/fl-label2.png" alt=""></div>
+      <div class="m rise short" style="--l:160;--t:957;--w:312;--h:247;--d:3.600s;"><img src="arte-document/fl-chips.png" alt=""></div>
+      <div class="chip anchor" style="--l:592;--t:649;--w:79;--d:2.067s"><img src="arte-document/cat-1.png" alt=""></div>
+      <div class="chip" style="--l:670;--t:649;--w:199;--dx:-78px;--d:2.067s"><img src="arte-document/cat-2.png" alt=""></div>
+      <div class="chip" style="--l:868;--t:649;--w:140;--dx:-276px;--d:2.067s"><img src="arte-document/cat-3.png" alt=""></div>
+      <div class="chip" style="--l:1007;--t:649;--w:120;--dx:-415px;--d:2.067s"><img src="arte-document/cat-4.png" alt=""></div>
+      <div class="chip" style="--l:1126;--t:649;--w:119;--dx:-534px;--d:2.067s"><img src="arte-document/cat-5.png" alt=""></div>
+      <div class="chip" style="--l:1244;--t:649;--w:180;--dx:-652px;--d:2.067s"><img src="arte-document/cat-6.png" alt=""></div>
+      <div class="chip" style="--l:1423;--t:649;--w:120;--dx:-831px;--d:2.067s"><img src="arte-document/cat-7.png" alt=""></div>
+      <div class="chip" style="--l:1542;--t:649;--w:139;--dx:-950px;--d:2.067s"><img src="arte-document/cat-8.png" alt=""></div>
+      <div class="chip" style="--l:1680;--t:649;--w:80;--dx:-1088px;--d:2.067s"><img src="arte-document/cat-9.png" alt=""></div>
+      <div class="m rise" style="--l:1320;--t:712;--w:445;--h:36;--d:2.400s;"><img src="arte-document/tip.png" alt=""></div>
+      <div class="m rise" style="--l:592;--t:790;--w:1168;--h:47;--d:2.733s;"><img src="arte-document/count.png" alt=""></div>
+      <div class="m zoom" style="--l:593;--t:858;--w:570;--h:259;--d:3.933s;"><img src="arte-document/c1-img.png" alt=""></div>
+      <div class="m zoom" style="--l:1189;--t:858;--w:570;--h:259;--d:4.267s;"><img src="arte-document/c2-img.png" alt=""></div>
+    </div>
+
+    <!-- ===== below the fold: waits for the viewport ===== -->
+    <div data-scroll>
+      <div class="olb" style="--l:592;--t:857;--w:572;--h:630;--d:0.200s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="olb" style="--l:1188;--t:857;--w:572;--h:630;--d:0.867s"><b class="ol e1"></b><b class="ol e2"></b><b class="ol e3"></b><b class="ol e4"></b></div>
+      <div class="m rise quick" style="--l:593;--t:1150;--w:570;--h:23;--d:0.000s;"><img src="arte-document/c1-l1.png" alt=""></div>
+      <div class="m rise quick" style="--l:593;--t:1177;--w:570;--h:38;--d:0.233s;"><img src="arte-document/c1-l2.png" alt=""></div>
+      <div class="m rise quick" style="--l:593;--t:1245;--w:570;--h:29;--d:0.467s;"><img src="arte-document/c1-l3.png" alt=""></div>
+      <div class="m rise quick" style="--l:593;--t:1275;--w:570;--h:29;--d:0.700s;"><img src="arte-document/c1-l4.png" alt=""></div>
+      <div class="m rise quick" style="--l:593;--t:1340;--w:570;--h:24;--d:0.933s;"><img src="arte-document/c1-l5.png" alt=""></div>
+      <div class="m rise quick" style="--l:593;--t:1370;--w:570;--h:24;--d:1.167s;"><img src="arte-document/c1-l6.png" alt=""></div>
+      <div class="m rise quick" style="--l:593;--t:1400;--w:570;--h:24;--d:1.400s;"><img src="arte-document/c1-l7.png" alt=""></div>
+      <div class="m rise quick" style="--l:593;--t:1430;--w:570;--h:26;--d:1.633s;"><img src="arte-document/c1-l8.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1150;--w:570;--h:23;--d:0.667s;"><img src="arte-document/c2-l1.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1177;--w:570;--h:38;--d:0.900s;"><img src="arte-document/c2-l2.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1245;--w:570;--h:29;--d:1.133s;"><img src="arte-document/c2-l3.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1275;--w:570;--h:29;--d:1.367s;"><img src="arte-document/c2-l4.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1340;--w:570;--h:24;--d:1.600s;"><img src="arte-document/c2-l5.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1370;--w:570;--h:24;--d:1.833s;"><img src="arte-document/c2-l6.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1400;--w:570;--h:24;--d:2.067s;"><img src="arte-document/c2-l7.png" alt=""></div>
+      <div class="m rise quick" style="--l:1189;--t:1430;--w:570;--h:26;--d:2.300s;"><img src="arte-document/c2-l8.png" alt=""></div>
+
+      <div class="rule" style="--l:160;--t:1232;--w:312;--h:4;--d:0.000s"></div>
+      <div class="m rise" style="--l:160;--t:1272;--w:312;--h:40;--d:0.267s;"><img src="arte-document/fl-row1.png" alt=""></div>
+      <div class="rule" style="--l:160;--t:1330;--w:312;--h:1;--d:0.533s"></div>
+      <div class="m rise" style="--l:160;--t:1367;--w:312;--h:40;--d:0.800s;"><img src="arte-document/fl-row2.png" alt=""></div>
+      <div class="rule" style="--l:160;--t:1425;--w:312;--h:1;--d:1.067s"></div>
+      <div class="m rise" style="--l:160;--t:1462;--w:312;--h:40;--d:1.333s;"><img src="arte-document/fl-row3.png" alt=""></div>
+      <div class="rule" style="--l:160;--t:1520;--w:312;--h:1;--d:1.600s"></div>
+      <div class="m rise" style="--l:160;--t:1557;--w:312;--h:40;--d:1.867s;"><img src="arte-document/fl-row4.png" alt=""></div>
+      <div class="rule" style="--l:160;--t:1615;--w:312;--h:1;--d:2.133s"></div>
+      <div class="m rise" style="--l:160;--t:1652;--w:60;--h:32;--d:2.400s;"><img src="arte-document/fl-label3.png" alt=""></div>
+      <div class="m rise" style="--l:160;--t:1688;--w:312;--h:51;--d:2.667s;"><img src="arte-document/fl-years.png" alt=""></div>
+      <div class="rule" style="--l:160;--t:1763;--w:312;--h:1;--d:2.933s"></div>
+
+      <div class="m rise" style="--l:592;--t:1563;--w:1168;--h:32;"><img src="arte-document/pagination.png" alt=""></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="hint">스크롤하면 콘텐츠가 등장합니다</div>
+<div id="ui"><button id="replay">↻ 처음부터 다시 보기</button></div>
+
+<script>
+const root = document.getElementById('root');
+
+/* The design is a fixed 1920px wide. Scale it down to fit narrower windows,
+   but never up - the slices are 2x, so beyond 1:1 there is nothing to gain.
+
+   This uses `zoom` rather than `transform: scale()` on purpose: zoom feeds
+   into layout, so the document scroll height follows on its own and the
+   sticky header still pins against the real viewport. A transform would
+   leave sticky resolving in unscaled space and the header would drift. */
+function fit() {
+  const s = Math.min(1, window.innerWidth / 1920);
+  root.style.zoom = s;
+  return s;
+}
+let scale = fit();
+addEventListener('resize', () => { scale = fit(); });
+
+/* ---- the intro ------------------------------------------------------
+   Every element carries its own transition-delay, taken from the frame it
+   started on in the composition, so one class switch is enough. */
+const introEls = document.querySelectorAll('#intro .m, #intro .chip, #intro .rule');
+function playIntro() {
+  introEls.forEach(e => e.classList.remove('in'));
+  void document.getElementById('page').offsetHeight;   // flush, so the reset is not animated away
+  requestAnimationFrame(() => introEls.forEach(e => e.classList.add('in')));
+}
+playIntro();
+document.getElementById('replay').addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  playIntro();
+});
+
+/* ---- viewport-triggered reveals ------------------------------------ */
+const pending = new Set(document.querySelectorAll('[data-scroll] .m, [data-scroll] .rule, [data-scroll] .olb'));
+const reveal = (el) => {
+  el.classList.add('in'); pending.delete(el);
+  ioMask.unobserve(el); ioBox.unobserve(el);
+};
+const cb = (entries) => { for (const en of entries) if (en.isIntersecting) reveal(en.target); };
+
+/* Masks and rules are small, so a negative bottom margin is enough to hold
+   them back until they are properly inside the viewport. */
+const ioMask = new IntersectionObserver(cb, { rootMargin: '0px 0px -12% 0px' });
+
+/* A card outline is 630px tall, so its top can be in view while its bottom
+   is still far below - and its second segment is drawn along that bottom
+   edge. A margin cannot express that; requiring almost the whole box to be
+   on screen can, so the pen never travels below the fold. */
+const ioBox = new IntersectionObserver(cb, { threshold: 0.95 });
+
+pending.forEach((e) => (e.classList.contains('olb') ? ioBox : ioMask).observe(e));
+
+/* That margin means the last elements sit inside it while the scroll is
+   already at the bottom, with nowhere further to go - they would never
+   fire. Once the page bottom is reached, release whatever is left. */
+function sweepBottom() {
+  if (!pending.size) return;
+  if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 2) return;
+  [...pending].forEach(reveal);
+}
+
+/* ---- header collapse ----------------------------------------------- */
+const hint = document.getElementById('hint');
+function onScroll() {
+  const y = window.scrollY / scale;              // back into page coordinates
+  root.classList.toggle('scrolled', y > 80);
+  if (y > 40) hint.classList.add('gone');
+  sweepBottom();
+}
+addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+</body>
+</html>
