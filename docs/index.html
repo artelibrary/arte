@@ -3,58 +3,114 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Arte 영상</title>
+<title>Arte</title>
 <style>
-  :root { color-scheme: light dark; }
-  body {
+  * { box-sizing: border-box; }
+  html, body {
     margin: 0;
-    padding: 2rem 1rem 4rem;
-    background: #0b0b0c;
-    color: #f2f2f2;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 0;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
   }
-  h1 {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
-  main {
-    max-width: 960px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-  }
-  section h2 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0 0 0.75rem;
-    color: #ddd;
+  .stage {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
   }
   video {
     width: 100%;
-    max-width: 100%;
-    border-radius: 8px;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
     background: #000;
     display: block;
+  }
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    z-index: 10;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent);
+  }
+  nav button {
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(0,0,0,0.35);
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  nav button:hover {
+    border-color: rgba(255,255,255,0.7);
+  }
+  nav button.active {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+  }
+  .unmute {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 10;
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.8rem;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
   }
 </style>
 </head>
 <body>
-  <h1>Arte 영상</h1>
-  <main>
-    <section>
-      <h2>AI 검색결과</h2>
-      <video controls preload="metadata" playsinline>
-        <source src="videos/ai-search.mp4" type="video/mp4" />
-      </video>
-    </section>
-    <section>
-      <h2>문서도서</h2>
-      <video controls preload="metadata" playsinline>
-        <source src="videos/document-library.mp4" type="video/mp4" />
-      </video>
-    </section>
-  </main>
+  <div class="stage">
+    <video id="player" autoplay muted loop playsinline></video>
+  </div>
+  <nav>
+    <button data-src="videos/document-library.mp4" data-label="문서도서">문서도서</button>
+    <button data-src="videos/ai-search.mp4" data-label="AI 검색결과">AI 검색결과</button>
+  </nav>
+  <button class="unmute" id="unmute">🔇 음소거 해제</button>
+
+  <script>
+    const video = document.getElementById('player');
+    const buttons = document.querySelectorAll('nav button');
+    const unmuteBtn = document.getElementById('unmute');
+
+    function setActive(btn) {
+      buttons.forEach((b) => b.classList.toggle('active', b === btn));
+    }
+
+    function loadVideo(btn) {
+      video.src = btn.dataset.src;
+      video.play().catch(() => {});
+      setActive(btn);
+    }
+
+    buttons.forEach((btn) => btn.addEventListener('click', () => loadVideo(btn)));
+
+    unmuteBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      unmuteBtn.textContent = video.muted ? '🔇 음소거 해제' : '🔊 음소거';
+    });
+
+    loadVideo(buttons[0]);
+  </script>
 </body>
 </html>
