@@ -18,7 +18,7 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2465,
+          top: 2469,
           left: 160,
           width: 1600,
           height: 60,
@@ -51,7 +51,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2465,
+              top: -2469,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -62,7 +62,7 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2567,
+          top: 2571,
           left: 160,
           width: 1600,
           height: 15,
@@ -95,7 +95,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2567,
+              top: -2571,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -106,7 +106,7 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2618,
+          top: 2622,
           left: 160,
           width: 1600,
           height: 26,
@@ -139,7 +139,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2618,
+              top: -2622,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -150,7 +150,7 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2663,
+          top: 2667,
           left: 160,
           width: 1600,
           height: 14,
@@ -183,7 +183,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2663,
+              top: -2667,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -194,7 +194,7 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2713,
+          top: 2717,
           left: 160,
           width: 1600,
           height: 20,
@@ -227,7 +227,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2713,
+              top: -2717,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -238,7 +238,7 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2743,
+          top: 2747,
           left: 160,
           width: 1600,
           height: 18,
@@ -271,7 +271,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2743,
+              top: -2747,
               left: -160,
               width: 1920,
               maxWidth: "none",

@@ -17,7 +17,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2892,
+          top: 2908,
           left: 160,
           width: 1600,
           height: 60,
@@ -50,7 +50,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2892,
+              top: -2908,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -61,7 +61,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2989,
+          top: 3005,
           left: 160,
           width: 419,
           height: 235,
@@ -95,7 +95,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2989,
+              top: -3005,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -106,7 +106,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2994,
+          top: 3010,
           left: 619,
           width: 1141,
           height: 15,
@@ -139,7 +139,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2994,
+              top: -3010,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -150,7 +150,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3045,
+          top: 3061,
           left: 619,
           width: 1141,
           height: 29,
@@ -183,7 +183,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3045,
+              top: -3061,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -194,7 +194,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3090,
+          top: 3106,
           left: 619,
           width: 1141,
           height: 14,
@@ -227,7 +227,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3090,
+              top: -3106,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -238,7 +238,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3140,
+          top: 3156,
           left: 619,
           width: 1141,
           height: 20,
@@ -271,7 +271,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3140,
+              top: -3156,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -282,7 +282,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3169,
+          top: 3185,
           left: 619,
           width: 1141,
           height: 19,
@@ -315,7 +315,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3169,
+              top: -3185,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -326,7 +326,7 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3200,
+          top: 3216,
           left: 619,
           width: 1141,
           height: 18,
@@ -359,7 +359,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3200,
+              top: -3216,
               left: -619,
               width: 1920,
               maxWidth: "none",

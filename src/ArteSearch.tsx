@@ -50,10 +50,10 @@ export const ArteSearchComposition = () => {
 // Page landmarks:
 //   0     header top          32  masthead bottom   133  header bottom
 //   181   search block        275  its rule
-//   335   AI panel - 1600 wide, 421 tall while loading, 811 once answered
-//   656   card row 1   822  card row 2   1016  "20개 자료 모두 보기"
-//   1266  "키워드 검색 결과"   1364  category tabs
-//   1461  문서·도서   2003  영상   2460  추천   2887  지역
+//   335   AI panel - 1600 wide, 425 tall while loading, 815 once answered
+//   666   card row 1   832  card row 2   1026  "20개 자료 모두 보기"
+//   1268  "키워드 검색 결과"   1364  category tabs
+//   1470  문서·도서   2012  영상   2469  추천   2908  지역
 export const ArteSearch: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();

@@ -16,7 +16,7 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2008,
+          top: 2012,
           left: 160,
           width: 1600,
           height: 60,
@@ -49,7 +49,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2008,
+              top: -2012,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -60,7 +60,7 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2105,
+          top: 2109,
           left: 160,
           width: 420,
           height: 235,
@@ -94,7 +94,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2105,
+              top: -2109,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -105,10 +105,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2140,
+          top: 2136,
           left: 620,
           width: 1140,
-          height: 15,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -119,7 +119,7 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 15,
+            height: 17,
             overflow: "hidden",
             translate: interpolate(frame, [18, 40], ["0px 15px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -138,7 +138,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2140,
+              top: -2136,
               left: -620,
               width: 1920,
               maxWidth: "none",
@@ -149,10 +149,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2191,
+          top: 2190,
           left: 620,
           width: 1140,
-          height: 26,
+          height: 36,
           overflow: "hidden",
         }}
       >
@@ -163,7 +163,7 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 26,
+            height: 36,
             overflow: "hidden",
             translate: interpolate(frame, [23, 45], ["0px 26px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -182,7 +182,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2191,
+              top: -2190,
               left: -620,
               width: 1920,
               maxWidth: "none",
@@ -193,10 +193,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2236,
+          top: 2244,
           left: 620,
           width: 1140,
-          height: 14,
+          height: 16,
           overflow: "hidden",
         }}
       >
@@ -207,7 +207,7 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 14,
+            height: 16,
             overflow: "hidden",
             translate: interpolate(frame, [28, 50], ["0px 14px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -226,7 +226,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2236,
+              top: -2244,
               left: -620,
               width: 1920,
               maxWidth: "none",
@@ -237,10 +237,10 @@ export const VideoSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2286,
+          top: 2294,
           left: 620,
           width: 1140,
-          height: 18,
+          height: 21,
           overflow: "hidden",
         }}
       >
@@ -251,7 +251,7 @@ export const VideoSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1140,
-            height: 18,
+            height: 21,
             overflow: "hidden",
             translate: interpolate(frame, [33, 55], ["0px 18px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -270,7 +270,7 @@ export const VideoSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2286,
+              top: -2294,
               left: -620,
               width: 1920,
               maxWidth: "none",

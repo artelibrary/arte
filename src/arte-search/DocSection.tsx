@@ -17,7 +17,7 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1466,
+          top: 1470,
           left: 160,
           width: 1600,
           height: 60,
@@ -50,7 +50,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1466,
+              top: -1470,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -61,7 +61,7 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1563,
+          top: 1567,
           left: 160,
           width: 205,
           height: 320,
@@ -95,7 +95,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1563,
+              top: -1567,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -106,10 +106,10 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1610,
+          top: 1607,
           left: 405,
           width: 1355,
-          height: 15,
+          height: 18,
           overflow: "hidden",
         }}
       >
@@ -120,7 +120,7 @@ export const DocSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1355,
-            height: 15,
+            height: 18,
             overflow: "hidden",
             translate: interpolate(frame, [16, 38], ["0px 15px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -139,7 +139,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1610,
+              top: -1607,
               left: -405,
               width: 1920,
               maxWidth: "none",
@@ -150,10 +150,10 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1657,
+          top: 1653,
           left: 405,
           width: 1355,
-          height: 34,
+          height: 48,
           overflow: "hidden",
         }}
       >
@@ -164,7 +164,7 @@ export const DocSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1355,
-            height: 34,
+            height: 48,
             overflow: "hidden",
             translate: interpolate(frame, [21, 43], ["0px 34px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -183,7 +183,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1657,
+              top: -1653,
               left: -405,
               width: 1920,
               maxWidth: "none",
@@ -194,10 +194,10 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1706,
+          top: 1714,
           left: 405,
           width: 1355,
-          height: 14,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -208,7 +208,7 @@ export const DocSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1355,
-            height: 14,
+            height: 17,
             overflow: "hidden",
             translate: interpolate(frame, [26, 48], ["0px 14px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -227,7 +227,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1706,
+              top: -1714,
               left: -405,
               width: 1920,
               maxWidth: "none",
@@ -238,10 +238,10 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1756,
+          top: 1763,
           left: 405,
           width: 1355,
-          height: 21,
+          height: 26,
           overflow: "hidden",
         }}
       >
@@ -252,7 +252,7 @@ export const DocSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1355,
-            height: 21,
+            height: 26,
             overflow: "hidden",
             translate: interpolate(frame, [31, 53], ["0px 21px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -271,7 +271,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1756,
+              top: -1763,
               left: -405,
               width: 1920,
               maxWidth: "none",
@@ -282,10 +282,10 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1786,
+          top: 1793,
           left: 405,
           width: 1355,
-          height: 21,
+          height: 26,
           overflow: "hidden",
         }}
       >
@@ -296,7 +296,7 @@ export const DocSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1355,
-            height: 21,
+            height: 26,
             overflow: "hidden",
             translate: interpolate(frame, [36, 58], ["0px 21px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -315,7 +315,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1786,
+              top: -1793,
               left: -405,
               width: 1920,
               maxWidth: "none",
@@ -326,10 +326,10 @@ export const DocSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1816,
+          top: 1824,
           left: 405,
           width: 1355,
-          height: 19,
+          height: 22,
           overflow: "hidden",
         }}
       >
@@ -340,7 +340,7 @@ export const DocSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1355,
-            height: 19,
+            height: 22,
             overflow: "hidden",
             translate: interpolate(frame, [41, 63], ["0px 19px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -359,7 +359,7 @@ export const DocSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1816,
+              top: -1824,
               left: -405,
               width: 1920,
               maxWidth: "none",

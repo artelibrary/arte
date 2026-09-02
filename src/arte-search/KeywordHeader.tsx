@@ -20,7 +20,7 @@ export const KeywordHeader: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1264,
+          top: 1268,
           left: 160,
           width: 1600,
           height: 62,
@@ -53,7 +53,7 @@ export const KeywordHeader: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1264,
+              top: -1268,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -64,7 +64,7 @@ export const KeywordHeader: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 1360,
+          top: 1364,
           left: 156,
           width: 910,
           height: 65,
@@ -97,7 +97,7 @@ export const KeywordHeader: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -1360,
+              top: -1364,
               left: -156,
               width: 1920,
               maxWidth: "none",
