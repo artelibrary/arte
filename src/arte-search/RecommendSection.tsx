@@ -62,10 +62,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2571,
+          top: 2569,
           left: 160,
           width: 1600,
-          height: 15,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -76,7 +76,7 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 15,
+            height: 17,
             overflow: "hidden",
             translate: interpolate(frame, [62, 84], ["0px 15px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -95,7 +95,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2571,
+              top: -2569,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -106,10 +106,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2622,
+          top: 2623,
           left: 160,
           width: 1600,
-          height: 26,
+          height: 35,
           overflow: "hidden",
         }}
       >
@@ -120,7 +120,7 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 26,
+            height: 35,
             overflow: "hidden",
             translate: interpolate(frame, [67, 89], ["0px 26px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -139,7 +139,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2622,
+              top: -2623,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -150,10 +150,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2667,
+          top: 2677,
           left: 160,
           width: 1600,
-          height: 14,
+          height: 16,
           overflow: "hidden",
         }}
       >
@@ -164,7 +164,7 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 14,
+            height: 16,
             overflow: "hidden",
             translate: interpolate(frame, [72, 94], ["0px 14px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -183,7 +183,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2667,
+              top: -2677,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -194,10 +194,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2717,
+          top: 2727,
           left: 160,
           width: 1600,
-          height: 20,
+          height: 23,
           overflow: "hidden",
         }}
       >
@@ -208,7 +208,7 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 20,
+            height: 23,
             overflow: "hidden",
             translate: interpolate(frame, [77, 99], ["0px 20px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -227,7 +227,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2717,
+              top: -2727,
               left: -160,
               width: 1920,
               maxWidth: "none",
@@ -238,10 +238,10 @@ export const RecommendSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 2747,
+          top: 2757,
           left: 160,
           width: 1600,
-          height: 18,
+          height: 21,
           overflow: "hidden",
         }}
       >
@@ -252,7 +252,7 @@ export const RecommendSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1600,
-            height: 18,
+            height: 21,
             overflow: "hidden",
             translate: interpolate(frame, [82, 104], ["0px 18px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -271,7 +271,7 @@ export const RecommendSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -2747,
+              top: -2757,
               left: -160,
               width: 1920,
               maxWidth: "none",

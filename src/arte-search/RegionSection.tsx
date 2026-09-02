@@ -106,10 +106,10 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3010,
+          top: 3008,
           left: 619,
           width: 1141,
-          height: 15,
+          height: 17,
           overflow: "hidden",
         }}
       >
@@ -120,7 +120,7 @@ export const RegionSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1141,
-            height: 15,
+            height: 17,
             overflow: "hidden",
             translate: interpolate(frame, [74, 96], ["0px 15px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -139,7 +139,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3010,
+              top: -3008,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -150,10 +150,10 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3061,
+          top: 3062,
           left: 619,
           width: 1141,
-          height: 29,
+          height: 37,
           overflow: "hidden",
         }}
       >
@@ -164,7 +164,7 @@ export const RegionSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1141,
-            height: 29,
+            height: 37,
             overflow: "hidden",
             translate: interpolate(frame, [79, 101], ["0px 29px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -183,7 +183,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3061,
+              top: -3062,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -194,10 +194,10 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3106,
+          top: 3116,
           left: 619,
           width: 1141,
-          height: 14,
+          height: 16,
           overflow: "hidden",
         }}
       >
@@ -208,7 +208,7 @@ export const RegionSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1141,
-            height: 14,
+            height: 16,
             overflow: "hidden",
             translate: interpolate(frame, [84, 106], ["0px 14px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -227,7 +227,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3106,
+              top: -3116,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -238,10 +238,10 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3156,
+          top: 3166,
           left: 619,
           width: 1141,
-          height: 20,
+          height: 23,
           overflow: "hidden",
         }}
       >
@@ -252,7 +252,7 @@ export const RegionSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1141,
-            height: 20,
+            height: 23,
             overflow: "hidden",
             translate: interpolate(frame, [89, 111], ["0px 20px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -271,7 +271,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3156,
+              top: -3166,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -282,10 +282,10 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3185,
+          top: 3196,
           left: 619,
           width: 1141,
-          height: 19,
+          height: 21,
           overflow: "hidden",
         }}
       >
@@ -296,7 +296,7 @@ export const RegionSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1141,
-            height: 19,
+            height: 21,
             overflow: "hidden",
             translate: interpolate(frame, [94, 116], ["0px 19px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -315,7 +315,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3185,
+              top: -3196,
               left: -619,
               width: 1920,
               maxWidth: "none",
@@ -326,10 +326,10 @@ export const RegionSection: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          top: 3216,
+          top: 3226,
           left: 619,
           width: 1141,
-          height: 18,
+          height: 21,
           overflow: "hidden",
         }}
       >
@@ -340,7 +340,7 @@ export const RegionSection: React.FC = () => {
             top: 0,
             left: 0,
             width: 1141,
-            height: 18,
+            height: 21,
             overflow: "hidden",
             translate: interpolate(frame, [99, 121], ["0px 18px", "0px 0px"], {
               extrapolateLeft: "clamp",
@@ -359,7 +359,7 @@ export const RegionSection: React.FC = () => {
             src={staticFile("arte-search/page-loaded.png")}
             style={{
               position: "absolute",
-              top: -3216,
+              top: -3226,
               left: -619,
               width: 1920,
               maxWidth: "none",
